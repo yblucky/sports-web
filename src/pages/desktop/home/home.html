@@ -1,114 +1,65 @@
 <div class="bg">
   <div class="all-div" align="center">
     <div class="title-div">
-      <div class="row-tab" (click)="href('1')">
-        <img src="/assets/images/jrzz.png"/>
-        <h1>{{orderStatisticsCount.todayOrder}}</h1>
-        <div>今日转账/收款订单</div>
-      </div>
-      <div class="row-tab" (click)="href('2')">
-        <img src="/assets/images/cz.png"/>
-        <h1>{{orderStatisticsCount.PayCount}}</h1>
-        <div>待匹配充值订单</div>
-      </div>
-      <div class="row-tab" (click)="href('3')">
-        <img src="/assets/images/tx.png"/>
-        <h1>{{orderStatisticsCount.WithdrawCount}}</h1>
-        <div>待匹配提现订单</div>
-      </div>
-      <div class="row-tab" (click)="href('4')">
-        <img src="/assets/images/STBzc.png"/>
-        <h1>{{orderStatisticsCount.STBRollOut}}</h1>
-        <div>今日速通宝转出订单</div>
-      </div>
-      <div class="row-tab" (click)="href('5')">
-        <img src="/assets/images/lsjl.png"/>
-        <h1>{{orderStatisticsCount.AppCurrencyRecordCount}}</h1>
-        <div>今日币种交易记录总数</div>
-      </div>
+        <div class="row-tab_1">
+          <img src="/assets/img/shishicailogo.png"/>
+        </div>
+
+        <div class="row-tab_2">
+            <div class="row-tab_2_1">
+                <p style="color:#2396DB;">第20180123-001期</p>
+                <p style="margin-top:-85px;margin-left:55px;color:white;">离封盘时间</p>
+            </div>
+            <div class="row-tab_2_2">
+                <div style="color:white;font-size:36px;margin-top:-25px;">00 : 30</div>
+            </div>
+            <div class="row-tab_2_3">
+                <p style="color:white;margin-top:10px;">开奖时间</p>
+            </div>
+            <div class="row-tab_2_4">
+                <div style="color:white;font-size:36px;margin-top:-25px;">05 : 30</div>
+            </div>
+        </div>
+
+        <div class="row-tab_3">
+            <div class="row-tab_3_1">
+                <p style="color:#B6C0B2;">第20180123-001期</p>
+                <p style="margin-top:-85px;margin-left:65px;color:white;">开奖号码</p>
+            </div>
+            <div class="row-tab_3_2">
+                <div class="row-tab_3_2_1" style="margin-left:130px;">
+                  <div style="color:black;font-size:24px;margin-top:-30px;">5</div>
+                </div>
+                <div class="row-tab_3_2_1">
+                  <div style="color:black;font-size:24px;margin-top:-30px;">4</div>
+                </div>
+                <div class="row-tab_3_2_1">
+                  <div style="color:black;font-size:24px;margin-top:-30px;">3</div>
+                </div>
+                <div class="row-tab_3_2_1">
+                  <div style="color:black;font-size:24px;margin-top:-30px;">2</div>
+                </div>
+                <div class="row-tab_3_2_1">
+                  <div style="color:black;font-size:24px;margin-top:-30px;">1</div>
+                </div>
+            </div>
+        </div>
     </div>
-    <!-- 运营统计 -->
-    <div class="statistics">
-      <div class="statistics-title">
-          <img src="/assets/images/yy.png"/>
-          <h3>运营统计</h3>
-      </div>
-      <div class="statistics-content">
-        <!-- <div *ngFor="let item of coinManage; let i = index" class="statistics-content-tab">
-             <h3>{{item.coinSUM}}</h3>
-             <div>{{item.currencyName}}总数</div>
-        </div> -->
 
-        <div class="statistics-content-tab">
-          <h3>{{userCount.userStatistics.balance}}</h3>
-          <div>用户余额总计</div>
-        </div>
-        <div class="statistics-content-tab">
-          <h3>{{userCount.userStatistics.score}}</h3>
-          <div>用户积分总计</div>
-        </div>
-       <!--  <div class="statistics-content-tab">
-         <h3>{{userCount.userStatistics.virtualCoin}}</h3>
-         <div>速通宝总计</div>
-       </div> -->
-        <div class="statistics-content-tab">
-          <h3>{{userCount.userStatistics.userCount}}</h3>
-          <div>用户数量总计</div>
-        </div>
-        <div class="statistics-content-tab">
-          <h3>{{userCount.UserWithdrawCount}}</h3>
-          <div>用户提现总计</div>
-        </div>
-        <div class="statistics-content-tab">
-          <h3>{{userCount.toDayuserCount}}</h3>
-          <div>今日新增用户</div>
-        </div>
-        <div class="statistics-content-tab">
-          <h3>{{userCount.toDayRelease}}</h3>
-          <div>今日用户积分释放总计</div>
+    <div class="content-div">
+        <div class="content-tab_1">
+            <div class="content-tab_1_1">定位胆</div>
+            <hr />
+            <div class="content-tab_1_2">
+                <img src="/assets/img/tishi.png" style="display:inline-block;" />
+                <span>玩法提示: 在万千百十个位任意位置上任意选择1或1个以上号码</span>
+            </div>
         </div>
 
-        <div class="statistics-content-tab">
-          <h3>{{userCount.userStatistics.shadowScore}}</h3>
-          <div>用户影子积分总计</div>
+        <div class="content-tab_1">
+
         </div>
 
-        <div class="statistics-content-tab">
-          <h3>{{userCount.walletBalance}}</h3>
-          <div>钱包余额总计</div>
-        </div>
-        <div class="statistics-content-tab">
-          <h3>&nbsp;</h3>
-          <div>&nbsp;</div>
-        </div>
-        <div class="statistics-content-tab">
-          <h3>&nbsp;</h3>
-          <div>&nbsp;</div>
-        </div>
-
-         <div *ngFor="let item of coinManage; let i = index" class="statistics-content-tab">
-             <h3>{{item.coinSUM}}</h3>
-             <div>{{item.currencyName}}总数</div>
-        </div>
-      </div>
-    </div>
-    <!-- 报表统计 -->
-    <div class="statement">
-      <div class="statistics-title">
-          <img src="/assets/images/lsjl.png"/>
-          <h3>历史销售统计</h3>
-          <div class="statistics-radio">
-            <label class="radio-inline">
-              <input type="radio" value="10" [(ngModel)]="orderType" (click)="reportAjax('10')">充值/提现
-            </label>
-            <label class="radio-inline">
-              <input type="radio" value="20" [(ngModel)]="orderType" (click)="reportAjax('20')">转账/收款
-            </label>
-          </div>
-      </div>
-      <div class="statement-content" id="container">
-
-      </div>
     </div>
   </div>
 </div>

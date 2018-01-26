@@ -42,7 +42,7 @@ export class HomePage {
             this.showTime = new Date();
         });
         homePage=this;
-        this.orderStatistics();
+        //this.orderStatistics();
     }
 
     orderStatistics(){
