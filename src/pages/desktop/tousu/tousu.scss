@@ -1,0 +1,22 @@
+.search-box input[type=date]{
+  width:150px;
+}
+.tab-img{
+  width:50px;
+  height:30px;
+  margin-left: 2px;
+}
+.table-text{
+  table-layout: fixed;
+}
+.td-text{
+   white-space:nowrap;
+   overflow:hidden;
+   text-overflow: ellipsis;
+}
+
+.div-context{
+  width: 80%;
+  word-break:break-all;
+  word-wrap:break-word;
+}

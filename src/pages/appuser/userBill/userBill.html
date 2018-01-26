@@ -1,0 +1,77 @@
+
+<!--搜索区域-->
+<div class="search-box">
+      uid: <input [(ngModel)]="find.uid" />
+      手机号码: <input [(ngModel)]="find.mobile" style="width: 120px"/>    
+      货币类型:<select  [(ngModel)]="find.currencyType" style="width: 120px">
+              
+               <option  value="">全部</option>
+               <option  *ngFor="let b of currencyType" value="{{b.key}}">{{b.val}}</option> 
+          </select>
+
+      业务类型:<select  [(ngModel)]="find.busnessType" style="width: 120px" >
+                <option  value="">全部</option>
+               <option  *ngFor="let b of busnessType" value="{{b.key}}">{{b.val}}</option> 
+          </select>
+      uuid: <input [(ngModel)]="find.uuid" style="width: 200px" />        
+      交易时间:<input [(ngModel)]="find.startTime" type="date"/>-<input [(ngModel)]="find.endTime" type="date" />
+      <button type="button" class="btn btn-primary" (click)='loadDataOne()'>搜索</button>
+</div>
+
+<!--按钮区域-->
+<div class="button-box text-right">
+
+</div>
+
+<!--数据显示区域-->
+<div class="table-box">
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr class="active">
+                
+                <th>uid</th>
+                <th>手机</th>
+                <th>金额</th>
+                <th>用户交易后数额</th>
+                <th>货币类型</th>
+                <th>业务类型</th>
+                <th>uuid</th>
+                <th>交易时间</th>
+                <th>备注</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of httpService.items; let i = index">
+                
+                <td>{{item.uid}}</td>
+                <td>{{item.mobile}}</td>
+                <th>{{item.balance}}</th>
+                <th>{{item.userBalance}}</th>  
+                <td>{{item.currencyTypeName}}</td>
+                <td>{{item.busnessTypeName}}</td>
+                <td>{{item.uuid}}</td>
+                <td>{{utils.formatDate(item.createTime,'yyyy-MM-dd HH:mm:ss')}}</td>
+                <td>{{item.remark}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!--分页区域-->
+<div class="pagination-box text-center">
+    <ul class="pagination">
+        <li [class]="httpService.currentPage==1?'active':''">
+            <a href="javascript:;" (click)="httpService.toFirstPage()">首页</a>
+        </li>
+        <li [class]="httpService.currentPage==1?'disabled':''">
+            <a href="javascript:;"  (click)="httpService.prev()">上一页</a>
+        </li>
+        <li class="disabled"><a href="javascript:;">第{{httpService.currentPage}}页 | 共{{httpService.totalPage}}页</a></li>
+        <li [class]="httpService.currentPage==httpService.totalPage?'disabled':''">
+            <a href="javascript:;" (click)="httpService.next()">下一页</a>
+        </li>
+        <li [class]="httpService.currentPage==httpService.totalPage?'active':''">
+            <a href="javascript:;" (click)="httpService.toEndPage()">末页</a>
+        </li>
+    </ul>
+</div>

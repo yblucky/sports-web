@@ -1,0 +1,32 @@
+<div class="container-fluid loginBody">
+    <div class="row">
+        <div class="col-xs-6 col-md-3 login-panel">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="glyphicon glyphicon-user"></span> 速通宝后台管理系统登录
+                </div>
+                <div class="panel-body">
+                    <form class="form-horizontal" role="form">
+                        <div class="input-group">
+                            <span class="input-group-addon">登录名</span>
+                            <input type="text" name="loginName" [(ngModel)]="loginName" class="form-control" id="loginName" placeholder="输入登录名">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">密码</span>
+                            <input type="password" name="password" [(ngModel)]="password" class="form-control" id="password" placeholder="输入密码">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">验证码</span>
+                            <input type="text" maxlength="4" name="code" (keydown)="submitData($event)" [(ngModel)]="imgCode" class="form-control" id="imgCode" placeholder="输入验证码">
+                            <span style="padding:0;" class="input-group-addon codeSpan"><img [src]="imgStr" class="imgStr" (click)="loadValiCode()"></span>
+                        </div>
+                    </form>
+                </div>
+                <div class="panel-footer text-right">
+                    <button type="submit" class="btn btn-success btn-sm" (click)="loginIn()">登录</button>
+                    <button type="reset" (click)="clearVal()" class="btn btn-default btn-sm">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

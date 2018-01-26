@@ -1,0 +1,94 @@
+
+.leftPanel{
+    position: absolute;
+    top: 0px;
+    bottom: 0;
+    left: 0;
+    padding-top: 10px;
+    width: 200px;
+    z-index: 99;
+    overflow: hidden;
+    background-image: url("/assets/img/leftPanel.png");
+    background-repeat:no-repeat;
+    background-size:200px 1180px;
+    border-right: 1px solid #e5e5e5;
+    padding-left:23px;
+
+    .leftPanel_0{
+        width: 200px;
+        height: 150px;
+        text-align: center;
+        background-image: url("/assets/img/logo.png");
+        background-repeat:no-repeat;
+    }
+
+    .leftPanel_1{
+        width: 90%;
+        height: 50px;
+        color: white;
+        font-weight: bold;
+        font-size:18px;
+        font-family: cursive;
+        background-size:150px 46px;
+        text-align: center;
+        line-height: 40px;
+        background-image: url("/assets/img/gameList.png");
+        background-repeat:no-repeat;
+    }
+
+    .leftPanel_2{
+      margin-top:30px;
+      width: 90%;
+      height: 50px;
+      font-weight: bold;
+      font-size:16px;
+      font-family: cursive;
+      cursor:pointer;
+      background-size:150px 46px;
+      text-align: center;
+      line-height: 35px;
+      background-image: url("/assets/img/daohangweidianjian.png");
+      background-repeat:no-repeat;
+    }
+
+    .w2{
+      color:yellow;
+      background-image: url("/assets/img/daohangdianjian.png");
+      background-repeat:no-repeat;
+    }
+
+}
+
+.rightpanel{
+    position: absolute;
+    top: 0px;
+    right: 0;
+    bottom: 0;
+    left: 200px;
+    overflow: hidden;
+    z-index: 1;
+    background-color: #fff;
+
+    .navTitle{
+        padding: 0 5px;
+        position: relative;
+        z-index: 99;
+        border-bottom: 1px solid #e5e5e5;
+        line-height: 59px;
+        height: 59px;
+        overflow: hidden;
+        background-image: url("/assets/img/topdaohang.png");
+        background-repeat:no-repeat;
+    }
+
+    .articleWork{
+        position: absolute;
+        top: 54px;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        overflow: auto;
+        z-index: 1;
+        padding: 20px;
+    }
+}

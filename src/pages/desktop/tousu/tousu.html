@@ -1,0 +1,75 @@
+
+<!--搜索区域-->
+<div class="search-box">
+    uid: <input [(ngModel)]="find.uid" />
+    手机:<input [(ngModel)]="find.mobile" />
+    昵称:<input [(ngModel)]="find.nickName"/>
+    内容:<input [(ngModel)]="find.content"/>
+    时间日期:<input [(ngModel)]="find.startTime" type="date"/>-<input [(ngModel)]="find.endTime" type="date" />
+    <button type="button" class="btn btn-primary" (click)='loadData()'>搜索</button>
+</div>
+
+<!--按钮区域-->
+<div class="button-box text-right">
+
+</div>
+
+<!--数据显示区域-->
+<div class="table-box">
+    <table class="table table-bordered table-hover table-text">
+        <thead>
+            <tr class="active">
+                <th>序号</th>
+                <th>UID</th>
+                <th>昵称</th>
+                <th>手机</th>
+                <th>反馈内容</th>
+                <th>相关截图</th>
+                <th>创建时间</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of httpService.items; let i = index">
+                <td>{{(i+1)}}</td>
+                <td>{{item.uid}}</td>
+                <td>{{item.nickName}}</td>
+                <td>{{item.mobile}}</td>
+                <td  class="td-text"  title="{{item.content}}" (click)="showPath(item,2)">{{item.content}}</td>
+                <td>
+                    <img class="tab-img" *ngFor="let img of item.imgs" (click)="showPath(img,1)" src="{{path+img.imgPath}}"/>
+                </td>
+                <td>{{utils.formatDate(item.createTime,'yyyy-MM-dd HH:mm:ss')}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!--分页区域-->
+<div class="pagination-box text-center">
+    <ul class="pagination">
+        <li [class]="httpService.currentPage==1?'active':''">
+            <a href="javascript:;" (click)="httpService.toFirstPage()">首页</a>
+        </li>
+        <li [class]="httpService.currentPage==1?'disabled':''">
+            <a href="javascript:;"  (click)="httpService.prev()">上一页</a>
+        </li>
+        <li class="disabled"><a href="javascript:;">第{{httpService.currentPage}}页 | 共{{httpService.totalPage}}页</a></li>
+        <li [class]="httpService.currentPage==httpService.totalPage?'disabled':''">
+            <a href="javascript:;" (click)="httpService.next()">下一页</a>
+        </li>
+        <li [class]="httpService.currentPage==httpService.totalPage?'active':''">
+            <a href="javascript:;" (click)="httpService.toEndPage()">末页</a>
+        </li>
+    </ul>
+</div>
+
+
+<!--详情页面-->
+<div id="editPanel" class="form-horizontal">
+    <div class="form-group" align="center" *ngIf="showType==1">
+        <img src="{{path+imgPath}}"/>
+    </div>
+    <div class="form-group" align="center" *ngIf="showType!=1">
+        <div class="div-context">{{context}}</div>
+    </div>
+</div>

@@ -1,0 +1,114 @@
+<div class="bg">
+  <div class="all-div" align="center">
+    <div class="title-div">
+      <div class="row-tab" (click)="href('1')">
+        <img src="/assets/images/jrzz.png"/>
+        <h1>{{orderStatisticsCount.todayOrder}}</h1>
+        <div>今日转账/收款订单</div>
+      </div>
+      <div class="row-tab" (click)="href('2')">
+        <img src="/assets/images/cz.png"/>
+        <h1>{{orderStatisticsCount.PayCount}}</h1>
+        <div>待匹配充值订单</div>
+      </div>
+      <div class="row-tab" (click)="href('3')">
+        <img src="/assets/images/tx.png"/>
+        <h1>{{orderStatisticsCount.WithdrawCount}}</h1>
+        <div>待匹配提现订单</div>
+      </div>
+      <div class="row-tab" (click)="href('4')">
+        <img src="/assets/images/STBzc.png"/>
+        <h1>{{orderStatisticsCount.STBRollOut}}</h1>
+        <div>今日速通宝转出订单</div>
+      </div>
+      <div class="row-tab" (click)="href('5')">
+        <img src="/assets/images/lsjl.png"/>
+        <h1>{{orderStatisticsCount.AppCurrencyRecordCount}}</h1>
+        <div>今日币种交易记录总数</div>
+      </div>
+    </div>
+    <!-- 运营统计 -->
+    <div class="statistics">
+      <div class="statistics-title">
+          <img src="/assets/images/yy.png"/>
+          <h3>运营统计</h3>
+      </div>
+      <div class="statistics-content">
+        <!-- <div *ngFor="let item of coinManage; let i = index" class="statistics-content-tab">
+             <h3>{{item.coinSUM}}</h3>
+             <div>{{item.currencyName}}总数</div>
+        </div> -->
+
+        <div class="statistics-content-tab">
+          <h3>{{userCount.userStatistics.balance}}</h3>
+          <div>用户余额总计</div>
+        </div>
+        <div class="statistics-content-tab">
+          <h3>{{userCount.userStatistics.score}}</h3>
+          <div>用户积分总计</div>
+        </div>
+       <!--  <div class="statistics-content-tab">
+         <h3>{{userCount.userStatistics.virtualCoin}}</h3>
+         <div>速通宝总计</div>
+       </div> -->
+        <div class="statistics-content-tab">
+          <h3>{{userCount.userStatistics.userCount}}</h3>
+          <div>用户数量总计</div>
+        </div>
+        <div class="statistics-content-tab">
+          <h3>{{userCount.UserWithdrawCount}}</h3>
+          <div>用户提现总计</div>
+        </div>
+        <div class="statistics-content-tab">
+          <h3>{{userCount.toDayuserCount}}</h3>
+          <div>今日新增用户</div>
+        </div>
+        <div class="statistics-content-tab">
+          <h3>{{userCount.toDayRelease}}</h3>
+          <div>今日用户积分释放总计</div>
+        </div>
+
+        <div class="statistics-content-tab">
+          <h3>{{userCount.userStatistics.shadowScore}}</h3>
+          <div>用户影子积分总计</div>
+        </div>
+
+        <div class="statistics-content-tab">
+          <h3>{{userCount.walletBalance}}</h3>
+          <div>钱包余额总计</div>
+        </div>
+        <div class="statistics-content-tab">
+          <h3>&nbsp;</h3>
+          <div>&nbsp;</div>
+        </div>
+        <div class="statistics-content-tab">
+          <h3>&nbsp;</h3>
+          <div>&nbsp;</div>
+        </div>
+
+         <div *ngFor="let item of coinManage; let i = index" class="statistics-content-tab">
+             <h3>{{item.coinSUM}}</h3>
+             <div>{{item.currencyName}}总数</div>
+        </div>
+      </div>
+    </div>
+    <!-- 报表统计 -->
+    <div class="statement">
+      <div class="statistics-title">
+          <img src="/assets/images/lsjl.png"/>
+          <h3>历史销售统计</h3>
+          <div class="statistics-radio">
+            <label class="radio-inline">
+              <input type="radio" value="10" [(ngModel)]="orderType" (click)="reportAjax('10')">充值/提现
+            </label>
+            <label class="radio-inline">
+              <input type="radio" value="20" [(ngModel)]="orderType" (click)="reportAjax('20')">转账/收款
+            </label>
+          </div>
+      </div>
+      <div class="statement-content" id="container">
+
+      </div>
+    </div>
+  </div>
+</div>

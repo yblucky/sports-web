@@ -1,0 +1,150 @@
+
+<!--搜索区域-->
+<div class="search-box">
+      uid: <input [(ngModel)]="find.uid" />
+      手机:<input [(ngModel)]="find.mobile" />
+      昵称:<input [(ngModel)]="find.nickName"/>
+      姓名:<input [(ngModel)]="find.name"/>
+      状态:<select id =  "sel" [(ngModel)]="find.state">
+            <option  value = "" >全部</option>
+            <option  value = "10" >正常</option>
+            <option  value = "20" >禁用</option>
+          </select>
+      信用:<select id = "sel"  [(ngModel)]="find.credit">
+            <option  value = "">全部</option>
+            <option  value = "0">零星</option>
+            <option  value = "1">一星</option>
+            <option  value = "2">二星</option>
+            <option  value = "3">三星</option>
+            <option  value = "4">四星</option>
+            <option  value = "5">五星</option>
+          </select>
+      <button type="button" class="btn btn-primary" (click)='loadDataOne()'>搜索</button>
+</div>
+
+<!--按钮区域-->
+<div class="button-box text-right">
+
+</div>
+
+<!--数据显示区域-->
+<div class="table-box">
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr class="active">
+                <th>序号</th>
+                <th>uid</th>
+                <th>昵称</th>
+                <th>姓名</th>
+                <th>手机</th>
+                <th  (click)='loadDataScore()'>积分<span>↑↓</span></th>
+                <th  (click)='loadshadowScore()'>影子积分<span>↑↓</span></th>
+                <th (click)='loadbalance()'>余额<span>↑↓</span></th>
+                
+                <th>VIP</th>
+                <th>注册时间</th>
+                <th>状态</th>
+                <th>信用星</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of httpService.items; let i = index">
+                <td>{{(i+1)}}</td>
+                <td>{{item.uid}}</td>
+                <td>{{item.nickName}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.mobile}}</td>
+                <td>{{item.score}}</td>
+                <td>{{item.shadowScore}}</td>
+                <td>{{item.balance}}</td>
+                
+                <td>{{item.userType==20?"是":"否"}}</td>
+                <td>{{utils.formatDate(item.createTime,'yyyy-MM-dd HH:mm:ss')}}</td>
+                <td>{{item.state==10?"正常":item.state==20?"禁用":"删除"}}</td>
+                <td>{{item.credit}}</td>
+                <td>
+                  <button type="button" *ngIf="item.state==20||item.state==10"(click)="showEditName(item)" class="btn btn-info btn-xs">编辑姓名</button>
+                  <button type='button' *ngIf="item.state==10" (click)='disable(item)' class='btn btn-danger btn-xs'>禁用</button>
+                  <button type='button' *ngIf="item.state==20" (click)='disable(item)' class='btn btn-info btn-xs'>启用</button>
+                   <button type="button" *ngIf="item.state==20||item.state==10"(click)="showGrade(item)" class="btn btn-info btn-xs">查看层级</button>
+                <!--   <button type="button" *ngIf="item.state==20||item.state==10"(click)="deleteItem(item)" class="btn btn-danger btn-xs">删除</button>
+                <button type="button" *ngIf="item.state==20||item.state==10"(click)="bankCard(item)" class="btn btn-info btn-xs">银行卡</button> -->
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!--分页区域-->
+<div class="pagination-box text-center">
+    <ul class="pagination">
+        <li [class]="httpService.currentPage==1?'active':''">
+            <a href="javascript:;" (click)="httpService.toFirstPage()">首页</a>
+        </li>
+        <li [class]="httpService.currentPage==1?'disabled':''">
+            <a href="javascript:;"  (click)="httpService.prev()">上一页</a>
+        </li>
+        <li class="disabled"><a href="javascript:;">第{{httpService.currentPage}}页 | 共{{httpService.totalPage}}页</a></li>
+        <li [class]="httpService.currentPage==httpService.totalPage?'disabled':''">
+            <a href="javascript:;" (click)="httpService.next()">下一页</a>
+        </li>
+        <li [class]="httpService.currentPage==httpService.totalPage?'active':''">
+            <a href="javascript:;" (click)="httpService.toEndPage()">末页</a>
+        </li>
+    </ul>
+</div>
+
+<!--编辑页面-->
+<div id="editPanel" class="form-horizontal">
+    <div class="form-group" *ngIf="showPage ==1" >
+        <label class="col-sm-4 control-label"><span class="text-danger">*</span>&nbsp;姓名</label>
+        <div class="col-sm-8">
+            <input type="text" class="form-control" id="name" [(ngModel)]="editDate.name" placeholder="请输入姓名"/>
+        </div>
+    </div>
+    <div *ngIf="showPage ==2">
+            <b>一级上线</b>
+            <table class="table table-bordered table-hover">
+                <thead>
+                        <tr>
+                            <th>uid</th>
+                            <th>昵称</th>
+                            <th>姓名</th>
+                            <th>手机</th>
+                        </tr>
+                        <tr>
+                           <td>{{userParent.uid}}</td>
+                           <td>{{userParent.nickName}}</td>
+                           <td>{{userParent.name}}</td>
+                           <td>{{userParent.mobile}}</td>
+                       </tr>
+                </thead>
+
+            </table>                    
+            <b>一级下线</b>
+            <table class="table table-bordered table-hover">
+                <thead>
+                        <tr>
+                            <th>uid</th>
+                            <th>昵称</th>
+                            <th>姓名</th>
+                            <th>手机</th>
+                        </tr>
+                </thead>
+                <tbody>
+                        <tr *ngFor="let item of userLower; let i = index">
+                           <td>{{item.uid}}</td>
+                           <td>{{item.nickName}}</td>
+                           <td>{{item.name}}</td>
+                           <td>{{item.mobile}}</td>
+                       </tr>
+                </tbody>
+
+            
+            </table>
+    </div>    
+
+
+</div>
+

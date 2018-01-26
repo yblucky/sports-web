@@ -1,0 +1,36 @@
+html{
+	height: 100%;
+}
+
+body{
+    margin:0;
+	padding:0;
+	border:0;
+	font-weight:inherit;
+	font-style:inherit;
+	font-size:14px;
+	font-family:inherit;
+    overflow: hidden;
+    height: 100%;
+}
+
+.button-box{
+    min-height: 40px;
+}
+
+.pagination-box{
+    .pagination{
+        margin: 0;
+    }
+}
+
+.search-box{
+	margin-bottom: 10px;
+}
+
+
+#editPanel{
+	display: none;
+	padding: 15px 15px 0 15px;
+	border-bottom: 1px solid #EFEFEF;
+}

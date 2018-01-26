@@ -1,0 +1,129 @@
+
+<!--搜索区域-->
+<div class="search-box">
+
+</div>
+
+<!--按钮区域-->
+<div class="button-box text-right">
+    <button type="button" class="btn btn-primary" (click)="showAddPanel()"><span class="fa fa-plus-circle"></span> 新增</button>
+</div>
+
+<!--数据显示区域-->
+<div class="table-box">
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr class="active">
+                <th width="6%">星级</th>
+                <th width="6%">星级最小积分</th>
+                <th width="6%">星级最大积分</th>
+                <th width="8%">对应星级享受代数</th>
+                <th width="10%">达到星级所需直推代数</th>
+                <th width="10%">余额兑换积分最小比例</th>
+                <th width="10%">余额兑换积分最大比例</th>
+                <th width="13%">转账上级获取影子积分最小比例</th>
+                <th width="13%">转账上级获取影子积分最大比例</th>
+                <th width="8%">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of httpService.items">
+                <td>{{item.starLevelName}}</td>
+                <td>{{item.minScore}}</td>
+                <td>{{item.maxScore}}</td>
+                <td>{{item.enjoyLevel}}</td>
+                <td>{{item.reachStarLevel}}</td>
+                <td>{{item.exchangeMinScale}}</td>
+                <td>{{item.exchangeMaxScale}}</td>
+                <td>{{item.transferMinScale}}</td>
+                <td>{{item.transferMaxScale}}</td>
+                <td>
+                    <button type="button" (click)="showEditPanel(item)" class="btn btn-info btn-xs">编辑</button>
+                    <button type="button" (click)="deleteItem(item)" class="btn btn-danger btn-xs">删除</button>
+                    <button type="button" *ngIf="item.state==10" (click)="disableItem(item)" class="btn btn-danger btn-xs">禁用</button>
+                    <button type="button" *ngIf="item.state==20" (click)="enabledItem(item)" class="btn btn-info btn-xs">启用</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!--分页区域-->
+<div class="pagination-box text-center">
+    <ul class="pagination">
+        <li [class]="httpService.currentPage==1?'active':''">
+            <a href="javascript:;" (click)="httpService.toFirstPage()">首页</a>
+        </li>
+        <li [class]="httpService.currentPage==1?'disabled':''">
+            <a href="javascript:;"  (click)="httpService.prev()">上一页</a>
+        </li>
+        <li class="disabled"><a href="javascript:;">第{{httpService.currentPage}}页 | 共{{httpService.totalPage}}页</a></li>
+        <li [class]="httpService.currentPage==httpService.totalPage?'disabled':''">
+            <a href="javascript:;" (click)="httpService.next()">下一页</a>
+        </li>
+        <li [class]="httpService.currentPage==httpService.totalPage?'active':''">
+            <a href="javascript:;" (click)="httpService.toEndPage()">末页</a>
+        </li>
+    </ul>
+</div>
+
+<!--新增页面-->
+<div id="editPanel" class="form-horizontal">
+    <div class="form-group">
+        <label class="col-sm-8 control-label"><span class="text-danger" >*</span>&nbsp;星级</label>
+        <div class="col-sm-4">
+            <input type="text"    class="form-control" id="starLevelName" [(ngModel)]="subData.starLevelName" placeholder="星级名称"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-8 control-label"><span class="text-danger">*</span>&nbsp;星级最小积分</label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" id="minScore" [(ngModel)]="subData.minScore" placeholder="星级最小积分"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-8 control-label"><span class="text-danger">*</span>&nbsp;星级最大积分</label>
+        <div class="col-sm-4">
+            <input type="text"  class="form-control" id="maxScore" [(ngModel)]="subData.maxScore" placeholder="星级最大积分"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-8 control-label"><span class="text-danger">*</span>&nbsp;对应星级享受代数</label>
+        <div class="col-sm-4">
+            <input type="text"  class="form-control" id="enjoyLevel" [(ngModel)]="subData.enjoyLevel" placeholder="对应星级享受代数"/>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label class="col-sm-8 control-label"><span class="text-danger">*</span>&nbsp;达到星级所需直推代数</label>
+        <div class="col-sm-4">
+            <input type="text"  class="form-control" id="reachStarLevel" [(ngModel)]="subData.reachStarLevel" placeholder="达到星级所需直推代数"/>
+        </div>
+    </div>
+     <div class="form-group">
+        <label class="col-sm-8 control-label"><span class="text-danger">*</span>&nbsp;余额兑换积分上级获取影子积分最小比例</label>
+        <div class="col-sm-4">
+            <input type="text"  class="form-control" id="exchangeMinScale" [(ngModel)]="subData.exchangeMinScale" placeholder="余额兑换积分上级获取影子积分最小比例"/>
+        </div>
+    </div>
+     <div class="form-group">
+        <label class="col-sm-8 control-label"><span class="text-danger">*</span>&nbsp;余额兑换积分上级获取影子积分最大比例</label>
+        <div class="col-sm-4">
+            <input type="text"  class="form-control" id="exchangeMaxScale" [(ngModel)]="subData.exchangeMaxScale" placeholder="余额兑换积分上级获取影子积分最大比例"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-8 control-label"><span class="text-danger">*</span>&nbsp;转账上级获取影子积分最小比例</label>
+        <div class="col-sm-4">
+            <input type="text"  class="form-control" id="transferMinScale" [(ngModel)]="subData.transferMinScale" placeholder="转账上级获取影子积分最小比例"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-8 control-label"><span class="text-danger">*</span>&nbsp;转账上级获取影子积分最大比例</label>
+        <div class="col-sm-4">
+            <input type="text"  class="form-control" id="transferMaxScale" [(ngModel)]="subData.transferMaxScale" placeholder="转账上级获取影子积分最大比例"/>
+        </div>
+    </div>
+
+</div>

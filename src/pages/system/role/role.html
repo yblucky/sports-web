@@ -1,0 +1,43 @@
+
+<!--按钮区域-->
+<div class="button-box text-right">
+    <button type="button" class="btn btn-primary" (click)="saveRole()"><span class="fa fa-floppy-o"></span> 保存</button>
+</div>
+
+<div class="container-fluid role">
+    <div class="row">
+        <div class="col-xs-3" style="padding:0">
+            <div class="panel panel-default rolePanel">
+                <div class="panel-heading">角色</div>
+                <div class="panel-body">
+                    <select multiple class="form-control" [(ngModel)]="roleId" (change)="selectItem()">
+                        <option *ngFor="let opt of roles" value="{{opt.id}}">{{opt.roleName}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-9" style="padding-right:0px;">
+            <div class="panel panel-default">
+                <div class="panel-heading">功能</div>
+                <div class="panel-body">
+                    <table class="table" *ngFor="let m of parentMenuData">
+                        <tr class="success">
+                            <th>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" [(ngModel)]="m.selected" (click)="isSelected(m.id,m.selected)" value="{{m.id}}"/>{{m.resName}}
+                                </label>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label class="checkbox-inline" *ngFor="let node of getChilderMenu(m.id)">
+                                    <input type="checkbox" [(ngModel)]="node.selected" (click)="checkNode(m)" value="{{node.id}}"/>{{node.resName}}
+                                </label>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
