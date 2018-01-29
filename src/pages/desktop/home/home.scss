@@ -4,7 +4,7 @@
     top:0;
     overflow: auto;
     width:1700px;
-    height:1151px;
+    height:1300px;
     z-index: 1;
     padding: 20px;
     background-image: url("/assets/img/bg.png");
@@ -120,12 +120,14 @@
 .content-div{
     clear: both;
     width:1150px;
-    height:800px;
+    height:1100px;
     margin-left:-120px;
     border: 1px solid #32E5E5;
     border-radius:25px;
 
+    //定位组
     .content-tab_1{
+        margin-bottom:25px;
         .content-tab_1_1{
           width:70px;
           height:30px;
@@ -150,5 +152,276 @@
           font-size:12px;
         }
     }
+
+    //投注号码
+    .content-tab_2{
+        .content-tab_2_1{
+            width:1150px;
+            height:60px;
+            margin-left:25px;
+            .diwei{
+              width:100px;
+              height: 38px;
+              float: left;
+              color:white;
+              font-size:18px;
+              line-height:34px;
+              display:inline-block;
+              background-image: url("/assets/img/dingwei.png");
+              background-repeat:no-repeat;
+            }
+
+            .haoma{
+                margin-left:80px;
+                .wan{
+                    width:52px;
+                    height:52px;
+                    float: left;
+                    margin-top:-5px;
+                    margin-left:30px;
+                    line-height:50px;
+                    font-size: 24px;
+                    color:white;
+                    display:inline-block;
+                    background-image: url("/assets/img/haoma_green.png");
+                    background-repeat:no-repeat;
+                }
+
+                .qian{
+                    width:52px;
+                    height:52px;
+                    float: left;
+                    margin-top:-5px;
+                    margin-left:30px;
+                    line-height:50px;
+                    font-size: 24px;
+                    color:white;
+                    display:inline-block;
+                    background-image: url("/assets/img/haoma_green.png");
+                    background-repeat:no-repeat;
+                }
+
+                .bai{
+                    width:52px;
+                    height:52px;
+                    float: left;
+                    margin-top:-5px;
+                    margin-left:30px;
+                    line-height:50px;
+                    font-size: 24px;
+                    color:white;
+                    display:inline-block;
+                    background-image: url("/assets/img/haoma_green.png");
+                    background-repeat:no-repeat;
+                }
+
+                .shi{
+                    width:52px;
+                    height:52px;
+                    float: left;
+                    margin-top:-5px;
+                    margin-left:30px;
+                    line-height:50px;
+                    font-size: 24px;
+                    color:white;
+                    display:inline-block;
+                    background-image: url("/assets/img/haoma_green.png");
+                    background-repeat:no-repeat;
+                }
+
+                .ge{
+                    width:52px;
+                    height:52px;
+                    float: left;
+                    margin-top:-5px;
+                    margin-left:30px;
+                    line-height:50px;
+                    font-size: 24px;
+                    color:white;
+                    display:inline-block;
+                    background-image: url("/assets/img/haoma_green.png");
+                    background-repeat:no-repeat;
+                }
+            }
+        }
+    }
+
+    //输入倍数
+    .content-tab_3{
+        clear: both;
+        width:1100px;
+        height:40px;
+        margin-top:20px;
+        background-image: url("/assets/img/shurubeishu.png");
+        background-repeat:no-repeat;
+
+        .content-tab_3_1{
+            float: left;
+            color: white;
+            line-height:40px;
+            margin-left:10px;
+        }
+
+        .shurukuang{
+            width:60px;
+            height:20px;
+            float: left;
+            margin-top:10px;
+            margin-left:10px;
+            line-height:20px;
+            color: white;
+            display:inline-block;
+            border: 1px solid #01CEF2;
+            border-radius:25px;
+        }
+
+        .content-tab_3_2{
+          float: left;
+          width:130px;
+          height:35px;
+          color: #789A42;
+          line-height:25px;
+          margin-top:6px;
+          margin-left:30px;
+          display:inline-block;
+          background-image: url("/assets/img/addhaoma.png");
+          background-repeat:no-repeat;
+        }
+    }
+
+    // 投注列表
+    .content-tab_4{
+        width:1150px;
+        height:250px;
+        .content-tab_4_1{
+            clear: both;
+            float: left;
+            .content-tab_4_1_1{
+              border: 1px solid #32E5E5;
+              border-radius:25px;
+              margin-left:25px;
+              margin-top: 30px;
+              height:200px;
+              overflow-y: auto;
+              .touzhu_table{
+                color: white;
+                th{
+                  width:80px;
+                  height:35px;
+                  text-align: center;
+                }
+                td{
+                  height:35px;
+                  text-align: center;
+                }
+              }
+            }
+        }
+
+        .content-tab_4_2{
+            float: left;
+            .content-tab_4_2_1{
+              width:180px;
+              height:40px;
+              color: white;
+              font-size: 18px;
+              line-height: 40px;
+              margin-left:55px;
+              margin-top: 80px;
+              border-radius:80px;
+              background-color: #1FA0AE;
+            }
+            .content-tab_4_2_2{
+              width:180px;
+              height:40px;
+              color: white;
+              font-size: 18px;
+              line-height: 40px;
+              margin-left:55px;
+              margin-top: 30px;
+              border-radius:80px;
+              display:inline-block;
+              background-color: #0ED2AF;
+            }
+        }
+    }
+
+    //订单记录
+    .content-tab_5{
+        // border: 1px solid #32E5E5;
+        clear: both;
+        float: left;
+        margin-left:28px;
+        width:1100px;
+        height:300px;
+        .content-tab_5_1{
+          clear: both;
+          float: left;
+          width:70px;
+          height:30px;
+          text-align: center;
+          line-height:30px;
+          color: white;
+          cursor:pointer;
+          margin-top:10px;
+          display:inline-block;
+          // background-color: #0ED2AF;
+        }
+        .content-tab_5_2{
+          float: left;
+          width:70px;
+          height:30px;
+          text-align: center;
+          line-height:30px;
+          color: white;
+          cursor:pointer;
+          margin-top:10px;
+          margin-left:10px;
+          display:inline-block;
+          background-color: #0ED2AF;
+        }
+
+        .content-tab_5_3{
+            clear: both;
+            float: left;
+            border: 1px solid #32E5E5;
+            height:280px;
+            overflow-y: auto;
+            .order_table{
+              color: white;
+              th{
+                width:180px;
+                height:35px;
+                text-align: center;
+              }
+              td{
+                height:35px;
+                text-align: center;
+              }
+            }
+        }
+
+        .content-tab_5_4{
+            clear: both;
+            float: left;
+            border: 1px solid #32E5E5;
+            height:280px;
+            overflow-y: auto;
+            .order_table{
+              color: white;
+              th{
+                width:180px;
+                height:35px;
+                text-align: center;
+              }
+              td{
+                height:35px;
+                text-align: center;
+              }
+            }
+        }
+
+    }
+
 
 }

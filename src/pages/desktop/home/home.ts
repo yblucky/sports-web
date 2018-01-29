@@ -37,6 +37,7 @@ export class HomePage {
     orderType:string="10";
     showTime:any = new Date();
     highChartOptions:any={};
+    haomas:any = [0,1,2,3,4,5,6,7,8,9];
     constructor(private router:Router,private httpService:HttpService,private aroute:ActivatedRoute,private utils:Utils) {
         this.aroute.params.subscribe( params  => {
             this.showTime = new Date();

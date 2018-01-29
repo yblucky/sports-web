@@ -47,6 +47,8 @@
     </div>
 
     <div class="content-div">
+
+        <!-- 定位组 -->
         <div class="content-tab_1">
             <div class="content-tab_1_1">定位胆</div>
             <hr />
@@ -56,10 +58,164 @@
             </div>
         </div>
 
-        <div class="content-tab_1">
+        <!-- 投注号码 -->
+        <div class="content-tab_2">
+            <div class="content-tab_2_1">
+                <div class="diwei">万位</div>
+                <ul class="haoma" *ngFor="let haoma of haomas; let i = index">
+                    <li class="wan">{{haoma}}</li>
+                </ul>
+            </div>
 
+            <div class="content-tab_2_1">
+                <div class="diwei">千位</div>
+                <ul class="haoma" *ngFor="let haoma of haomas; let i = index">
+                    <li class="qian">{{haoma}}</li>
+                </ul>
+            </div>
+
+            <div class="content-tab_2_1">
+                <div class="diwei">百位</div>
+                <ul class="haoma" *ngFor="let haoma of haomas; let i = index">
+                    <li class="bai">{{haoma}}</li>
+                </ul>
+            </div>
+
+            <div class="content-tab_2_1">
+                <div class="diwei">十位</div>
+                <ul class="haoma" *ngFor="let haoma of haomas; let i = index">
+                    <li class="shi">{{haoma}}</li>
+                </ul>
+            </div>
+
+            <div class="content-tab_2_1">
+                <div class="diwei">个位</div>
+                <ul class="haoma" *ngFor="let haoma of haomas; let i = index">
+                    <li class="ge">{{haoma}}</li>
+                </ul>
+            </div>
         </div>
 
+        <!-- 输入倍数 -->
+        <div class="content-tab_3">
+            <span class="content-tab_3_1" style="margin-left:20px;">输入倍数</span>
+            <span class="content-tab_3_1"><img src="/assets/img/jian.png" /></span>
+            <div class="shurukuang">0</div>
+            <span class="content-tab_3_1"><img src="/assets/img/jia.png" /></span>
+            <span class="content-tab_3_1">你选择了<span style="color:#F8F806;">1</span>注，共计<span style="color:#F8F806;">0.1</span>元</span>
+            <div class="content-tab_3_2">添加号码</div>
+        </div>
+
+        <!-- 投注列表 -->
+        <div class="content-tab_4">
+            <div class="content-tab_4_1">
+                <div class="content-tab_4_1_1">
+                    <table class="touzhu_table">
+                          <thead>
+                              <tr>
+                                  <th>万</th>
+                                  <th>千</th>
+                                  <th>百</th>
+                                  <th>十</th>
+                                  <th>个</th>
+                                  <th>投注倍数</th>
+                                  <th>投注金额</th>
+                                  <th></th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr>
+                                  <td>-</td>
+                                  <td>-</td>
+                                  <td>-</td>
+                                  <td>-</td>
+                                  <td>-</td>
+                                  <td>10</td>
+                                  <td>20</td>
+                                  <td><img src="/assets/img/shanchu.png" /></td>
+                              </tr>
+                          </tbody>
+                          <tfoot>
+                              <tr>
+                                  <td colspan="5" style="text-align:right">合计：</td>
+                                  <td>10</td>
+                                  <td>20</td>
+                                  <td></td>
+                              </tr>
+                          </tfoot>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 投注按钮 -->
+            <div class="content-tab_4_2">
+                <div class="content-tab_4_2_1">清空列表</div>
+                <div class="content-tab_4_2_2">马上投注</div>
+            </div>
+        </div>
+
+        <!-- 订单记录 -->
+        <div class="content-tab_5">
+            <div class="content-tab_5_1">订单记录</div>
+            <div class="content-tab_5_2">盈亏报表</div>
+            <div class="content-tab_5_3" style="display:none;">
+                <table class="order_table">
+                      <thead>
+                          <tr>
+                              <th>订单号</th>
+                              <th>彩种</th>
+                              <th>玩法</th>
+                              <th>期号</th>
+                              <th>投注金额</th>
+                              <th>奖金</th>
+                              <th>状态</th>
+                              <th>下单日期</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr>
+                              <td>-</td>
+                              <td>-</td>
+                              <td>-</td>
+                              <td>-</td>
+                              <td>-</td>
+                              <td>10</td>
+                              <td>20</td>
+                              <td></td>
+                          </tr>
+                      </tbody>
+                </table>
+            </div>
+
+            <div class="content-tab_5_4">
+                <table class="order_table">
+                      <thead>
+                          <tr>
+                              <th>日期</th>
+                              <th>充值</th>
+                              <th>提现</th>
+                              <th>消费</th>
+                              <th>派奖</th>
+                              <th>返点</th>
+                              <th>活动</th>
+                              <th>盈利</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr>
+                              <td>-</td>
+                              <td>-</td>
+                              <td>-</td>
+                              <td>-</td>
+                              <td>-</td>
+                              <td>10</td>
+                              <td>20</td>
+                              <td></td>
+                          </tr>
+                      </tbody>
+                </table>
+            </div>
+        </div>
     </div>
   </div>
 </div>
