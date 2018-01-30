@@ -1,75 +1,255 @@
+<div class="bg">
+  <div class="all-div" align="center">
+    <div class="title-div">
+        <div class="row-tab_1">
+          <img src="/assets/pkImg/pklogo.png"/>
+        </div>
 
-<!--搜索区域-->
-<div class="search-box">
-    uid: <input [(ngModel)]="find.uid" />
-    手机:<input [(ngModel)]="find.mobile" />
-    昵称:<input [(ngModel)]="find.nickName"/>
-    内容:<input [(ngModel)]="find.content"/>
-    时间日期:<input [(ngModel)]="find.startTime" type="date"/>-<input [(ngModel)]="find.endTime" type="date" />
-    <button type="button" class="btn btn-primary" (click)='loadData()'>搜索</button>
-</div>
+        <div class="row-tab_2">
+            <div class="row-tab_2_1">
+                <p style="color:#2396DB;">第20180133-002期</p>
+                <p style="margin-top:-85px;margin-left:55px;color:white;">离封盘时间</p>
+            </div>
+            <div class="row-tab_2_2">
+                <div style="color:white;font-size:36px;margin-top:-25px;">00 : 30</div>
+            </div>
+            <div class="row-tab_2_3">
+                <p style="color:white;margin-top:10px;">开奖时间</p>
+            </div>
+            <div class="row-tab_2_4">
+                <div style="color:white;font-size:36px;margin-top:-25px;">05 : 30</div>
+            </div>
+        </div>
 
-<!--按钮区域-->
-<div class="button-box text-right">
-
-</div>
-
-<!--数据显示区域-->
-<div class="table-box">
-    <table class="table table-bordered table-hover table-text">
-        <thead>
-            <tr class="active">
-                <th>序号</th>
-                <th>UID</th>
-                <th>昵称</th>
-                <th>手机</th>
-                <th>反馈内容</th>
-                <th>相关截图</th>
-                <th>创建时间</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let item of httpService.items; let i = index">
-                <td>{{(i+1)}}</td>
-                <td>{{item.uid}}</td>
-                <td>{{item.nickName}}</td>
-                <td>{{item.mobile}}</td>
-                <td  class="td-text"  title="{{item.content}}" (click)="showPath(item,2)">{{item.content}}</td>
-                <td>
-                    <img class="tab-img" *ngFor="let img of item.imgs" (click)="showPath(img,1)" src="{{path+img.imgPath}}"/>
-                </td>
-                <td>{{utils.formatDate(item.createTime,'yyyy-MM-dd HH:mm:ss')}}</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
-<!--分页区域-->
-<div class="pagination-box text-center">
-    <ul class="pagination">
-        <li [class]="httpService.currentPage==1?'active':''">
-            <a href="javascript:;" (click)="httpService.toFirstPage()">首页</a>
-        </li>
-        <li [class]="httpService.currentPage==1?'disabled':''">
-            <a href="javascript:;"  (click)="httpService.prev()">上一页</a>
-        </li>
-        <li class="disabled"><a href="javascript:;">第{{httpService.currentPage}}页 | 共{{httpService.totalPage}}页</a></li>
-        <li [class]="httpService.currentPage==httpService.totalPage?'disabled':''">
-            <a href="javascript:;" (click)="httpService.next()">下一页</a>
-        </li>
-        <li [class]="httpService.currentPage==httpService.totalPage?'active':''">
-            <a href="javascript:;" (click)="httpService.toEndPage()">末页</a>
-        </li>
-    </ul>
-</div>
-
-
-<!--详情页面-->
-<div id="editPanel" class="form-horizontal">
-    <div class="form-group" align="center" *ngIf="showType==1">
-        <img src="{{path+imgPath}}"/>
+        <div class="row-tab_3">
+            <div class="row-tab_3_1">
+                <p style="color:#B6C0B2;">第20180123-002期</p>
+                <p style="margin-top:-85px;margin-left:65px;color:white;">开奖号码</p>
+            </div>
+            <div class="row-tab_3_2">
+                <div class="row-tab_3_2_1" *ngFor="let kj of kaijianghaomas; let i = index">
+                    <img src="/assets/pkImg/{{kj}}.png" width="25" height="40" />
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="form-group" align="center" *ngIf="showType!=1">
-        <div class="div-context">{{context}}</div>
+
+    <div class="content-div">
+
+        <!-- 定位组 -->
+        <div class="content-tab_1">
+            <div class="content-tab_1_1">定位组</div>
+            <hr />
+            <div class="content-tab_1_2">
+                <img src="/assets/img/tishi.png" style="display:inline-block;" />
+                <span>玩法提示: 在万千百十个位任意位置上任意选择1或1个以上号码</span>
+            </div>
+        </div>
+
+        <!-- 投注号码 -->
+        <div class="content-tab_2">
+            <div class="content-tab_2_1">
+                <div class="diwei">冠</div>
+                <ul class="haoma" *ngFor="let haoma of haomas; let i = index">
+                    <li class="one">{{haoma}}</li>
+                </ul>
+            </div>
+
+            <div class="content-tab_2_1">
+                <div class="diwei">亚</div>
+                <ul class="haoma" *ngFor="let haoma of haomas; let i = index">
+                    <li class="two">{{haoma}}</li>
+                </ul>
+            </div>
+
+            <div class="content-tab_2_1">
+                <div class="diwei">季</div>
+                <ul class="haoma" *ngFor="let haoma of haomas; let i = index">
+                    <li class="three">{{haoma}}</li>
+                </ul>
+            </div>
+
+            <div class="content-tab_2_1">
+                <div class="diwei">四</div>
+                <ul class="haoma" *ngFor="let haoma of haomas; let i = index">
+                    <li class="four">{{haoma}}</li>
+                </ul>
+            </div>
+
+            <div class="content-tab_2_1">
+                <div class="diwei">五</div>
+                <ul class="haoma" *ngFor="let haoma of haomas; let i = index">
+                    <li class="five">{{haoma}}</li>
+                </ul>
+            </div>
+
+            <div class="content-tab_2_1">
+                <div class="diwei">六</div>
+                <ul class="haoma" *ngFor="let haoma of haomas; let i = index">
+                    <li class="six">{{haoma}}</li>
+                </ul>
+            </div>
+
+            <div class="content-tab_2_1">
+                <div class="diwei">七</div>
+                <ul class="haoma" *ngFor="let haoma of haomas; let i = index">
+                    <li class="seveen">{{haoma}}</li>
+                </ul>
+            </div>
+
+            <div class="content-tab_2_1">
+                <div class="diwei">八</div>
+                <ul class="haoma" *ngFor="let haoma of haomas; let i = index">
+                    <li class="eight">{{haoma}}</li>
+                </ul>
+            </div>
+
+            <div class="content-tab_2_1">
+                <div class="diwei">九</div>
+                <ul class="haoma" *ngFor="let haoma of haomas; let i = index">
+                    <li class="nine">{{haoma}}</li>
+                </ul>
+            </div>
+
+            <div class="content-tab_2_1">
+                <div class="diwei">十</div>
+                <ul class="haoma" *ngFor="let haoma of haomas; let i = index">
+                    <li class="ten">{{haoma}}</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 输入倍数 -->
+        <div class="content-tab_3">
+            <span class="content-tab_3_1" style="margin-left:20px;">输入倍数</span>
+            <span class="content-tab_3_1"><img src="/assets/img/jian.png" /></span>
+            <div class="shurukuang">0</div>
+            <span class="content-tab_3_1"><img src="/assets/img/jia.png" /></span>
+            <span class="content-tab_3_1">你选择了<span style="color:#F8F806;">1</span>注，共计<span style="color:#F8F806;">0.1</span>元</span>
+            <div class="content-tab_3_2">添加号码</div>
+        </div>
+
+        <!-- 投注列表 -->
+        <div class="content-tab_4">
+            <div class="content-tab_4_1">
+                <div class="content-tab_4_1_1">
+                    <table class="touzhu_table">
+                          <thead>
+                              <tr>
+                                  <th>万</th>
+                                  <th>千</th>
+                                  <th>百</th>
+                                  <th>十</th>
+                                  <th>个</th>
+                                  <th>投注倍数</th>
+                                  <th>投注金额</th>
+                                  <th></th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr>
+                                  <td>-</td>
+                                  <td>-</td>
+                                  <td>-</td>
+                                  <td>-</td>
+                                  <td>-</td>
+                                  <td>10</td>
+                                  <td>20</td>
+                                  <td><img src="/assets/img/shanchu.png" /></td>
+                              </tr>
+                          </tbody>
+                          <tfoot>
+                              <tr>
+                                  <td colspan="5" style="text-align:right">合计：</td>
+                                  <td>10</td>
+                                  <td>20</td>
+                                  <td></td>
+                              </tr>
+                          </tfoot>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 投注按钮 -->
+            <div class="content-tab_4_2">
+                <div class="content-tab_4_2_1">清空列表</div>
+                <div class="content-tab_4_2_2">马上投注</div>
+                <div class="content-tab_4_2_3"><img src="/assets/pkImg/kaijiangshiping.png" /></div>
+            </div>
+        </div>
+
+        <!-- 订单记录 -->
+        <div class="content-tab_5">
+            <div class="content-tab_5_1">订单记录</div>
+            <div class="content-tab_5_2">盈亏报表</div>
+            <div class="content-tab_5_3" style="display:none;">
+                <table class="order_table">
+                      <thead>
+                          <tr>
+                              <th>订单号</th>
+                              <th>彩种</th>
+                              <th>玩法</th>
+                              <th>期号</th>
+                              <th>投注金额</th>
+                              <th>奖金</th>
+                              <th>状态</th>
+                              <th>下单日期</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr>
+                              <td>-</td>
+                              <td>-</td>
+                              <td>-</td>
+                              <td>-</td>
+                              <td>-</td>
+                              <td>10</td>
+                              <td>20</td>
+                              <td></td>
+                          </tr>
+                      </tbody>
+                </table>
+            </div>
+
+            <div class="content-tab_5_4">
+                <table class="order_table">
+                      <thead>
+                          <tr>
+                              <th>日期</th>
+                              <th>充值</th>
+                              <th>提现</th>
+                              <th>消费</th>
+                              <th>派奖</th>
+                              <th>返点</th>
+                              <th>活动</th>
+                              <th>盈利</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr>
+                              <td>-</td>
+                              <td>-</td>
+                              <td>-</td>
+                              <td>-</td>
+                              <td>-</td>
+                              <td>10</td>
+                              <td>20</td>
+                              <td></td>
+                          </tr>
+                      </tbody>
+                </table>
+            </div>
+        </div>
     </div>
+  </div>
+
+  <!-- 模糊层,播放赛车视频 -->
+  <div class="saicheshiping">
+      <div class="flag"></div>
+      <div class="shiping">
+          <div class="pkshiping">
+              <iframe scrolling="no" src="http://www.k58.vip/video/pk10/index.html" width="945" height="630" frameborder="0"></iframe>
+          </div>
+      </div>
+  </div>
 </div>

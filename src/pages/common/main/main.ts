@@ -19,7 +19,7 @@ export class MainPage {
     userName:string = '';
     menuParent = "我的桌面";
     menuName = "首页";
-    refreshLink ='desktop/home';
+    refreshLink ='desktop/tousu';
     menuDatas:any;
     parentMenuData:any;
     constructor(private router:Router,private aroute:ActivatedRoute,private httpService:HttpService) {

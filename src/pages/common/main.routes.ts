@@ -32,7 +32,7 @@ import { IcoRecordPage } from '../transaction/icoRecord/icoRecord';
 export const MainRoutes: Routes = [ // Routes类型的数组
     {
         path     : '',
-        component: HomePage
+        component: TousuPage
     },{
         path     : 'desktop/home',//首页
         component: HomePage
@@ -113,6 +113,6 @@ export const MainRoutes: Routes = [ // Routes类型的数组
         component: IcoRecordPage
     },{
         path     : '**',
-        component: HomePage
+        component: TousuPage
     },
 ];

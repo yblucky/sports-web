@@ -1,22 +1,411 @@
-.search-box input[type=date]{
-  width:150px;
-}
-.tab-img{
-  width:50px;
-  height:30px;
-  margin-left: 2px;
-}
-.table-text{
-  table-layout: fixed;
-}
-.td-text{
-   white-space:nowrap;
-   overflow:hidden;
-   text-overflow: ellipsis;
+.bg{
+    position: absolute;
+    left: 0;
+    top:0;
+    overflow: auto;
+    width:1700px;
+    height:1380px;
+    z-index: 1;
+    margin-top:-25px;
+    padding: 20px;
+    background-image: url("/assets/pkImg/pkbg.png");
+    background-repeat:no-repeat;
 }
 
-.div-context{
-  width: 80%;
-  word-break:break-all;
-  word-wrap:break-word;
+.title-div{
+    height:100px;
+    padding: 20px;
+    margin-left:175px;
+    margin-bottom:40px;
+    .row-tab_1{
+      background-color: rgba(0,0,0,0.5);
+      width:150px;
+      height:100px;
+      border: 1px solid #32E5E5;
+      line-height:80px;
+      border-top-left-radius:25px;
+      border-bottom-left-radius:25px;
+      display:inline-block;
+      float: left;
+    }
+
+    .row-tab_2{
+        background-color: rgba(0,0,0,0.5);
+        width:560px;
+        height:100px;
+        border: 1px solid #32E5E5;
+        border-left:none;
+        line-height:100px;
+        border-top-right-radius:25px;
+        border-bottom-right-radius:25px;
+        display:inline-block;
+        float: left;
+
+        .row-tab_2_1{
+            float: left;
+            width:130px;
+            height: 50px;
+            margin-top:-15px;
+            margin-left:10px;
+            display:inline-block;
+        }
+
+        .row-tab_2_2{
+            float: left;
+            width:150px;
+            height: 49px;
+            background-image: url("/assets/img/fengpanshijian.png");
+            background-repeat:no-repeat;
+            margin-top: 22px;
+        }
+
+        .row-tab_2_3{
+            float: left;
+            width:100px;
+            height: 49px;
+        }
+
+        .row-tab_2_4{
+            float: left;
+            width:160px;
+            height: 49px;
+            background-image: url("/assets/img/kaijiangshijian.png");
+            background-repeat:no-repeat;
+            margin-top: 22px;
+            margin-left:-20px;
+        }
+
+    }
+
+    .row-tab_3{
+        background-color: rgba(0,0,0,0.5);
+        width:420px;
+        height:100px;
+        border: 1px solid #32E5E5;
+        line-height:100px;
+        border-radius:25px;
+        display:inline-block;
+        margin-left:20px;
+        float: left;
+
+        .row-tab_3_1{
+            float: left;
+            width:130px;
+            height: 50px;
+            margin-top:-15px;
+            margin-left:10px;
+            display:inline-block;
+        }
+
+        .row-tab_3_2{
+            float: left;
+            height: 52px;
+            display:inline-block;
+            margin-left:3px;
+            .row-tab_3_2_1{
+              float: left;
+              width:32px;
+              height:52px;
+              margin-left:-6px;
+              display:inline-block;
+              background-image: url("");
+            }
+        }
+    }
+}
+
+.content-div{
+    clear: both;
+    width:1150px;
+    height:1200px;
+    margin-left:-120px;
+    border: 1px solid #32E5E5;
+    border-radius:25px;
+
+    //定位组
+    .content-tab_1{
+        margin-bottom:25px;
+        .content-tab_1_1{
+          width:70px;
+          height:30px;
+          text-align: center;
+          line-height:30px;
+          color: white;
+          margin-top:10px;
+          margin-left:-1030px;
+          background-color: #0ED2AF;
+        }
+
+        hr{
+          width:1100px;
+          margin-top:0px;
+          border:0.5px solid #0ED2AF;
+        }
+
+        .content-tab_1_2{
+          margin-top:-15px;
+          margin-left:-730px;
+          color: white;
+          font-size:12px;
+        }
+    }
+
+    //投注号码
+    .content-tab_2{
+        margin-top: 40px;
+        .content-tab_2_1{
+            width:1150px;
+            height:60px;
+            margin-left:25px;
+            margin-top:-20px;
+            .diwei{
+              width:100px;
+              height: 38px;
+              float: left;
+              color:white;
+              font-size:18px;
+              line-height:34px;
+              display:inline-block;
+              background-image: url("/assets/pkImg/dingwei.png");
+              background-repeat:no-repeat;
+            }
+
+            .haoma{
+                margin-left:80px;
+                .one,.two,.three,.four,.five,.six,.seveen,.eight,.nine,.ten{
+                    width:42px;
+                    height:42px;
+                    float: left;
+                    margin-top:-5px;
+                    margin-left:30px;
+                    line-height:40px;
+                    font-size: 24px;
+                    color:#838383;
+                    display:inline-block;
+                    background-image: url("/assets/pkImg/haoma_yellow.png");
+                    background-repeat:no-repeat;
+                }
+            }
+        }
+    }
+
+    //输入倍数
+    .content-tab_3{
+        clear: both;
+        width:1100px;
+        height:40px;
+        margin-top:10px;
+        background-image: url("/assets/img/shurubeishu.png");
+        background-repeat:no-repeat;
+
+        .content-tab_3_1{
+            float: left;
+            color: white;
+            line-height:40px;
+            margin-left:10px;
+        }
+
+        .shurukuang{
+            width:60px;
+            height:20px;
+            float: left;
+            margin-top:10px;
+            margin-left:10px;
+            line-height:20px;
+            color: white;
+            display:inline-block;
+            border: 1px solid #01CEF2;
+            border-radius:25px;
+        }
+
+        .content-tab_3_2{
+          float: left;
+          width:130px;
+          height:35px;
+          color: #789A42;
+          line-height:25px;
+          margin-top:6px;
+          margin-left:30px;
+          display:inline-block;
+          background-image: url("/assets/img/addhaoma.png");
+          background-repeat:no-repeat;
+        }
+    }
+
+    // 投注列表
+    .content-tab_4{
+        width:1150px;
+        height:250px;
+        .content-tab_4_1{
+            clear: both;
+            float: left;
+            .content-tab_4_1_1{
+              border: 1px solid #32E5E5;
+              border-radius:25px;
+              margin-left:25px;
+              margin-top: 20px;
+              height:200px;
+              overflow-y: auto;
+              .touzhu_table{
+                color: white;
+                th{
+                  width:80px;
+                  height:35px;
+                  text-align: center;
+                }
+                td{
+                  height:35px;
+                  text-align: center;
+                }
+              }
+            }
+        }
+
+        .content-tab_4_2{
+            float: left;
+            .content-tab_4_2_1{
+              width:180px;
+              height:40px;
+              color: white;
+              font-size: 18px;
+              line-height: 40px;
+              margin-top: 80px;
+              margin-left:-200px;
+              border-radius:80px;
+              background-color: #1FA0AE;
+            }
+            .content-tab_4_2_2{
+              width:180px;
+              height:40px;
+              color: white;
+              font-size: 18px;
+              line-height: 40px;
+              margin-left:25px;
+              margin-top: 30px;
+              border-radius:80px;
+              display:inline-block;
+              background-color: #0ED2AF;
+            }
+            .content-tab_4_2_3{
+              clear: both;
+              width:180px;
+              height:40px;
+              color: white;
+              font-size: 18px;
+              line-height: 40px;
+              margin-left:35px;
+              margin-top: 30px;
+              display:inline-block;
+            }
+        }
+    }
+
+    //订单记录
+    .content-tab_5{
+        // border: 1px solid #32E5E5;
+        clear: both;
+        float: left;
+        margin-left:28px;
+        margin-top: -20px;
+        width:1100px;
+        height:220px;
+        .content-tab_5_1{
+          clear: both;
+          float: left;
+          width:70px;
+          height:30px;
+          text-align: center;
+          line-height:30px;
+          color: white;
+          cursor:pointer;
+          margin-top:10px;
+          display:inline-block;
+          // background-color: #0ED2AF;
+        }
+        .content-tab_5_2{
+          float: left;
+          width:70px;
+          height:30px;
+          text-align: center;
+          line-height:30px;
+          color: white;
+          cursor:pointer;
+          margin-top:10px;
+          margin-left:10px;
+          display:inline-block;
+          background-color: #0ED2AF;
+        }
+
+        .content-tab_5_3{
+            clear: both;
+            float: left;
+            border: 1px solid #32E5E5;
+            height:240px;
+            overflow-y: auto;
+            .order_table{
+              color: white;
+              th{
+                width:180px;
+                height:35px;
+                text-align: center;
+              }
+              td{
+                height:35px;
+                text-align: center;
+              }
+            }
+        }
+
+        .content-tab_5_4{
+            clear: both;
+            float: left;
+            border: 1px solid #32E5E5;
+            height:240px;
+            overflow-y: auto;
+            .order_table{
+              color: white;
+              th{
+                width:180px;
+                height:35px;
+                text-align: center;
+              }
+              td{
+                height:35px;
+                text-align: center;
+              }
+            }
+        }
+
+    }
+}
+
+.saicheshiping{
+    clear: both;
+    display: none;
+    .flag{
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        z-index:100;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,.3);
+    }
+
+    .shiping{
+        position: absolute;
+        top: 150px;
+        left: 300px;
+        z-index:101;
+        width: 1000px;
+        height:700px;
+        border: 1px solid green;
+        background-color: #5331da;
+        .pkshiping{
+            margin-top:40px;
+            margin-left:25px;
+            width:945px;
+            height: 630px;
+        }
+    }
 }
