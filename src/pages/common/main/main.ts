@@ -33,6 +33,7 @@ export class MainPage {
         $(".leftPanel_2").first().css("color","yellow");
         $(".leftPanel_2").first().css("background-image","url('/assets/img/daohangdianjian.png')");
         $(".leftPanel_2").first().css("background-repeat","no-repeat");
+        this.router.navigate(['common/main/desktop/home']);
     }
 
     loadMenu(roleId:string){
@@ -110,9 +111,10 @@ export class MainPage {
         this.router.navigate(['common/main/'+refreshLink]);
     }
 
-    showStyle($event:any){
+    showStyle($event:any,refreshLink:string){
         $(".leftPanel_2").removeClass("w2");
         $($event.target).addClass("w2");
+        this.router.navigate(['common/main/'+refreshLink]);
     }
 
 }

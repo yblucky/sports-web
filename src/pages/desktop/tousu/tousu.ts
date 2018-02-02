@@ -26,7 +26,7 @@ export class TousuPage {
     imgPath:string;
     context:string;
     showType:number;
-    haomas:any = [0,1,2,3,4,5,6,7,8,9];
+    haomas:any = [1,2,3,4,5,6,7,8,9,10];
     kaijianghaomas:any = [1,4,3,2,7,6,5,9,10,8];
     constructor(private httpService:HttpService,private aroute:ActivatedRoute,private utils:Utils) {
         this.aroute.params.subscribe( params  => {
