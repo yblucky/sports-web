@@ -17,35 +17,8 @@ var homePage: any;
     styleUrls: ['./home.scss']
 })
 export class HomePage {
-    orderStatisticsCount:any={
-      todayOrder:"",
-      PayCount:"",
-      WithdrawCount:"",
-      STBRollOut:"",
-      STBExchange:""
-    };
-    userCount:any={
-      userStatistics:{
-        balance:"",
-        score:"",
-        virtualCoin:"",
-        userCount:""
-      },
-      UserWithdrawCount:"",
-      toDayuserCount:""
-    };
-    coinManage:any;//币种数量
-    orderType:string="10";
+
     showTime:any = new Date();
-    highChartOptions:any={};
-
-
-    //定义一个数组变量保存
-    total_array:any=[];
-
-    //定义数组
-    nums:any;
-
     //定义号码
     haomas:any = [0,1,2,3,4,5,6,7,8,9];
     kaijianghaoma:any = [5,3,4,1,2];
@@ -59,41 +32,20 @@ export class HomePage {
     fengpan_feng:any = 2;
     fengpan_miao:any = 30;
 
-    //定义时时彩各个区的变量
-    total_num:any={
-        wan_num:"",
-        qian_num:"",
-        bai_num:"",
-        shi_num:"",
-        ge_num:"",
-    };
-
-    //定义列表数组
-    bet_list:any = {
-        //定义下注个数，一个数字一个注
-        wan_num:[],
-        qian_num:[],
-        bai_num:[],
-        shi_num:[],
-        ge_num:[]
-    }
-
-    //下号个数和累积金额
-    bet_zhushu:number = 0;
-    bet_money:number = 0;
-    zhushu:number = 0;
-    money:number = 0;
-    //总注数和总金额
-    total_zhushu:number = 0;
-    total_money:number = 0;
-
+    //定义数组保存号码列表
+    betting_list:any=[];
+    betting_list_row:any=[];
+    dingwei_row:any=["ge","shi","bai","qian","wan"]; //个  十  百  千  万
+    dingwei_nums:any =[];
+    numsArr:any = [];
+    maxNumsPerWeizhi:any =3;
+    betting_list_display:any=[];
+    doubling_index:number;
+    target_elm:any;
+    sumMoney:number = 0;
     //定义输入倍数
-    inputMultiplier:number;
-    inputMultiplier_back:number;
-
-    //定义一个变量保存加倍对象和
-    jiabei:string;
-    jiabei_num:any;
+    inputMultiplier:number = 1;
+    inputMultiplier_back:number = 1;
 
 
     constructor(private router:Router,private httpService:HttpService,private aroute:ActivatedRoute,private utils:Utils) {
@@ -103,6 +55,7 @@ export class HomePage {
         homePage=this;
         //this.orderStatistics();
         this.init();
+        this.initnumsArray();
     }
 
     //初始化开奖时间
@@ -145,60 +98,92 @@ export class HomePage {
       }, 1000);
     }
 
+
+    //封装初始化每个投注的数组
+    initClickArray(){
+      var clickArr=new Array();
+      for(var i=0;i<6;i++){
+        clickArr[i]=-1;
+        if(i==5){
+          clickArr[i]=0;
+        }
+      }
+      return clickArr;
+    }
+
+    //封装初始化每个不同的个十百千万对应的位置上投注的数字集合
+    initnumsArray(){
+      var numsArr=new Array();
+      for(var i=0;i<5;i++){
+        numsArr=[];
+        this.dingwei_nums.push(numsArr);
+      }
+      return this.dingwei_nums;
+    }
+
     //点击号码生成投注列表
     createTouzhu($event:any){
+      //clickArr[0] 个位  clickArr[1] 十位 clickArr[2] 百位 clickArr[3] 千位 clickArr[4] 万位 clickArr[5] 投注倍数;
+        var clickArr=this.initClickArray();
         var elm = $($event.target);
         //获取点击事件的各个参数
-        var flag = elm.attr("flag");
         var className = elm.attr("class");
-        var num =  elm.text();
+        var num =  parseInt(elm.text());
+
+        //获取输入倍数框
+        //改变加倍
+        $("#inputMultiplier1").css("display","block");
+        $("#inputMultiplier2").css("display","none");
 
         //获取倍数
         this.inputMultiplier = $("#shuru").val();
 
-        //如果是1，表示投注
-        if(flag == 1){
-            elm.css("background-image","url('/assets/img/haoma_red.png')");
-            elm.attr("flag","2");
-            if(className == "wan"){
-                this.total_num.wan_num = this.total_num.wan_num + num + ",";
-            }else if(className == "qian"){
-                this.total_num.qian_num = this.total_num.qian_num + num + ",";
-            }else if(className == "bai"){
-                this.total_num.bai_num = this.total_num.bai_num + num + ",";
-            }else if(className == "shi"){
-                this.total_num.shi_num = this.total_num.shi_num + num + ",";
-            }else if(className == "ge"){
-                this.total_num.ge_num = this.total_num.ge_num + num + ",";
-            }
-
-            //注数
-            this.bet_zhushu ++;
-
-        }else if(flag == 2){
-            elm.css("background-image","url('/assets/img/haoma_green.png')");
-            elm.attr("flag","1");
-            if(className == "wan"){
-                this.total_num.wan_num = (this.total_num.wan_num).replace(num+",","");
-            }else if(className == "qian"){
-                this.total_num.qian_num = (this.total_num.qian_num).replace(num+",","");
-            }else if(className == "bai"){
-                this.total_num.bai_num = (this.total_num.bai_num).replace(num+",","");
-            }else if(className == "shi"){
-                this.total_num.shi_num = (this.total_num.shi_num).replace(num+",","");
-            }else if(className == "ge"){
-                this.total_num.ge_num = (this.total_num.ge_num).replace(num+",","");
-            }
-
-            //注数
-            this.bet_zhushu --;
-
-            //调用添加号码
-            this.addHaomaList(1);
+        //判断是否投错位置
+        var n=this.dingwei_row.indexOf(className);
+        if(n==-1){
+          alert("投注位置错了啊");
+          return;
         }
 
-        //计算累积金钱 = 下号个数 * 投入倍数
-        this.bet_money = this.bet_zhushu * this.inputMultiplier;
+        //[-1,-1,-1,-1,-1,0]
+        //判断是否有添加过
+        if(this.betting_list.length==0){
+          //直接增加投注
+          // for(var j=0;j<this.dingwei_row.length;j++){
+            clickArr[n]=num;
+            clickArr[5]=this.inputMultiplier;
+            this.betting_list.push(clickArr);
+            this.dingwei_nums[n].push(num);
+            //恢复默认数组
+            clickArr=this.initClickArray();
+            //显示就好
+          // }
+        }else{
+          //for(var k=0;k<this.betting_list.length;k++){
+            //for(var j=0;j<5;j++){
+            var countPerNum=this.dingwei_nums[n].length;
+            if(countPerNum>=this.maxNumsPerWeizhi){
+               alert("单个位只能最多投注"+this.maxNumsPerWeizhi+"个不同的数字");
+               return;
+            }
+            if(this.dingwei_nums[n].indexOf(num)>-1){
+              alert("此位对应的数字已经添加过投注,请直接加倍");
+              return;
+            }
+            //}
+            //var n=this.dingwei_row.indexOf(className);
+
+          //}
+          clickArr[n]=num;
+          clickArr[5]=this.inputMultiplier;
+          this.betting_list.push(clickArr);
+          this.dingwei_nums[n].push(num);
+        }
+
+        //投注颜色变红
+        elm.css("background-image","url('/assets/img/haoma_red.png')");
+        //计算金额
+        this.calculateAmount();
     }
 
     //定义输入倍数(针对添加号码用的)
@@ -218,19 +203,12 @@ export class HomePage {
         }
         //赋值
         $("#shuru").val(this.inputMultiplier);
-
-        //计算累积金钱 = 下号个数 * 投入倍数
-        this.zhushu = this.bet_zhushu * this.inputMultiplier;
-        this.money = this.bet_zhushu * this.inputMultiplier;
-
-        this.addHaomaList(2);
     }
 
     //针对某一号码用的
     shurubeishu1(flag:number){
-
         //获取输入框中的参数
-        this.inputMultiplier_back = $("#shuru1").val();
+        this.inputMultiplier_back = parseInt($("#shuru1").val());
 
         if(flag == 1){
             this.inputMultiplier_back --;
@@ -244,198 +222,94 @@ export class HomePage {
         //赋值
         $("#shuru1").val(this.inputMultiplier_back);
 
-        this.addHaomaList(1);
+        this.doubling(this.target_elm,this.doubling_index,2);
     }
 
     //添加列表
-    addHaomaList(flag:number){
-
-        this.inputMultiplier = $("#shuru").val();
-        this.inputMultiplier_back = $("#shuru1").val();
-
-        //判断是否选中号码
-        if(this.total_num.wan_num != "" || flag == 1 || this.jiabei == "wan_num"){
-            this.bet_list.wan_num = [];
-            var wan_nums = (this.total_num.wan_num).split(",");
-            for(var i=0;i<(wan_nums.length) - 1;i++){
-                if(this.jiabei_num == i){
-                    //点击加倍的
-                    this.bet_list.wan_num.push([wan_nums[i],"-","-","-","-",this.inputMultiplier_back,this.inputMultiplier_back]);
-                }else{
-                    this.bet_list.wan_num.push([wan_nums[i],"-","-","-","-",this.inputMultiplier,this.inputMultiplier]);
-                }
-            }
-        }
-        if(this.total_num.qian_num != "" || flag == 1){
-            this.bet_list.qian_num = [];
-            var qian_nums = (this.total_num.qian_num).split(",");
-            for(var i=0;i<(qian_nums.length) - 1;i++){
-                this.bet_list.qian_num.push(["-",qian_nums[i],"-","-","-",this.inputMultiplier,this.inputMultiplier]);
-            }
-        }
-        if(this.total_num.bai_num != "" || flag == 1){
-            this.nums = (this.total_num.bai_num).split(",");
-            for(var i=0;i<(this.nums.length) - 1;i++){
-                this.bet_list.bai_num.push(["-","-",this.nums[i],"-","-",this.inputMultiplier,this.inputMultiplier]);
-            }
-        }
-        if(this.total_num.shi_num != "" || flag == 1){
-            this.nums = (this.total_num.shi_num).split(",");
-            for(var i=0;i<(this.nums.length) - 1;i++){
-                this.bet_list.shi_num.push(["-","-","-",this.nums[i],"-",this.inputMultiplier,this.inputMultiplier]);
-            }
-        }
-
-        if(this.total_num.ge_num != "" || flag == 1){
-            this.nums = (this.total_num.ge_num).split(",");
-            for(var i=0;i<(this.nums.length) - 1;i++){
-              this.bet_list.ge_num.push(["-","-","-","-",this.nums[i],this.inputMultiplier,this.inputMultiplier]);
-            }
-        }
-
-        //计算总注数 和总金额
-        this.total_zhushu = this.bet_zhushu * this.inputMultiplier;
-        this.total_money = this.bet_zhushu * this.inputMultiplier;
-        this.zhushu = this.bet_zhushu * this.inputMultiplier;
-        this.money = this.bet_zhushu * this.inputMultiplier;
+    addBettingList(){
+        this.betting_list_display = this.betting_list;
+        this.calculateAmount();
     }
 
     //删除号码
-    delHaoma($event:any,num:number,beishu:number){
-        var elm = $($event.target);
-        //为点击事件设置背景
-        var flag = elm.attr("flag");
-        console.log(beishu);
-        // console.log(elm.parent().next().text());
-        if("wan_num" == flag){
-            $("#wan_"+num).css("background-image","url('/assets/img/haoma_green.png')");
-            $("#wan_"+num).attr("flag","1");
-            //$(".wan").get(num).css("background-image","url('/assets/img/haoma_green.png')");
-            //$(".wan").get(num).attr("flag","1");
-            this.total_num.wan_num = (this.total_num.wan_num).replace(num+",","");
-            this.bet_zhushu --;
-            this.addHaomaList(1);
+    delBettingRow(index:number){
+        //新的
+      var del_betting_list_row=this.betting_list[index];
+      for(var i=0;i<del_betting_list_row.length-1;i++){
+        if(del_betting_list_row[i]!=-1){
+            if(i==4){
+              $("#wan_"+del_betting_list_row[i]).css("background-image","url('/assets/img/haoma_green.png')");
+            }else if(i==3){
+              $("#qian_"+del_betting_list_row[i]).css("background-image","url('/assets/img/haoma_green.png')");
+            }else if(i==2){
+              $("#bai_"+del_betting_list_row[i]).css("background-image","url('/assets/img/haoma_green.png')");
+            }else if(i==1){
+              $("#shi_"+del_betting_list_row[i]).css("background-image","url('/assets/img/haoma_green.png')");
+            }else if(i==0){
+              $("#ge_"+del_betting_list_row[i]).css("background-image","url('/assets/img/haoma_green.png')");
+            }
+            //console.log("定位数前:"+this.dingwei_nums);
+            var n = this.dingwei_nums[i].indexOf(parseInt(del_betting_list_row[i]));
+            this.dingwei_nums[i].splice(n,1);
+            //console.log("定位数后:"+this.dingwei_nums);
+            this.betting_list.splice(index,1);
+            break;
         }
+      }
+
+      this.calculateAmount();
     }
 
     //点击加倍数（接着昨天做）
-    jiabeishu($event:any,flag:string,num:string,num1:string){
+    doubling($event:any,index:number,flag:number){
         //改变加倍
         $("#inputMultiplier1").css("display","none");
         $("#inputMultiplier2").css("display","block");
         //获取点击事件
-        var elm = $($event.target);
-        elm.parent().siblings("tr").css("background-color","");
-        elm.parent().css("background-color","#95928E");
-        this.jiabei = flag;
-        var str = num+"_"+num1;
-        this.jiabei_num.push(str);
-        $("#shuru1").val(num1);
+        this.doubling_index = index;
+        this.target_elm = $($event.target);
+        this.target_elm.parent().siblings("tr").css("background-color","");
+        this.target_elm.parent().css("background-color","#95928E");
+
+        //新的
+        var betting_row =this.betting_list[index] ;
+        if(flag == 2){
+            //获取倍数
+            betting_row[5] = parseInt($("#shuru1").val());
+        }
+        //赋值给加倍框
+        $("#shuru1").val(betting_row[5]);
+
+        //计算金额
+        this.calculateAmount();
     }
 
-
-
-    orderStatistics(){
-      this.httpService.get({
-            url:'/homePage/orderStatistics',
-            data:[]
-      }).subscribe((data:any)=>{
-            if(data.code === "0000"){
-                this.orderStatisticsCount=Utils.copyObject(data.data);
-            }
-      });
-      this.httpService.get({
-            url:'/homePage/operationStatistics',
-            data:[]
-      }).subscribe((data:any)=>{
-            if(data.code === "0000"){
-                this.userCount=Utils.copyObject(data.data);
-            }
-      });
-      this.reportAjax('10');
-
-
-      this.httpService.get({
-            url:'/homePage/coinManage',
-            data:[]
-      }).subscribe((data:any)=>{
-            if(data.code === "0000"){
-                this.coinManage=Utils.copyObject(data.data);
-            }
-      });
-      //获取当日币种交易总数
-
-
-
-
-
+    //计算投注总金额
+    calculateAmount(){
+      this.sumMoney = 0;
+      for(var i=0;i<this.betting_list.length;i++){
+        this.sumMoney = this.sumMoney + parseInt(this.betting_list[i][5]);
+      }
+      return this.sumMoney;
     }
 
-    reportAjax(orderType:string){
-      this.httpService.get({
-            url:'/homePage/reportStatistics',
-            data:{
-              orderType:orderType
-            }
-      }).subscribe((data:any)=>{
-            if(data.code === "0000"){
-                this.highChartOptions.series=data.data;
-                this.report(orderType);
-            }
-      });
+    //清空列表
+    clearBetList(){
+        //循环变颜色
+        for(var i=0;i<10;i++){
+          $("#wan_"+i).css("background-image","url('/assets/img/haoma_green.png')");
+          $("#qian_"+i).css("background-image","url('/assets/img/haoma_green.png')");
+          $("#bai_"+i).css("background-image","url('/assets/img/haoma_green.png')");
+          $("#shi_"+i).css("background-image","url('/assets/img/haoma_green.png')");
+        }
+
+        //清除列表
+        this.betting_list.splice(0,this.betting_list.length);
+        this.dingwei_nums.splice(0,this.dingwei_nums.length);
+        //console.log(this.betting_list.length);
+        //初始化
+        this.initnumsArray();
+        this.sumMoney = 0;
     }
-
-    report(orderType:string){
-      var type:string="";
-      if(orderType=="10"){
-          type="充值/提现";
-      }else if(orderType=="20"){
-          type="转账/收款";
-      }
-      this.highChartOptions.chart={};
-      this.highChartOptions.chart.type="column";
-      this.highChartOptions.title={};
-      this.highChartOptions.title.text="最近6个月"+type+"金额";
-      this.highChartOptions.xAxis={};
-      this.highChartOptions.xAxis.type="category";
-      this.highChartOptions.yAxis={};
-      this.highChartOptions.yAxis.title={};
-      this.highChartOptions.yAxis.title.text=type+"成功金额";
-      this.highChartOptions.legend={};
-      this.highChartOptions.legend.enabled=false;
-      this.highChartOptions.credits={};
-      this.highChartOptions.credits.enabled=false;
-      this.highChartOptions.plotOptions={};
-      this.highChartOptions.plotOptions.series={};
-      this.highChartOptions.plotOptions.series.borderWidth=0;
-      this.highChartOptions.plotOptions.series.dataLabels={};
-      this.highChartOptions.plotOptions.series.dataLabels.enabled=false;
-      this.highChartOptions.plotOptions.series.dataLabels.format="{point.y:.1f}";
-      this.highChartOptions.tooltip={};
-      this.highChartOptions.tooltip.headerFormat="";
-      this.highChartOptions.tooltip.pointFormat="<span style='color:{point.color}'>{point.name}月</span>:<b>{point.y:.2f}</b>"+type+"金额<br/>";
-      Highcharts.chart("container",homePage.highChartOptions);
-    }
-
-    href(type:string){
-      var strDate:string=this.utils.formatDate(this.showTime,'yyyy-MM-dd');
-      if("1"==type){
-          this.router.navigate(['/common/main/transaction/transfer'],{relativeTo: this.aroute,queryParams: { startTime: strDate,endTime:strDate }});
-      }
-      if("2"==type){
-          this.router.navigate(['/common/main/transaction/rechargeOrder'],{relativeTo: this.aroute,queryParams: { state:10 }});
-      }
-      if("3"==type){
-          this.router.navigate(['/common/main/transaction/withdrawOrder'],{relativeTo: this.aroute,queryParams: { state:10 }});
-      }
-      if("4"==type){
-          this.router.navigate(['/common/main/transaction/stbForward'],{relativeTo: this.aroute,queryParams: { startTime: strDate,endTime:strDate }});
-      }
-      if("5"==type){
-          this.router.navigate(['/common/main/transaction/coinCurrencyRecord']);
-      }
-    }
-
-
 
 }

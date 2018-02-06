@@ -183,6 +183,7 @@
                     display:inline-block;
                     background-image: url("/assets/pkImg/haoma_yellow.png");
                     background-repeat:no-repeat;
+                    cursor: pointer;
                 }
             }
         }
@@ -228,6 +229,7 @@
           display:inline-block;
           background-image: url("/assets/img/addhaoma.png");
           background-repeat:no-repeat;
+          cursor: pointer;
         }
     }
 
@@ -248,7 +250,7 @@
               .touzhu_table{
                 color: white;
                 th{
-                  width:80px;
+                  width:50px;
                   height:35px;
                   text-align: center;
                 }
@@ -272,6 +274,7 @@
               margin-left:-200px;
               border-radius:80px;
               background-color: #1FA0AE;
+              cursor: pointer;
             }
             .content-tab_4_2_2{
               width:180px;
@@ -399,7 +402,7 @@
         width: 1000px;
         height:700px;
         border: 1px solid green;
-        background-color: #5331da;
+        background-color: #76E3FA;
         .pkshiping{
             margin-top:40px;
             margin-left:25px;

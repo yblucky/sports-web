@@ -11,13 +11,13 @@
                 <p style="margin-top:-85px;margin-left:55px;color:white;">离封盘时间</p>
             </div>
             <div class="row-tab_2_2">
-                <div style="color:white;font-size:36px;margin-top:-25px;">00 : 30</div>
+                <div style="color:white;font-size:36px;margin-top:-25px;">0<span *ngIf="fengpan_feng">{{fengpan_feng}}</span> : <span *ngIf="fengpan_miao">{{fengpan_miao}}</span></div>
             </div>
             <div class="row-tab_2_3">
                 <p style="color:white;margin-top:10px;">开奖时间</p>
             </div>
             <div class="row-tab_2_4">
-                <div style="color:white;font-size:36px;margin-top:-25px;">05 : 30</div>
+                <div style="color:white;font-size:36px;margin-top:-25px;"><span *ngIf="openTime">{{ openTime | date:'HH' }}</span> : <span *ngIf="openTime">{{ openTime | date:'mm'}}</span></div>
             </div>
         </div>
 
@@ -35,7 +35,6 @@
     </div>
 
     <div class="content-div">
-
         <!-- 定位组 -->
         <div class="content-tab_1">
             <div class="content-tab_1_1">定位组</div>
@@ -51,70 +50,70 @@
             <div class="content-tab_2_1">
                 <div class="diwei">冠</div>
                 <ul class="haoma" *ngFor="let haoma of haomas; let i = index">
-                    <li class="one">{{haoma}}</li>
+                    <li class="one" id="one_{{i}}" (click)='createTouzhu($event)'>{{haoma}}</li>
                 </ul>
             </div>
 
             <div class="content-tab_2_1">
                 <div class="diwei">亚</div>
                 <ul class="haoma" *ngFor="let haoma of haomas; let i = index">
-                    <li class="two">{{haoma}}</li>
+                    <li class="two" id="two_{{i}}" (click)='createTouzhu($event)'>{{haoma}}</li>
                 </ul>
             </div>
 
             <div class="content-tab_2_1">
                 <div class="diwei">季</div>
                 <ul class="haoma" *ngFor="let haoma of haomas; let i = index">
-                    <li class="three">{{haoma}}</li>
+                    <li class="three" id="three_{{i}}" (click)='createTouzhu($event)'>{{haoma}}</li>
                 </ul>
             </div>
 
             <div class="content-tab_2_1">
                 <div class="diwei">四</div>
                 <ul class="haoma" *ngFor="let haoma of haomas; let i = index">
-                    <li class="four">{{haoma}}</li>
+                    <li class="four" id="four_{{i}}" (click)='createTouzhu($event)'>{{haoma}}</li>
                 </ul>
             </div>
 
             <div class="content-tab_2_1">
                 <div class="diwei">五</div>
                 <ul class="haoma" *ngFor="let haoma of haomas; let i = index">
-                    <li class="five">{{haoma}}</li>
+                    <li class="five" id="five_{{i}}" (click)='createTouzhu($event)'>{{haoma}}</li>
                 </ul>
             </div>
 
             <div class="content-tab_2_1">
                 <div class="diwei">六</div>
                 <ul class="haoma" *ngFor="let haoma of haomas; let i = index">
-                    <li class="six">{{haoma}}</li>
+                    <li class="six" id="six_{{i}}" (click)='createTouzhu($event)'>{{haoma}}</li>
                 </ul>
             </div>
 
             <div class="content-tab_2_1">
                 <div class="diwei">七</div>
                 <ul class="haoma" *ngFor="let haoma of haomas; let i = index">
-                    <li class="seveen">{{haoma}}</li>
+                    <li class="seveen" id="seveen_{{i}}" (click)='createTouzhu($event)'>{{haoma}}</li>
                 </ul>
             </div>
 
             <div class="content-tab_2_1">
                 <div class="diwei">八</div>
                 <ul class="haoma" *ngFor="let haoma of haomas; let i = index">
-                    <li class="eight">{{haoma}}</li>
+                    <li class="eight" id="eight_{{i}}" (click)='createTouzhu($event)'>{{haoma}}</li>
                 </ul>
             </div>
 
             <div class="content-tab_2_1">
                 <div class="diwei">九</div>
                 <ul class="haoma" *ngFor="let haoma of haomas; let i = index">
-                    <li class="nine">{{haoma}}</li>
+                    <li class="nine" id="nine_{{i}}" (click)='createTouzhu($event)'>{{haoma}}</li>
                 </ul>
             </div>
 
             <div class="content-tab_2_1">
                 <div class="diwei">十</div>
                 <ul class="haoma" *ngFor="let haoma of haomas; let i = index">
-                    <li class="ten">{{haoma}}</li>
+                    <li class="ten" id="ten_{{i}}" (click)='createTouzhu($event)'>{{haoma}}</li>
                 </ul>
             </div>
         </div>
@@ -122,11 +121,24 @@
         <!-- 输入倍数 -->
         <div class="content-tab_3">
             <span class="content-tab_3_1" style="margin-left:20px;">输入倍数</span>
-            <span class="content-tab_3_1"><img src="/assets/img/jian.png" /></span>
-            <div class="shurukuang">0</div>
-            <span class="content-tab_3_1"><img src="/assets/img/jia.png" /></span>
-            <span class="content-tab_3_1">你选择了<span style="color:#F8F806;">1</span>注，共计<span style="color:#F8F806;">0.1</span>元</span>
-            <div class="content-tab_3_2">添加号码</div>
+            <!-- 针对添加号码用的 -->
+            <span id="inputMultiplier1">
+                <span class="content-tab_3_1"><img src="/assets/img/jian.png" (click)='shurubeishu(1)' style="cursor:pointer;" /></span>
+                <div class="shurukuang">
+                    <input id="shuru" type="text" value="1" size="7" style="text-align:center;border:0px;color:black;" (change)='shurubeishu(3)' />
+                </div>
+                <span class="content-tab_3_1"><img src="/assets/img/jia.png" (click)='shurubeishu(2)' style="cursor:pointer;"/></span>
+            </span>
+            <!-- 针对对某一号码加倍用的 -->
+            <span id="inputMultiplier2" style="display:none;">
+                <span class="content-tab_3_1"><img src="/assets/img/jian.png" (click)='shurubeishu1(1)' style="cursor:pointer;" /></span>
+                <div class="shurukuang">
+                    <input id="shuru1" type="text" value="1" size="7" style="text-align:center;border:0px;color:black;" (change)='shurubeishu1(3)' />
+                </div>
+                <span class="content-tab_3_1"><img src="/assets/img/jia.png" (click)='shurubeishu1(2)' style="cursor:pointer;"/></span>
+            </span>
+            <span class="content-tab_3_1">你选择了<span style="color:#F8F806;" ng-app="">{{sumMoney}}</span>注，共计<span style="color:#F8F806;" ng-app="">{{sumMoney}}</span>元</span>
+            <div class="content-tab_3_2" (click)='addBettingList()'>添加号码</div>
         </div>
 
         <!-- 投注列表 -->
@@ -136,33 +148,45 @@
                     <table class="touzhu_table">
                           <thead>
                               <tr>
-                                  <th>万</th>
-                                  <th>千</th>
-                                  <th>百</th>
+                                  <th>冠</th>
+                                  <th>亚</th>
+                                  <th>季</th>
+                                  <th>四</th>
+                                  <th>五</th>
+                                  <th>六</th>
+                                  <th>七</th>
+                                  <th>八</th>
+                                  <th>九</th>
                                   <th>十</th>
-                                  <th>个</th>
-                                  <th>投注倍数</th>
-                                  <th>投注金额</th>
+                                  <th style="width:70px;">投注倍数</th>
+                                  <th style="width:70px;">投注金额</th>
                                   <th></th>
                               </tr>
                           </thead>
                           <tbody>
-                              <tr>
-                                  <td>-</td>
-                                  <td>-</td>
-                                  <td>-</td>
-                                  <td>-</td>
-                                  <td>-</td>
-                                  <td>10</td>
-                                  <td>20</td>
-                                  <td><img src="/assets/img/shanchu.png" /></td>
+                              <tr style="cursor:pointer;" (click)="doubling($event,i,1)" *ngFor="let num of this.betting_list_display; let i = index">
+                              <!-- <tr *ngFor="let num of this.bet_list.wan_num; let i = index"> -->
+                                  <td>{{num[0]}}</td>
+                                  <td>{{num[1]}}</td>
+                                  <td>{{num[2]}}</td>
+                                  <td>{{num[3]}}</td>
+                                  <td>{{num[4]}}</td>
+                                  <td>{{num[5]}}</td>
+                                  <td>{{num[6]}}</td>
+                                  <td>{{num[7]}}</td>
+                                  <td>{{num[8]}}</td>
+                                  <td>{{num[9]}}</td>
+                                  <td>{{num[10]}}</td>
+                                  <td>{{num[10]}}</td>
+                                  <td><img (click)="delBettingRow(i)" src="/assets/img/shanchu.png" style="cursor:pointer;" /></td>
+                                  <!-- <td style="display:none;">{{i}}</td> -->
                               </tr>
                           </tbody>
                           <tfoot>
                               <tr>
-                                  <td colspan="5" style="text-align:right">合计：</td>
-                                  <td>10</td>
-                                  <td>20</td>
+                                  <td colspan="10" style="text-align:right">合计：</td>
+                                  <td ng-app="">{{sumMoney}}</td>
+                                  <td ng-app="">{{sumMoney}}</td>
                                   <td></td>
                               </tr>
                           </tfoot>
@@ -172,7 +196,7 @@
 
             <!-- 投注按钮 -->
             <div class="content-tab_4_2">
-                <div class="content-tab_4_2_1">清空列表</div>
+                <div class="content-tab_4_2_1" (click) = "clearBetList()">清空列表</div>
                 <div class="content-tab_4_2_2">马上投注</div>
                 <div class="content-tab_4_2_3"><img src="/assets/pkImg/kaijiangshiping.png" /></div>
             </div>

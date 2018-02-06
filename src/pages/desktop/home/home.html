@@ -63,35 +63,35 @@
             <div class="content-tab_2_1">
                 <div class="diwei">万位</div>
                 <ul class="haoma" *ngFor="let haoma of haomas; let i = index">
-                    <li class="wan" id="wan_{{i}}" flag="1" (click)='createTouzhu($event)'>{{haoma}}</li>
+                    <li class="wan" id="wan_{{i}}" (click)='createTouzhu($event)'>{{haoma}}</li>
                 </ul>
             </div>
 
             <div class="content-tab_2_1">
                 <div class="diwei">千位</div>
                 <ul class="haoma" *ngFor="let haoma of haomas; let i = index">
-                    <li class="qian" flag="1" (click)='createTouzhu($event)'>{{haoma}}</li>
+                    <li class="qian" id="qian_{{i}}" (click)='createTouzhu($event)'>{{haoma}}</li>
                 </ul>
             </div>
 
             <div class="content-tab_2_1">
                 <div class="diwei">百位</div>
                 <ul class="haoma" *ngFor="let haoma of haomas; let i = index">
-                    <li class="bai">{{haoma}}</li>
+                    <li class="bai" id="bai_{{i}}" (click)='createTouzhu($event)'>{{haoma}}</li>
                 </ul>
             </div>
 
             <div class="content-tab_2_1">
                 <div class="diwei">十位</div>
                 <ul class="haoma" *ngFor="let haoma of haomas; let i = index">
-                    <li class="shi">{{haoma}}</li>
+                    <li class="shi" id="shi_{{i}}" (click)='createTouzhu($event)'>{{haoma}}</li>
                 </ul>
             </div>
 
             <div class="content-tab_2_1">
                 <div class="diwei">个位</div>
                 <ul class="haoma" *ngFor="let haoma of haomas; let i = index">
-                    <li class="ge">{{haoma}}</li>
+                    <li class="ge" id="ge_{{i}}" (click)='createTouzhu($event)'>{{haoma}}</li>
                 </ul>
             </div>
         </div>
@@ -115,8 +115,8 @@
                 </div>
                 <span class="content-tab_3_1"><img src="/assets/img/jia.png" (click)='shurubeishu1(2)' style="cursor:pointer;"/></span>
             </span>
-            <span class="content-tab_3_1">你选择了<span style="color:#F8F806;" ng-app="">{{zhushu}}</span>注，共计<span style="color:#F8F806;" ng-app="">{{money}}</span>元</span>
-            <div class="content-tab_3_2" (click)='addHaomaList(2)'>添加号码</div>
+            <span class="content-tab_3_1">你选择了<span style="color:#F8F806;" ng-app="">{{sumMoney}}</span>注，共计<span style="color:#F8F806;" ng-app="">{{sumMoney}}</span>元</span>
+            <div class="content-tab_3_2" (click)='addBettingList()'>添加号码</div>
         </div>
 
         <!-- 投注列表 -->
@@ -126,75 +126,35 @@
                     <table class="touzhu_table">
                           <thead>
                               <tr>
-                                  <th>万</th>
-                                  <th>千</th>
-                                  <th>百</th>
-                                  <th>十</th>
                                   <th>个</th>
+                                  <th>十</th>
+                                  <th>百</th>
+                                  <th>千</th>
+                                  <th>万</th>
                                   <th>投注倍数</th>
                                   <th>投注金额</th>
                                   <th></th>
                               </tr>
                           </thead>
                           <tbody>
-                              <!-- <tr (click)="jiabeishu($event,'wan_num',i,num[5])" *ngFor="let num of this.bet_list.wan_num; let i = index"> -->
-                              <tr *ngFor="let num of this.bet_list.wan_num; let i = index">
+                              <tr style="cursor:pointer;" (click)="doubling($event,i,1)" *ngFor="let num of this.betting_list_display; let i = index">
+                              <!-- <tr *ngFor="let num of this.bet_list.wan_num; let i = index"> -->
                                   <td>{{num[0]}}</td>
                                   <td>{{num[1]}}</td>
                                   <td>{{num[2]}}</td>
                                   <td>{{num[3]}}</td>
                                   <td>{{num[4]}}</td>
                                   <td>{{num[5]}}</td>
-                                  <td>{{num[6]}}</td>
-                                  <td><img flag="wan_num" (click)="delHaoma($event,num[0],num[6])" src="/assets/img/shanchu.png" style="cursor:pointer;" /></td>
+                                  <td>{{num[5]}}</td>
+                                  <td><img (click)="delBettingRow(i)" src="/assets/img/shanchu.png" style="cursor:pointer;" /></td>
                                   <!-- <td style="display:none;">{{i}}</td> -->
-                              </tr>
-                              <tr *ngFor="let num of this.bet_list.qian_num; let i = index">
-                                  <td>{{num[0]}}</td>
-                                  <td>{{num[1]}}</td>
-                                  <td>{{num[2]}}</td>
-                                  <td>{{num[3]}}</td>
-                                  <td>{{num[4]}}</td>
-                                  <td>{{num[5]}}</td>
-                                  <td>{{num[6]}}</td>
-                                  <td><img src="/assets/img/shanchu.png" /></td>
-                              </tr>
-                              <tr *ngFor="let num of this.bet_list.bai_num; let i = index">
-                                  <td>{{num[0]}}</td>
-                                  <td>{{num[1]}}</td>
-                                  <td>{{num[2]}}</td>
-                                  <td>{{num[3]}}</td>
-                                  <td>{{num[4]}}</td>
-                                  <td>{{num[5]}}</td>
-                                  <td>{{num[6]}}</td>
-                                  <td><img src="/assets/img/shanchu.png" /></td>
-                              </tr>
-                              <tr *ngFor="let num of this.bet_list.shi_num; let i = index">
-                                  <td>{{num[0]}}</td>
-                                  <td>{{num[1]}}</td>
-                                  <td>{{num[2]}}</td>
-                                  <td>{{num[3]}}</td>
-                                  <td>{{num[4]}}</td>
-                                  <td>{{num[5]}}</td>
-                                  <td>{{num[6]}}</td>
-                                  <td><img src="/assets/img/shanchu.png" /></td>
-                              </tr>
-                              <tr *ngFor="let num of this.bet_list.ge_num; let i = index">
-                                  <td>{{num[0]}}</td>
-                                  <td>{{num[1]}}</td>
-                                  <td>{{num[2]}}</td>
-                                  <td>{{num[3]}}</td>
-                                  <td>{{num[4]}}</td>
-                                  <td>{{num[5]}}</td>
-                                  <td>{{num[6]}}</td>
-                                  <td><img src="/assets/img/shanchu.png" /></td>
                               </tr>
                           </tbody>
                           <tfoot>
                               <tr>
                                   <td colspan="5" style="text-align:right">合计：</td>
-                                  <td ng-app="">{{total_zhushu}}</td>
-                                  <td ng-app="">{{total_money}}</td>
+                                  <td ng-app="">{{sumMoney}}</td>
+                                  <td ng-app="">{{sumMoney}}</td>
                                   <td></td>
                               </tr>
                           </tfoot>
@@ -204,7 +164,7 @@
 
             <!-- 投注按钮 -->
             <div class="content-tab_4_2">
-                <div class="content-tab_4_2_1">清空列表</div>
+                <div class="content-tab_4_2_1" (click) = "clearBetList()">清空列表</div>
                 <div class="content-tab_4_2_2">马上投注</div>
             </div>
         </div>
