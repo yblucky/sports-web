@@ -11,13 +11,15 @@ import { MainPage } from './main/main';
 //我的桌面
 import { HomePage } from '../desktop/home/home';
 import { TousuPage } from '../desktop/tousu/tousu';
+import { UserOrderPage } from '../desktop/userOrder/userOrder';
 
 @NgModule({
     declarations: [
         LoginPage,
         MainPage,
         HomePage,
-        TousuPage
+        TousuPage,
+        UserOrderPage
     ],
     imports: [
         BrowserModule,
