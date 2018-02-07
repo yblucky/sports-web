@@ -23,16 +23,16 @@ export class HomePage {
     showTime:any = new Date();
     //定义号码
     haomas:any = [0,1,2,3,4,5,6,7,8,9];
-    kaijianghaoma:any = [5,3,4,1,2];
+    lotteryList:any = [];
 
     //定义开奖时间
     openTime: any;
     //定义当前期数
     currentIssuNo:any;
     //定义下期期数
-    nextIssuNo:any;
-    diff:any;
-    shijian:any;
+    lotteryInfo:any;
+    //定义定时器
+    timer:any;
 
     //定义封盘时间的分
     fengpan_feng:any = 2;
@@ -82,75 +82,101 @@ export class HomePage {
             Utils.show("系统异常，请联系管理员");
         }
       });
-
-    }
-
-
-    //初始化开奖时间
-    initOpenTime(){
-      // this.shijian = new Date(this.openTime);
-      // this.shijian = this.shijian.valueOf();
-      // this.diff = this.shijian - Date.now();
-      // this.diff = this.diff / 1000;
-      // this.diff = Math.floor(this.diff / 3600);
-      // console.log(this.diff);
-      // this.fengpan_feng = Math.floor((this.diff % 3600) / 60);
-      // this.fengpan_miao = (this.diff % 3600) % 60;
-      // console.log(this.diff);
-      // this.diff = shijian.valueOf() - Date.valueOf();
-      // console.log(this.diff);
-      // var timer = setInterval(() => {
-      //     this.diff = this.openTime - Date.valueOf();
-      //     console.log(this.openTime + "-" + Date.now() + "=" +this.diff);
-      //     this.diff = Math.floor(this.diff / 1000);
-      //     this.openHour = Math.floor(this.diff / 3600);
-      //     this.openMinute = Math.floor((this.diff % 3600) / 60);
-      // }, 1000);
-
-
-
     }
 
     //封盘时间倒计时
     init(){
-      this.currentIssuNo = this.dataInfo.historyIssuNo;
-      this.nextIssuNo = this.dataInfo.nextIssuNo;
-      this.openTime = this.dataInfo.bettingOpen;
-      //计算封盘时间
-      var diff = this.dataInfo.restTime;
-      var timer;
-      if(diff != 0){
-          diff = diff / 1000;
-          this.fengpan_feng = Math.floor(diff/ 60);
-          this.fengpan_miao = Math.floor(diff % 60);
-          timer = setInterval(() => {
-              this.fengpan_miao = this.fengpan_miao - 1;
-              //如果秒减完，就减分
-              if(this.fengpan_miao == 0){
-                  this.fengpan_feng = this.fengpan_feng - 1;
-                  this.fengpan_miao = 60;
-                  //如果分也减完，那就重新赋值
-              }
-          }, 1000);
-      }else{
-          clearInterval(timer);
-      }
+        this.currentIssuNo = this.dataInfo.historyIssuNo;
+        this.lotteryInfo = this.dataInfo.appTimeLotteryPo;
+        this.openTime = this.dataInfo.bettingOpen;
 
-      if(this.fengpan_feng <= -1){
-         clearInterval(timer);
-      }
+        //计算开奖号码
+        this.lotteryList = new Array();
+        this.lotteryList.push(this.lotteryInfo.lotteryOne);
+        this.lotteryList.push(this.lotteryInfo.lotteryTwo);
+        this.lotteryList.push(this.lotteryInfo.lotteryThree);
+        this.lotteryList.push(this.lotteryInfo.lotteryFour);
+        this.lotteryList.push(this.lotteryInfo.lotteryFive);
 
-      // var bettingStart = this.dataInfo.start;
-      // var bettingEnd = this.dataInfo.end;
-      // var diff = bettingEnd - bettingStart;
-      // diff = diff / 1000;
-      // diff = Math.floor(diff / 3600);
-      // this.fengpan_feng = Math.floor((diff % 3600) / 60);
-      // this.fengpan_miao = (diff % 3600) % 60;
-
-
+        //计算封盘时间
+        var diff = this.dataInfo.restTime;
+        if(diff != 0){
+            diff = diff / 1000;
+            this.fengpan_feng = Math.floor(diff/ 60);
+            this.fengpan_miao = Math.floor(diff % 60);
+            this.timer = setInterval(() => {
+                this.fengpan_miao = this.fengpan_miao - 1;
+                //如果秒减完，就减分
+                if(this.fengpan_miao == 0){
+                    this.fengpan_feng = this.fengpan_feng - 1;
+                    this.fengpan_miao = 60;
+                    //如果分也减完，那就重新赋值
+                    if(this.fengpan_feng == -1){
+                       clearInterval(this.timer);
+                       this.fengpan_feng = 0;
+                       this.fengpan_miao = 0;
+                       return;
+                    }
+                }
+            }, 1000);
+        }else{
+            clearInterval(this.timer);
+        }
     }
 
+
+    //投注
+    bettingSubmit(){
+        var row={
+            lotteryOne:"",
+            lotteryTwo:"",
+            lotteryThree:"",
+            lotteryFour:"",
+            lotteryFive:"",
+            multiple:"",
+        };
+
+        var subData={
+          issueNo:this.dataInfo.historyIssuNo,
+          serialNumber:this.dataInfo.currentIssueNo,
+          payPwd:"123456",
+          timeList:new Array()
+        };
+
+        for(var i=0;i<this.betting_list.length;i++){
+          row.lotteryOne=this.betting_list[i][0];
+          row.lotteryTwo=this.betting_list[i][1];
+          row.lotteryThree=this.betting_list[i][2];
+          row.lotteryFour=this.betting_list[i][3];
+          row.lotteryFive=this.betting_list[i][4];
+          row.multiple=this.betting_list[i][5];
+          subData.timeList.push(row);
+        }
+        console.log("subData:"+subData)
+        if(this.validator()){
+            this.httpService.post({
+                url:'/time/timebetting',
+                data:subData
+            }).subscribe((data:any)=>{
+                if(data.code==='0000'){
+                    alert(data.message);
+                }else if(data.code==='9999'){
+                    Utils.show(data.message);
+                }else{
+                    Utils.show("登录失败，请联系管理员");
+                }
+            });
+        }
+    }
+
+    //验证表单数据
+    validator(){
+        if(Utils.isEmpty(this.betting_list)){
+            alert("你没有下注");
+            return false;
+        }
+        return true;
+    }
 
     //封装初始化每个投注的数组
     initClickArray(){

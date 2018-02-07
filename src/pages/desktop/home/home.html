@@ -7,11 +7,11 @@
 
         <div class="row-tab_2">
             <div class="row-tab_2_1">
-                <p style="color:#2396DB;" *ngIf="currentIssuNo">第{{nextIssuNo}}期</p>
+                <p style="color:#2396DB;" *ngIf="currentIssuNo">第{{currentIssuNo}}期</p>
                 <p style="margin-top:-85px;margin-left:55px;color:white;">离封盘时间</p>
             </div>
             <div class="row-tab_2_2">
-                <div style="color:white;font-size:36px;margin-top:-25px;">0<span *ngIf="fengpan_feng">{{fengpan_feng}}</span> : <span *ngIf="fengpan_miao">{{fengpan_miao}}</span></div>
+                <div style="color:white;font-size:36px;margin-top:-25px;">0<span ng-app="">{{fengpan_feng}}</span> : <span ng-app=""><span *ngIf="fengpan_miao < 10">0</span>{{fengpan_miao}}</span></div>
             </div>
             <div class="row-tab_2_3">
                 <p style="color:white;margin-top:10px;">开奖时间</p>
@@ -23,24 +23,24 @@
 
         <div class="row-tab_3">
             <div class="row-tab_3_1">
-                <p style="color:#B6C0B2;" *ngIf="nextIssuNo">第{{currentIssuNo}}期</p>
+                <p style="color:#B6C0B2;" *ngIf="currentIssuNo">第{{currentIssuNo}}期</p>
                 <p style="margin-top:-85px;margin-left:65px;color:white;">开奖号码</p>
             </div>
-            <div class="row-tab_3_2" *ngIf="kaijianghaoma">
+            <div class="row-tab_3_2" *ngIf="lotteryList">
                 <div class="row-tab_3_2_1" style="margin-left:130px;">
-                  <div style="color:black;font-size:24px;margin-top:-30px;">{{kaijianghaoma[0]}}</div>
+                  <div style="color:black;font-size:24px;margin-top:-30px;">{{lotteryList[0]}}</div>
                 </div>
                 <div class="row-tab_3_2_1">
-                  <div style="color:black;font-size:24px;margin-top:-30px;">{{kaijianghaoma[1]}}</div>
+                  <div style="color:black;font-size:24px;margin-top:-30px;">{{lotteryList[1]}}</div>
                 </div>
                 <div class="row-tab_3_2_1">
-                  <div style="color:black;font-size:24px;margin-top:-30px;">{{kaijianghaoma[2]}}</div>
+                  <div style="color:black;font-size:24px;margin-top:-30px;">{{lotteryList[2]}}</div>
                 </div>
                 <div class="row-tab_3_2_1">
-                  <div style="color:black;font-size:24px;margin-top:-30px;">{{kaijianghaoma[3]}}</div>
+                  <div style="color:black;font-size:24px;margin-top:-30px;">{{lotteryList[3]}}</div>
                 </div>
                 <div class="row-tab_3_2_1">
-                  <div style="color:black;font-size:24px;margin-top:-30px;">{{kaijianghaoma[4]}}</div>
+                  <div style="color:black;font-size:24px;margin-top:-30px;">{{lotteryList[4]}}</div>
                 </div>
             </div>
         </div>
@@ -165,7 +165,7 @@
             <!-- 投注按钮 -->
             <div class="content-tab_4_2">
                 <div class="content-tab_4_2_1" (click) = "clearBetList()">清空列表</div>
-                <div class="content-tab_4_2_2">马上投注</div>
+                <div class="content-tab_4_2_2" (click) = "bettingSubmit()">马上投注</div>
             </div>
         </div>
 
