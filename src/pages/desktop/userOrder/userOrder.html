@@ -1,20 +1,12 @@
 
 <!--搜索区域-->
 <div class="search-box">
-      游戏类型: <select [(ngModel)]="find.gameType" >
-                    <option value="10">北京塞车</option>
-                    <option value="20">重庆时时彩</option>
+      游戏类型: <select [(ngModel)]="find.busnessType" >
+                    <option value="31">北京塞车</option>
+                    <option value="21">重庆时时彩</option>
               </select>
-      期号: <input [(ngModel)]="find.issueNo" style="width: 170px" ng-trim="false"/>
       会员uid: <input [(ngModel)]="find.uid" />
       手机:<input [(ngModel)]="find.mobile"  style="width: 130px"/>
-      状态:
-      <select [(ngModel)]="find.lotteryFlag" >
-            <option value="">全部</option>
-            <option value="10">未开奖结算</option>
-            <option value="20">已开奖结算</option>
-
-      </select>
       投注时间:<input [(ngModel)]="find.startTime" type="date"/>-<input [(ngModel)]="find.endTime" type="date" />
       <button type="button" class="btn btn-primary" (click)='loadDataOne()'>搜索</button>
 </div>
@@ -30,32 +22,30 @@
         <thead>
             <tr class="active">
                 <th>序号</th>
-                <th>期号</th>
                 <th>uid</th>
                 <th>用户昵称</th>
+                <th>手机号</th>
                 <th>游戏类型</th>
-                <th>投注类型</th>
                 <th>投注金额</th>
+                <th>投注前金额</th>
+                <th>投注后金额</th>
                 <th>投注内容</th>
-                <th>盈亏</th>
-                <th>状态</th>
                 <th>投注时间</th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let item of httpService.items; let i = index">
                 <td>{{i+1}}</td>
-                <td>{{item.issueNo}}</td>
                 <td>{{item.uid}}</td>
                 <td>{{item.nickName}}</td>
-                <td>北京塞车</td>
-                <th>{{item.betType}}</th>
-                <th>{{item.multiple}}</th>
-                <th *ngIf="find.gameType==10">{{Utils.ifNull(item.lotteryOne,'_')+','+Utils.ifNull(item.lotteryTwo,'_')+','+item.lotteryThree+','+item.lotteryFour+','
-                      +item.lotteryFive+','+item.lotterySix+','+item.lotterySeven+','+item.lotteryEight+','+item.lotteryNine+','+item.lotteryTen}}</th>
-                <th *ngIf="find.gameType==20">{{item.lotteryOne+','+item.lotteryTwo+','+item.lotteryThree+','+item.lotteryFour+','+item.lotteryFive}}</th>
-                <th>{{item.winningAmount}}</th>
-                <th>{{item.lotteryFlag}}</th>
+                <td>{{item.mobile}}</td>
+                <td>{{item.busnessType}}</td>
+                <th>{{item.balance}}</th>
+                <th>{{item.beforeBalance}}</th>
+                <th>{{item.afterBalance}}</th>
+                <th>
+                  <button type="button" (click)="openDetail(item)" class="btn btn-info btn-xs">{{item.extend}}</button>
+                </th>
                 <td>{{utils.formatDate(item.createTime,'yyyy-MM-dd HH:mm:ss')}}</td>
             </tr>
         </tbody>
@@ -79,4 +69,41 @@
             <a href="javascript:;" (click)="httpService.toEndPage()">末页</a>
         </li>
     </ul>
+</div>
+
+
+<div id="editPanel" class="form-horizontal">
+  <!--数据显示区域-->
+  <div class="table-box">
+      <table class="table table-bordered table-hover">
+          <thead>
+              <tr class="active">
+                  <th>序号</th>
+                  <th>期号</th>
+                  <th>游戏类型</th>
+                  <th>投注类型</th>
+                  <th>投注金额</th>
+                  <th>投注内容</th>
+                  <th>盈亏</th>
+                  <th>状态</th>
+                  <th>投注时间</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let item of orderData; let i = index">
+                  <td>{{i+1}}</td>
+                  <td>{{item.issueNo}}</td>
+                  <td>北京塞车</td>
+                  <th>{{item.betType}}</th>
+                  <th>{{item.multiple}}</th>
+                  <th *ngIf="find.busnessType==31">{{Utils.ifNull(item.lotteryOne,'_')+','+Utils.ifNull(item.lotteryTwo,'_')+','+item.lotteryThree+','+item.lotteryFour+','
+                        +item.lotteryFive+','+item.lotterySix+','+item.lotterySeven+','+item.lotteryEight+','+item.lotteryNine+','+item.lotteryTen}}</th>
+                  <th *ngIf="find.busnessType==21">{{item.lotteryOne+','+item.lotteryTwo+','+item.lotteryThree+','+item.lotteryFour+','+item.lotteryFive}}</th>
+                  <th>{{item.winningAmount}}</th>
+                  <th>{{item.lotteryFlag}}</th>
+                  <td>{{utils.formatDate(item.createTime,'yyyy-MM-dd HH:mm:ss')}}</td>
+              </tr>
+          </tbody>
+      </table>
+  </div>
 </div>

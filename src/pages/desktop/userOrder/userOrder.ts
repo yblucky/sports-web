@@ -14,23 +14,23 @@ var stbExchangePage: any;
 })
 export class UserOrderPage {
     find:any={
-
-      gameType:"10".trim(),
+      busnessType:"".trim(),
+      currencyType:"10".trim(),
       uid:"".trim(),
       mobile:"".trim(),
       startTime:"".trim(),
-      issueNo:"".trim(),
-      lotteryFlag:"".trim(),
       endTime:"".trim(),
 
     };
     currencyTypes:any;
+    orderData:any;
     showTime:any = new Date();
     constructor(private router:Router,private httpService:HttpService,private aroute:ActivatedRoute,private utils:Utils) {
         this.aroute.params.subscribe( params  => {
             this.showTime = new Date();
         });
         stbExchangePage=this;
+        this.loadDataOne();
     }
 
     /**
@@ -38,26 +38,69 @@ export class UserOrderPage {
     */
     loadDataOne(){
       this.httpService.currentPage=1;
-      this.loadData(); 
+      this.loadData();
     }
 
     /**
     * 加载数据
     */
     loadData(){
-        if(this.find.gameType =="10"){
-          this.httpService.pagination({
-              url:'/record/racingBettingRecord',
-              data:this.find
-          });
-        }else {
-          this.httpService.pagination({
-              url:'/record/timeBettingRecord',
-              data:this.find
-          });
-        }
+      this.httpService.pagination({
+          url:'/record/record',
+          data:this.find
+      });
 
     }
 
+
+      /**
+      * 弹出等级面板
+      */
+      openDetail(item:any){
+          if(item.busnessType==31){
+            this.httpService.get({
+                url:'/record/racingBettingRecord',
+                data:{businessNumber:item.businessNumber}
+            }).subscribe((data:any)=>{
+                if(data.code==='0000'){
+                  this.orderData = data.data;
+                }else if(data.code==='9999'){
+                    Utils.show(data.message);
+                }else{
+                    Utils.show("系统异常，请联系管理员");
+                }
+            });
+          }else{
+            this.httpService.get({
+                url:'/record/timeBettingRecord',
+                data:{businessNumber:item.businessNumber}
+            }).subscribe((data:any)=>{
+                if(data.code==='0000'){
+                  this.orderData = data.data;
+                }else if(data.code==='9999'){
+                    Utils.show(data.message);
+                }else{
+                    Utils.show("系统异常，请联系管理员");
+                }
+            });
+          }
+
+          layer.open({
+              title: "投注明细",
+              btn: ["确认","退出"],
+              type: 1,
+              closeBtn: 0,
+              shade: 0,
+              fixed: true,
+              shadeClose: false,
+              resize: false,
+              area: ['550px','400px'],
+              content: $("#editPanel"),
+              yes: function(index:number){
+                     layer.closeAll();
+              }
+          });
+
+      }
 
 }
