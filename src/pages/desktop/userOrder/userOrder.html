@@ -2,6 +2,7 @@
 <!--搜索区域-->
 <div class="search-box">
       游戏类型: <select [(ngModel)]="find.busnessType" >
+                    <option selected>全部</option>
                     <option value="31">北京塞车</option>
                     <option value="21">重庆时时彩</option>
               </select>
@@ -21,32 +22,35 @@
     <table class="table table-bordered table-hover">
         <thead>
             <tr class="active">
-                <th>序号</th>
+                <!-- <th>序号</th> -->
                 <th>uid</th>
                 <th>用户昵称</th>
                 <th>手机号</th>
-                <th>游戏类型</th>
+                <th>彩种</th>
                 <th>投注金额</th>
                 <th>投注前金额</th>
                 <th>投注后金额</th>
                 <th>投注内容</th>
                 <th>投注时间</th>
+                <th>详情</th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let item of httpService.items; let i = index">
-                <td>{{i+1}}</td>
+                <!-- <td>{{i+1}}</td> -->
                 <td>{{item.uid}}</td>
                 <td>{{item.nickName}}</td>
                 <td>{{item.mobile}}</td>
-                <td>{{item.busnessType}}</td>
-                <th>{{item.balance}}</th>
-                <th>{{item.beforeBalance}}</th>
-                <th>{{item.afterBalance}}</th>
-                <th>
-                  <button type="button" (click)="openDetail(item)" class="btn btn-info btn-xs">{{item.extend}}</button>
-                </th>
+                <td *ngIf="item.busnessType == 21 || item.busnessType == 22">时时彩</td>
+                <td *ngIf="item.busnessType == 31 || item.busnessType == 32">北京赛车</td>
+                <td>{{item.balance}}</td>
+                <td>{{item.beforeBalance}}</td>
+                <td>{{item.afterBalance}}</td>
+                <td>{{item.extend}}</td>
                 <td>{{utils.formatDate(item.createTime,'yyyy-MM-dd HH:mm:ss')}}</td>
+                <th>
+                  <button type="button" (click)="openDetail(item)" class="btn btn-info btn-sm">查看详情</button>
+                </th>
             </tr>
         </tbody>
     </table>
@@ -78,10 +82,9 @@
       <table class="table table-bordered table-hover">
           <thead>
               <tr class="active">
-                  <th>序号</th>
                   <th>期号</th>
-                  <th>游戏类型</th>
-                  <th>投注类型</th>
+                  <th>彩种</th>
+                  <!-- <th>投注类型</th> -->
                   <th>投注金额</th>
                   <th>投注内容</th>
                   <th>盈亏</th>
@@ -91,14 +94,14 @@
           </thead>
           <tbody>
               <tr *ngFor="let item of orderData; let i = index">
-                  <td>{{i+1}}</td>
                   <td>{{item.issueNo}}</td>
-                  <td>北京塞车</td>
-                  <th>{{item.betType}}</th>
+                  <td>{{businessTypeDesc}}</td>
+                  <!-- <th>{{item.betType}}</th> -->
                   <th>{{item.multiple}}</th>
-                  <th *ngIf="find.busnessType==31">{{Utils.ifNull(item.lotteryOne,'_')+','+Utils.ifNull(item.lotteryTwo,'_')+','+item.lotteryThree+','+item.lotteryFour+','
+                  <!-- <th *ngIf="find.busnessType==31">{{Utils.ifNull(item.lotteryOne,'_')+','+Utils.ifNull(item.lotteryTwo,'_')+','+item.lotteryThree+','+item.lotteryFour+','
                         +item.lotteryFive+','+item.lotterySix+','+item.lotterySeven+','+item.lotteryEight+','+item.lotteryNine+','+item.lotteryTen}}</th>
-                  <th *ngIf="find.busnessType==21">{{item.lotteryOne+','+item.lotteryTwo+','+item.lotteryThree+','+item.lotteryFour+','+item.lotteryFive}}</th>
+                  <th *ngIf="find.busnessType==21">{{item.lotteryOne+','+item.lotteryTwo+','+item.lotteryThree+','+item.lotteryFour+','+item.lotteryFive}}</th> -->
+                  <td>{{item.bettingContent}}</td>
                   <th>{{item.winningAmount}}</th>
                   <th>{{item.lotteryFlag}}</th>
                   <td>{{utils.formatDate(item.createTime,'yyyy-MM-dd HH:mm:ss')}}</td>
