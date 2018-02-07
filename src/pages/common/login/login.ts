@@ -42,12 +42,12 @@ export class LoginPage {
     loginIn(){
         if(this.validator()){
             this.httpService.post({
-                url:'/login/loginIn',
+                url:'/user/login',
                 data:{
-                    loginName:this.loginName,
-                    password:this.password,
+                    mobile:this.loginName,
+                    loginPwd:this.password,
                     imgKey:this.imgKey,
-                    picCode:this.imgCode
+                    imgKeyValue:this.imgCode
                 }
             }).subscribe((data:any)=>{
                 if(data.code==='0000'){
@@ -70,7 +70,7 @@ export class LoginPage {
     */
     loadValiCode(){
         this.httpService.get({
-            url:'/login/loadImgCode',
+            url:'/common/loadImgCode',
             data:[]
         }).subscribe((data:any)=>{
             if(data.code === "0000"){

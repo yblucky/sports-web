@@ -198,7 +198,7 @@
             <div class="content-tab_4_2">
                 <div class="content-tab_4_2_1" (click) = "clearBetList()">清空列表</div>
                 <div class="content-tab_4_2_2">马上投注</div>
-                <div class="content-tab_4_2_3"><img src="/assets/pkImg/kaijiangshiping.png" /></div>
+                <div class="content-tab_4_2_3"><img src="/assets/pkImg/kaijiangshiping.png" (click) = "startGame()" /></div>
             </div>
         </div>
 
@@ -271,8 +271,9 @@
   <div class="saicheshiping">
       <div class="flag"></div>
       <div class="shiping">
+          <img class="closeGame" src="/assets/pkImg/close.png" (click) = "closeGame()" />
           <div class="pkshiping">
-              <iframe scrolling="no" src="http://www.k58.vip/video/pk10/index.html" width="945" height="630" frameborder="0"></iframe>
+              <iframe scrolling="no" src="http://www.pk8810.com/video/pk10/index.html" width="945" height="630" frameborder="0"></iframe>
           </div>
       </div>
   </div>

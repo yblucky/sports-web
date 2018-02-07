@@ -298,6 +298,7 @@
               margin-left:35px;
               margin-top: 30px;
               display:inline-block;
+              cursor: pointer;
             }
         }
     }
@@ -395,14 +396,21 @@
     }
 
     .shiping{
-        position: absolute;
+        position: fixed;
         top: 150px;
-        left: 300px;
+        left: 25%;
         z-index:101;
         width: 1000px;
         height:700px;
         border: 1px solid green;
         background-color: #76E3FA;
+        .closeGame{
+            position: absolute;
+            top: 0px;
+            left:96%;
+            z-index:102;
+            cursor: pointer;
+        }
         .pkshiping{
             margin-top:40px;
             margin-left:25px;
