@@ -51,7 +51,7 @@
                 <td>北京塞车</td>
                 <th>{{item.betType}}</th>
                 <th>{{item.multiple}}</th>
-                <th *ngIf="find.gameType==10">{{item.lotteryOne+','+item.lotteryTwo+','+item.lotteryThree+','+item.lotteryFour+','
+                <th *ngIf="find.gameType==10">{{Utils.ifNull(item.lotteryOne,'_')+','+Utils.ifNull(item.lotteryTwo,'_')+','+item.lotteryThree+','+item.lotteryFour+','
                       +item.lotteryFive+','+item.lotterySix+','+item.lotterySeven+','+item.lotteryEight+','+item.lotteryNine+','+item.lotteryTen}}</th>
                 <th *ngIf="find.gameType==20">{{item.lotteryOne+','+item.lotteryTwo+','+item.lotteryThree+','+item.lotteryFour+','+item.lotteryFive}}</th>
                 <th>{{item.winningAmount}}</th>
