@@ -7,7 +7,7 @@
 
         <div class="row-tab_2">
             <div class="row-tab_2_1">
-                <p style="color:#2396DB;">第20180123-001期</p>
+                <p style="color:#2396DB;" *ngIf="currentIssuNo">第{{nextIssuNo}}期</p>
                 <p style="margin-top:-85px;margin-left:55px;color:white;">离封盘时间</p>
             </div>
             <div class="row-tab_2_2">
@@ -23,7 +23,7 @@
 
         <div class="row-tab_3">
             <div class="row-tab_3_1">
-                <p style="color:#B6C0B2;">第20180123-001期</p>
+                <p style="color:#B6C0B2;" *ngIf="nextIssuNo">第{{currentIssuNo}}期</p>
                 <p style="margin-top:-85px;margin-left:65px;color:white;">开奖号码</p>
             </div>
             <div class="row-tab_3_2" *ngIf="kaijianghaoma">

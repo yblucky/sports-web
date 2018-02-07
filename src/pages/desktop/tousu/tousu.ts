@@ -302,7 +302,7 @@ export class TousuPage {
     clearBetList(){
         //循环变颜色
         for(var i=0;i<10;i++){
-          $("#one_"+i).css("background-image","url('/assets/img/haoma_yellow.png')");
+          $("#one_"+i).css("background-image","url('/assets/pkImg/haoma_yellow.png')");
           $("#two_"+i).css("background-image","url('/assets/pkImg/haoma_yellow.png')");
           $("#three_"+i).css("background-image","url('/assets/pkImg/haoma_yellow.png')");
           $("#four_"+i).css("background-image","url('/assets/pkImg/haoma_yellow.png')");
@@ -322,4 +322,14 @@ export class TousuPage {
         this.initnumsArray();
         this.sumMoney = 0;
     }
+
+    //显示开奖动画
+    startGame(){
+        $(".saicheshiping").show();
+    }
+
+    closeGame(){
+        $(".saicheshiping").hide();
+    }
+
 }

@@ -2,29 +2,60 @@
     <div class="row">
         <div class="col-xs-6 col-md-3 login-panel">
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    <span class="glyphicon glyphicon-user"></span> 速通宝后台管理系统登录
+                <div class="panel-heading" style="height:100px;">
+                    <div style="text-align:center;color:#157C85;font-size:36px;margin-top:3%;font-weight:bold;">用户登录</div>
                 </div>
                 <div class="panel-body">
                     <form class="form-horizontal" role="form">
-                        <div class="input-group">
-                            <span class="input-group-addon">登录名</span>
-                            <input type="text" name="loginName" [(ngModel)]="loginName" class="form-control" id="loginName" placeholder="输入登录名">
-                        </div>
-                        <div class="input-group">
+                        <!-- <div class="input-group">
+                            <span class="input-group-addon">账号</span>
+                            <input type="text" name="loginName" [(ngModel)]="loginName" class="form-control" id="loginName" placeholder="请输入用户名">
+                        </div> -->
+                        <div class="form-group">
+                        		<div class="col-sm-2 control-label">
+                                <div style="margin-top:-6px;margin-left:2%;font-size:18px;color:white;background-color:#157C85;width:70px;height:32px;text-align:center;padding-top:4px;">账号</div>
+                            </div>
+                        		<div class="col-sm-10">
+                        			   <input type="text" name="loginName" [(ngModel)]="loginName" class="form-control" id="loginName" placeholder="请输入用户名">
+                        		</div>
+                      	</div>
+
+                        <div class="form-group">
+                        		<div class="col-sm-2 control-label">
+                                <div style="margin-top:-6px;margin-left:2%;font-size:18px;color:white;background-color:#157C85;width:70px;height:32px;text-align:center;padding-top:4px;">密码</div>
+                            </div>
+                        		<div class="col-sm-10">
+                        			   <input type="password" name="password" [(ngModel)]="password" class="form-control" id="password" placeholder="请输入登录密码">
+                        		</div>
+                      	</div>
+
+                        <!-- <div class="input-group">
                             <span class="input-group-addon">密码</span>
-                            <input type="password" name="password" [(ngModel)]="password" class="form-control" id="password" placeholder="输入密码">
-                        </div>
-                        <div class="input-group">
+                            <input type="password" name="password" [(ngModel)]="password" class="form-control" id="password" placeholder="请输入登录密码">
+                        </div> -->
+
+                        <div class="form-group">
+                        		<div class="col-sm-2 control-label">
+                                <div style="margin-top:-6px;margin-left:2%;font-size:18px;color:white;background-color:#157C85;width:70px;height:32px;text-align:center;padding-top:4px;">验证码</div>
+                            </div>
+                        		<div class="col-sm-7">
+                        			   <input type="text" maxlength="4" name="code" (keydown)="submitData($event)" [(ngModel)]="imgCode" class="form-control" id="imgCode" placeholder="请输入验证码">
+                        		</div>
+                            <div class="col-sm-3">
+                        			   <span style="padding:0;" class="input-group-addon codeSpan"><img [src]="imgStr" class="imgStr" (click)="loadValiCode()"></span>
+                        		</div>
+                      	</div>
+
+                        <!-- <div class="input-group">
                             <span class="input-group-addon">验证码</span>
-                            <input type="text" maxlength="4" name="code" (keydown)="submitData($event)" [(ngModel)]="imgCode" class="form-control" id="imgCode" placeholder="输入验证码">
+                            <input type="text" maxlength="4" name="code" (keydown)="submitData($event)" [(ngModel)]="imgCode" class="form-control" id="imgCode" placeholder="请输入验证码">
                             <span style="padding:0;" class="input-group-addon codeSpan"><img [src]="imgStr" class="imgStr" (click)="loadValiCode()"></span>
-                        </div>
+                        </div> -->
                     </form>
                 </div>
-                <div class="panel-footer text-right">
-                    <button type="submit" class="btn btn-success btn-sm" (click)="loginIn()">登录</button>
-                    <button type="reset" (click)="clearVal()" class="btn btn-default btn-sm">取消</button>
+                <div class="panel-footer">
+                    <div style="margin-top:3%;"><button type="submit" class="btn btn-block" style="background-color:#157C85;height:40px;color:white;font-size:18px;" (click)="loginIn()">立即登录</button></div>
+                    <div style="margin-top:5%;margin-bottom:5%;"><button type="reset" (click)="clearVal()" style="background-color:#15BAFF;height:40px;color:white;font-size:18px;" class="btn btn-block">取消</button></div>
                 </div>
             </div>
         </div>
