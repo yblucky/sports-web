@@ -167,7 +167,7 @@ export class TousuPage {
                 data:subData
             }).subscribe((data:any)=>{
                 if(data.code==='0000'){
-                    alert(data.message);
+                    Utils.show(data.message);
                 }else if(data.code==='9999'){
                     Utils.show(data.message);
                 }else{
@@ -180,7 +180,7 @@ export class TousuPage {
     //验证表单数据
     validator(){
         if(this.betting_list.length == 0){
-            alert("你没有下注");
+            Utils.show("请选择投注号码");
             return false;
         }
         return true;
@@ -228,7 +228,7 @@ export class TousuPage {
         //判断是否投错位置
         var n=this.dingwei_row.indexOf(className);
         if(n==-1){
-          alert("投注位置错了啊");
+          Utils.show("操作错误");
           return;
         }
 
@@ -250,11 +250,11 @@ export class TousuPage {
             //for(var j=0;j<5;j++){
             var countPerNum=this.dingwei_nums[n].length;
             if(countPerNum>=this.maxNumsPerWeizhi){
-               alert("单个位只能最多投注"+this.maxNumsPerWeizhi+"个不同的数字");
+               Utils.show("单个位只能最多投注"+this.maxNumsPerWeizhi+"个不同的数字");
                return;
             }
             if(this.dingwei_nums[n].indexOf(num)>-1){
-              alert("此位对应的数字已经添加过投注,请直接加倍");
+              Utils.show("此位对应的数字已经添加过投注,请直接加倍");
               return;
             }
             //}

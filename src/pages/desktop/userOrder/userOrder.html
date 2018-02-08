@@ -1,6 +1,6 @@
 
 <!--搜索区域-->
-<div class="search-box">
+<!-- <div class="search-box">
       游戏类型: <select [(ngModel)]="find.busnessType" >
                     <option selected>全部</option>
                     <option value="31">北京塞车</option>
@@ -10,103 +10,105 @@
       手机:<input [(ngModel)]="find.mobile"  style="width: 130px"/>
       投注时间:<input [(ngModel)]="find.startTime" type="date"/>-<input [(ngModel)]="find.endTime" type="date" />
       <button type="button" class="btn btn-primary" (click)='loadDataOne()'>搜索</button>
-</div>
+</div> -->
 
 <!--按钮区域-->
-<div class="button-box text-right">
+<!-- <div class="button-box text-right">
 
-</div>
+</div> -->
 
 <!--数据显示区域-->
-<div class="table-box">
-    <table class="table table-bordered table-hover">
-        <thead>
-            <tr class="active">
-                <!-- <th>序号</th> -->
-                <th>uid</th>
-                <th>用户昵称</th>
-                <th>手机号</th>
-                <th>彩种</th>
-                <th>投注金额</th>
-                <th>投注前金额</th>
-                <th>投注后金额</th>
-                <th>投注内容</th>
-                <th>投注时间</th>
-                <th>详情</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let item of httpService.items; let i = index">
-                <!-- <td>{{i+1}}</td> -->
-                <td>{{item.uid}}</td>
-                <td>{{item.nickName}}</td>
-                <td>{{item.mobile}}</td>
-                <td *ngIf="item.busnessType == 21 || item.busnessType == 22">时时彩</td>
-                <td *ngIf="item.busnessType == 31 || item.busnessType == 32">北京赛车</td>
-                <td>{{item.balance}}</td>
-                <td>{{item.beforeBalance}}</td>
-                <td>{{item.afterBalance}}</td>
-                <td>{{item.extend}}</td>
-                <td>{{utils.formatDate(item.createTime,'yyyy-MM-dd HH:mm:ss')}}</td>
-                <th>
-                  <button type="button" (click)="openDetail(item)" class="btn btn-info btn-sm">查看详情</button>
-                </th>
-            </tr>
-        </tbody>
-    </table>
-</div>
+<div style="width:100%;height:100%;background-image: url('/assets/img/bg.png');">
+    <div class="table-box">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr class="active">
+                    <!-- <th>序号</th> -->
+                    <th>uid</th>
+                    <th>用户昵称</th>
+                    <th>手机号</th>
+                    <th>彩种</th>
+                    <th>投注金额</th>
+                    <th>投注前金额</th>
+                    <th>投注后金额</th>
+                    <th>投注内容</th>
+                    <th>投注时间</th>
+                    <th>详情</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of httpService.items; let i = index">
+                    <!-- <td>{{i+1}}</td> -->
+                    <td>{{item.uid}}</td>
+                    <td>{{item.nickName}}</td>
+                    <td>{{item.mobile}}</td>
+                    <td *ngIf="item.busnessType == 21 || item.busnessType == 22">时时彩</td>
+                    <td *ngIf="item.busnessType == 31 || item.busnessType == 32">北京赛车</td>
+                    <td>{{item.balance}}</td>
+                    <td>{{item.beforeBalance}}</td>
+                    <td>{{item.afterBalance}}</td>
+                    <td>{{item.extend}}</td>
+                    <td>{{utils.formatDate(item.createTime,'yyyy-MM-dd HH:mm:ss')}}</td>
+                    <th>
+                      <button type="button" (click)="openDetail(item)" class="btn btn-info btn-sm">查看详情</button>
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-<!--分页区域-->
-<div class="pagination-box text-center">
-    <ul class="pagination">
-        <li [class]="httpService.currentPage==1?'active':''">
-            <a href="javascript:;" (click)="httpService.toFirstPage()">首页</a>
-        </li>
-        <li [class]="httpService.currentPage==1?'disabled':''">
-            <a href="javascript:;"  (click)="httpService.prev()">上一页</a>
-        </li>
-        <li class="disabled"><a href="javascript:;">第{{httpService.currentPage}}页 | 共{{httpService.totalPage}}页</a></li>
-        <li [class]="httpService.currentPage==httpService.totalPage?'disabled':''">
-            <a href="javascript:;" (click)="httpService.next()">下一页</a>
-        </li>
-        <li [class]="httpService.currentPage==httpService.totalPage?'active':''">
-            <a href="javascript:;" (click)="httpService.toEndPage()">末页</a>
-        </li>
-    </ul>
-</div>
+    <!--分页区域-->
+    <div class="pagination-box text-center">
+        <ul class="pagination">
+            <li [class]="httpService.currentPage==1?'active':''">
+                <a href="javascript:;" (click)="httpService.toFirstPage()">首页</a>
+            </li>
+            <li [class]="httpService.currentPage==1?'disabled':''">
+                <a href="javascript:;"  (click)="httpService.prev()">上一页</a>
+            </li>
+            <li class="disabled"><a href="javascript:;">第{{httpService.currentPage}}页 | 共{{httpService.totalPage}}页</a></li>
+            <li [class]="httpService.currentPage==httpService.totalPage?'disabled':''">
+                <a href="javascript:;" (click)="httpService.next()">下一页</a>
+            </li>
+            <li [class]="httpService.currentPage==httpService.totalPage?'active':''">
+                <a href="javascript:;" (click)="httpService.toEndPage()">末页</a>
+            </li>
+        </ul>
+    </div>
 
 
-<div id="editPanel" class="form-horizontal">
-  <!--数据显示区域-->
-  <div class="table-box">
-      <table class="table table-bordered table-hover">
-          <thead>
-              <tr class="active">
-                  <th>期号</th>
-                  <th>彩种</th>
-                  <!-- <th>投注类型</th> -->
-                  <th>投注金额</th>
-                  <th>投注内容</th>
-                  <th>盈亏</th>
-                  <th>状态</th>
-                  <th>投注时间</th>
-              </tr>
-          </thead>
-          <tbody>
-              <tr *ngFor="let item of orderData; let i = index">
-                  <td>{{item.issueNo}}</td>
-                  <td>{{businessTypeDesc}}</td>
-                  <!-- <th>{{item.betType}}</th> -->
-                  <th>{{item.multiple}}</th>
-                  <!-- <th *ngIf="find.busnessType==31">{{Utils.ifNull(item.lotteryOne,'_')+','+Utils.ifNull(item.lotteryTwo,'_')+','+item.lotteryThree+','+item.lotteryFour+','
-                        +item.lotteryFive+','+item.lotterySix+','+item.lotterySeven+','+item.lotteryEight+','+item.lotteryNine+','+item.lotteryTen}}</th>
-                  <th *ngIf="find.busnessType==21">{{item.lotteryOne+','+item.lotteryTwo+','+item.lotteryThree+','+item.lotteryFour+','+item.lotteryFive}}</th> -->
-                  <td>{{item.bettingContent}}</td>
-                  <th>{{item.winningAmount}}</th>
-                  <th>{{item.lotteryFlag}}</th>
-                  <td>{{utils.formatDate(item.createTime,'yyyy-MM-dd HH:mm:ss')}}</td>
-              </tr>
-          </tbody>
-      </table>
-  </div>
+    <div id="editPanel" class="form-horizontal">
+      <!--数据显示区域-->
+      <div class="table-box">
+          <table class="table table-bordered table-hover">
+              <thead>
+                  <tr class="active">
+                      <th>期号</th>
+                      <th>彩种</th>
+                      <!-- <th>投注类型</th> -->
+                      <th>投注金额</th>
+                      <th>投注内容</th>
+                      <th>盈亏</th>
+                      <th>状态</th>
+                      <th>投注时间</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let item of orderData; let i = index">
+                      <td>{{item.issueNo}}</td>
+                      <td>{{businessTypeDesc}}</td>
+                      <!-- <th>{{item.betType}}</th> -->
+                      <th>{{item.multiple}}</th>
+                      <!-- <th *ngIf="find.busnessType==31">{{Utils.ifNull(item.lotteryOne,'_')+','+Utils.ifNull(item.lotteryTwo,'_')+','+item.lotteryThree+','+item.lotteryFour+','
+                            +item.lotteryFive+','+item.lotterySix+','+item.lotterySeven+','+item.lotteryEight+','+item.lotteryNine+','+item.lotteryTen}}</th>
+                      <th *ngIf="find.busnessType==21">{{item.lotteryOne+','+item.lotteryTwo+','+item.lotteryThree+','+item.lotteryFour+','+item.lotteryFive}}</th> -->
+                      <td>{{item.bettingContent}}</td>
+                      <th>{{item.winningAmount}}</th>
+                      <th>{{item.lotteryFlag}}</th>
+                      <td>{{utils.formatDate(item.createTime,'yyyy-MM-dd HH:mm:ss')}}</td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+    </div>
 </div>

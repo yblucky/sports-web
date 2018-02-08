@@ -35,8 +35,8 @@ export class HomePage {
     timer:any;
 
     //定义封盘时间的分
-    fengpan_feng:any = 2;
-    fengpan_miao:any = 30;
+    fengpan_feng:number;
+    fengpan_miao:number;
 
     //定义数组保存号码列表
     betting_list:any=[];
@@ -79,7 +79,7 @@ export class HomePage {
         }else if(data.code==='9999'){
             Utils.show(data.message);
         }else{
-            Utils.show("系统异常，请联系管理员");
+            Utils.show("网络异常");
         }
       });
     }
@@ -121,6 +121,8 @@ export class HomePage {
             }, 1000);
         }else{
             clearInterval(this.timer);
+            //切换禁止投注背景色
+            //$(".row-tab_2_2").css("background-image","url('/assets/img/bg.png')");
         }
     }
 
@@ -159,7 +161,7 @@ export class HomePage {
                 data:subData
             }).subscribe((data:any)=>{
                 if(data.code==='0000'){
-                    alert(data.message);
+                    Utils.show(data.message);
                 }else if(data.code==='9999'){
                     Utils.show(data.message);
                 }else{
@@ -172,7 +174,7 @@ export class HomePage {
     //验证表单数据
     validator(){
         if(Utils.isEmpty(this.betting_list)){
-            alert("你没有下注");
+            Utils.show("请选择投注的号码");
             return false;
         }
         return true;
@@ -220,7 +222,7 @@ export class HomePage {
         //判断是否投错位置
         var n=this.dingwei_row.indexOf(className);
         if(n==-1){
-          alert("投注位置错了啊");
+          Utils.show("操作错误");
           return;
         }
 
@@ -242,11 +244,11 @@ export class HomePage {
             //for(var j=0;j<5;j++){
             var countPerNum=this.dingwei_nums[n].length;
             if(countPerNum>=this.maxNumsPerWeizhi){
-               alert("单个位只能最多投注"+this.maxNumsPerWeizhi+"个不同的数字");
+               Utils.show("单个位只能最多投注"+this.maxNumsPerWeizhi+"个不同的数字");
                return;
             }
             if(this.dingwei_nums[n].indexOf(num)>-1){
-              alert("此位对应的数字已经添加过投注,请直接加倍");
+              Utils.show("此位对应的数字已经添加过投注,请直接加倍");
               return;
             }
             //}
