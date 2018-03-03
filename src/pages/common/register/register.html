@@ -1,0 +1,103 @@
+<div class="container-fluid loginBody">
+    <div class="row">
+        <div class="col-xs-6 col-md-3 login-panel">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="height:100px;">
+                    <div style="text-align:center;color:#157C85;font-size:36px;margin-top:3%;font-weight:bold;">用户注册</div>
+                </div>
+                <div class="panel-body">
+                    <form class="form-horizontal" role="form">
+                        <!-- <div class="input-group">
+                            <span class="input-group-addon">账号</span>
+                            <input type="text" name="loginName" [(ngModel)]="loginName" class="form-control" id="loginName" placeholder="请输入用户名">
+                        </div> -->
+                        <div class="form-group">
+                        		<div class="col-sm-4 control-label">
+                                <div style="margin-top:-6px;margin-left:2%;font-size:18px;color:white;background-color:#157C85;width:120px;height:32px;text-align:center;padding-top:4px;">手机号</div>
+                            </div>
+                        		<div class="col-sm-8">
+                        			   <input type="text" name="mobile" [(ngModel)]="mobile" class="form-control" id="mobile" placeholder="请输入手机号">
+                        		</div>
+                      	</div>
+
+                        <div class="form-group">
+                        		<div class="col-sm-4 control-label">
+                                <div style="margin-top:-6px;margin-left:2%;font-size:18px;color:white;background-color:#157C85;width:120px;height:32px;text-align:center;padding-top:4px;">用户昵称</div>
+                            </div>
+                        		<div class="col-sm-8">
+                        			   <input type="text" name="nickName" [(ngModel)]="nickName" class="form-control" id="nickName" placeholder="请输入昵称">
+                        		</div>
+                      	</div>
+
+                        <div class="form-group">
+                        		<div class="col-sm-4 control-label">
+                                <div style="margin-top:-6px;margin-left:2%;font-size:18px;color:white;background-color:#157C85;width:120px;height:32px;text-align:center;padding-top:4px;">代理手机号</div>
+                            </div>
+                        		<div class="col-sm-8">
+                        			   <input type="text" name="inviteMobile" [(ngModel)]="inviteMobile" class="form-control" id="inviteMobile" placeholder="请输入代理手机号">
+                        		</div>
+                      	</div>
+
+                        <div class="form-group">
+                        		<div class="col-sm-4 control-label">
+                                <div style="margin-top:-6px;margin-left:2%;font-size:18px;color:white;background-color:#157C85;width:120px;height:32px;text-align:center;padding-top:4px;">登录密码</div>
+                            </div>
+                        		<div class="col-sm-8">
+                        			   <input type="password" name="loginPwd" [(ngModel)]="loginPwd" class="form-control" id="loginPwd" placeholder="请输入登录密码">
+                        		</div>
+                      	</div>
+
+                        <div class="form-group">
+                        		<div class="col-sm-4 control-label">
+                                <div style="margin-top:-6px;margin-left:2%;font-size:18px;color:white;background-color:#157C85;width:120px;height:32px;text-align:center;padding-top:4px;">确认登录密码</div>
+                            </div>
+                        		<div class="col-sm-8">
+                        			   <input type="password" name="confirmLoginPwd" [(ngModel)]="confirmLoginPwd" class="form-control" id="confirmLoginPwd" placeholder="请确认登录密码" (blur)="loginPwdPair()">
+                        		</div>
+                      	</div>
+
+                        <div class="form-group">
+                            <div class="col-sm-4 control-label">
+                                <div style="margin-top:-6px;margin-left:2%;font-size:18px;color:white;background-color:#157C85;width:120px;height:32px;text-align:center;padding-top:4px;">支付密码</div>
+                            </div>
+                            <div class="col-sm-8">
+                                 <input type="password" name="payPwd" [(ngModel)]="payPwd" class="form-control" id="payPwd" placeholder="请输入支付密码">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-4 control-label">
+                                <div style="margin-top:-6px;margin-left:2%;font-size:18px;color:white;background-color:#157C85;width:120px;height:32px;text-align:center;padding-top:4px;">确认支付密码</div>
+                            </div>
+                            <div class="col-sm-8">
+                                 <input type="password" name="confirmPayPwd" [(ngModel)]="confirmPayPwd" class="form-control" id="confirmPayPwd" placeholder="请确认支付密码" (blur)="payPwdPair()">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                        		<div class="col-sm-4 control-label">
+                                <div style="margin-top:-6px;margin-left:2%;font-size:18px;color:white;background-color:#157C85;width:120px;height:32px;text-align:center;padding-top:4px;">验证码</div>
+                            </div>
+                        		<div class="col-sm-4">
+                        			   <input type="text" maxlength="4" name="smsCode" (keydown)="submitData($event)" [(ngModel)]="smsCode" class="form-control" id="smsCode" placeholder="请输入验证码">
+                        		</div>
+                            <div class="col-sm-4">
+                        			   <span style="padding:0;" class="input-group-addon codeSpan"><button class="btn btn-block" style="background-color:rgba(255,255,255,0.5);height:30px;color:#1B7F86;" (click)="loadValiCode()">获取手机验证码</button></span>
+                        		</div>
+                      	</div>
+
+                        <!-- <div class="input-group">
+                            <span class="input-group-addon">验证码</span>
+                            <input type="text" maxlength="4" name="code" (keydown)="submitData($event)" [(ngModel)]="imgCode" class="form-control" id="imgCode" placeholder="请输入验证码">
+                            <span style="padding:0;" class="input-group-addon codeSpan"><img [src]="imgStr" class="imgStr" (click)="loadValiCode()"></span>
+                        </div> -->
+                    </form>
+                </div>
+                <div class="panel-footer">
+                    <div style="margin-top:3%;"><button type="submit" class="btn btn-block" style="background-color:#157C85;height:40px;color:white;font-size:18px;" (click)="register()">完成注册</button></div>
+                    <div style="margin-top:5%;margin-bottom:5%;"><button (click)="clearVal()" style="background-color:#15BAFF;height:40px;color:white;font-size:18px;" class="btn btn-block">取消</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

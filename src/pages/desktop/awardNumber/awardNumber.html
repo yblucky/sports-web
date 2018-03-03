@@ -1,0 +1,69 @@
+
+<!--搜索区域-->
+<!-- <div class="search-box">
+      游戏类型: <select [(ngModel)]="find.busnessType" >
+                    <option selected>全部</option>
+                    <option value="31">北京塞车</option>
+                    <option value="21">重庆时时彩</option>
+              </select>
+      会员uid: <input [(ngModel)]="find.uid" />
+      手机:<input [(ngModel)]="find.mobile"  style="width: 130px"/>
+      投注时间:<input [(ngModel)]="find.startTime" type="date"/>-<input [(ngModel)]="find.endTime" type="date" />
+      <button type="button" class="btn btn-primary" (click)='loadDataOne()'>搜索</button>
+</div> -->
+
+<!--按钮区域-->
+<!-- <div class="button-box text-right">
+
+</div> -->
+
+<!--数据显示区域-->
+<!-- background-image: url('/assets/img/bg.png'); -->
+<div style="width:100%;height:100%;">
+    <div class="table-box">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr class="active">
+                    <th>开奖时间</th>
+                    <th>期号</th>
+                    <th>万</th>
+                    <th>千</th>
+                    <th>百</th>
+                    <th>个</th>
+                    <th>十</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2018-03-01 10:38</td>
+                    <td>201803011038</td>
+                    <td>5</td>
+                    <td>4</td>
+                    <td>3</td>
+                    <td>2</td>
+                    <td>1</td>
+                    <!-- <td>{{utils.formatDate(item.createTime,'yyyy-MM-dd HH:mm:ss')}}</td> -->
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!--分页区域-->
+    <div class="pagination-box text-center">
+        <ul class="pagination">
+            <li [class]="httpService.currentPage==1?'active':''">
+                <a href="javascript:;" (click)="httpService.toFirstPage()">首页</a>
+            </li>
+            <li [class]="httpService.currentPage==1?'disabled':''">
+                <a href="javascript:;"  (click)="httpService.prev()">上一页</a>
+            </li>
+            <li class="disabled"><a href="javascript:;">第{{httpService.currentPage}}页 | 共{{httpService.totalPage}}页</a></li>
+            <li [class]="httpService.currentPage==httpService.totalPage?'disabled':''">
+                <a href="javascript:;" (click)="httpService.next()">下一页</a>
+            </li>
+            <li [class]="httpService.currentPage==httpService.totalPage?'active':''">
+                <a href="javascript:;" (click)="httpService.toEndPage()">末页</a>
+            </li>
+        </ul>
+    </div>
+</div>

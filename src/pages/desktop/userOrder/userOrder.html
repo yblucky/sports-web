@@ -18,13 +18,14 @@
 </div> -->
 
 <!--数据显示区域-->
-<div style="width:100%;height:100%;background-image: url('/assets/img/bg.png');">
+<!-- background-image: url('/assets/img/bg.png'); -->
+<div style="width:100%;height:100%;">
     <div class="table-box">
         <table class="table table-bordered table-hover">
             <thead>
                 <tr class="active">
                     <!-- <th>序号</th> -->
-                    <th>uid</th>
+                    <!-- <th>uid</th> -->
                     <th>用户昵称</th>
                     <th>手机号</th>
                     <th>彩种</th>
@@ -39,7 +40,7 @@
             <tbody>
                 <tr *ngFor="let item of httpService.items; let i = index">
                     <!-- <td>{{i+1}}</td> -->
-                    <td>{{item.uid}}</td>
+                    <!-- <td>{{item.uid}}</td> -->
                     <td>{{item.nickName}}</td>
                     <td>{{item.mobile}}</td>
                     <td *ngIf="item.busnessType == 21 || item.busnessType == 22">时时彩</td>

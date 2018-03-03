@@ -1,0 +1,238 @@
+.bg_timeLottery{
+    position: absolute;
+    left: 0;
+    top:0;
+    overflow: auto;
+    width:1700px;
+    height:800px;
+    z-index: 1;
+    padding: 20px;
+    //background-image: url("/assets/img/bg.png");
+    background-repeat:no-repeat;
+}
+
+.title-div_timeLottery{
+    height:100px;
+    padding: 20px;
+    margin-left:175px;
+    margin-bottom:40px;
+    .row-tab_1{
+      background-color: rgba(0,0,0,0.5);
+      width:150px;
+      height:100px;
+      border: 1px solid #32E5E5;
+      line-height:100px;
+      border-top-left-radius:25px;
+      border-bottom-left-radius:25px;
+      display:inline-block;
+      float: left;
+    }
+
+    .row-tab_2{
+        background-color: rgba(0,0,0,0.5);
+        width:560px;
+        height:100px;
+        border: 1px solid #32E5E5;
+        border-left:none;
+        line-height:100px;
+        border-top-right-radius:25px;
+        border-bottom-right-radius:25px;
+        display:inline-block;
+        float: left;
+
+        .row-tab_2_1{
+            float: left;
+            width:130px;
+            height: 50px;
+            margin-top:-15px;
+            margin-left:10px;
+            display:inline-block;
+        }
+
+        .row-tab_2_2{
+            float: left;
+            width:150px;
+            height: 49px;
+            background-image: url("/assets/img/fengpanshijian.png");
+            background-repeat:no-repeat;
+            margin-top: 22px;
+        }
+
+        .row-tab_2_3{
+            float: left;
+            width:100px;
+            height: 49px;
+        }
+
+        .row-tab_2_4{
+            float: left;
+            width:160px;
+            height: 49px;
+            background-image: url("/assets/img/kaijiangshijian.png");
+            background-repeat:no-repeat;
+            margin-top: 22px;
+            margin-left:-20px;
+        }
+
+    }
+
+    .row-tab_3{
+        background-color: rgba(0,0,0,0.5);
+        width:420px;
+        height:100px;
+        border: 1px solid #32E5E5;
+        line-height:100px;
+        border-radius:25px;
+        display:inline-block;
+        margin-left:20px;
+        float: left;
+
+        .row-tab_3_1{
+            float: left;
+            width:130px;
+            height: 50px;
+            margin-top:-15px;
+            margin-left:10px;
+            display:inline-block;
+        }
+
+        .row-tab_3_2{
+            float: left;
+            height: 50px;
+            margin-top:-15px;
+            margin-left:20px;
+            display:inline-block;
+
+            .row-tab_3_2_1{
+              float: left;
+              width:42px;
+              height:42px;
+              margin-top:10px;
+              margin-left:10px;
+              display:inline-block;
+              background-image: url("/assets/img/kaijianghaoma.png");
+              background-repeat:no-repeat;
+            }
+        }
+    }
+}
+
+.content-div_timeLottery{
+    clear: both;
+    //float: left;
+    width:1450px;
+    height:600px;
+
+    .content-tab_1{
+        margin-top:50px;
+        .content-tab_1_1{
+          width:70px;
+          height:30px;
+          float: left;
+          line-height:30px;
+          text-align: center;
+          color: white;
+          font-weight: bold;
+          display: inline-block;
+          background-color: #148ee2;
+          cursor: pointer;
+        }
+        .content-tab_1_2{
+          width:70px;
+          height:30px;
+          float: left;
+          line-height:30px;
+          text-align: center;
+          color: white;
+          font-weight: bold;
+          display: inline-block;
+          background-color:#A7D6CD;
+          cursor: pointer;
+        }
+        .content-tab_1_3{
+          width:70px;
+          height:30px;
+          float: left;
+          line-height:30px;
+          text-align: center;
+          color: white;
+          font-weight: bold;
+          display: inline-block;
+          background-color: #A7D6CD;
+          cursor: pointer;
+        }
+        hr{
+          width:1450px;
+          margin-top:20px;
+          //border:0.5px solid black;
+        }
+    }
+
+    .content-tab_2{
+        margin-top:-20px;
+        .touzhu_table{
+          color: black;
+          border: 1px solid black;
+          th{
+            width:300px;
+            height:40px;
+            border:1px solid black;
+            text-align: center;
+            background-color: #FFFFC4;
+            border-right:2px solid black;
+          }
+          td{
+            height:40px;
+            border:1px solid black;
+            border-right:2px solid black;
+            text-align: left;
+          }
+        }
+    }
+
+    .content-tab_3{
+        margin-top:-20px;
+        display: none;
+        .touzhu_table{
+          color: black;
+          border: 1px solid black;
+          th{
+            width:200px;
+            height:40px;
+            border:1px solid black;
+            text-align: center;
+            background-color: #FFFFC4;
+            border-right:2px solid black;
+          }
+          td{
+            height:40px;
+            border:1px solid black;
+            border-right:2px solid black;
+            text-align: left;
+          }
+        }
+    }
+
+    .content-tab_4{
+        margin-top:-20px;
+        display: none;
+        .touzhu_table{
+          color: black;
+          border: 1px solid black;
+          th{
+            width:250px;
+            height:40px;
+            border:1px solid black;
+            text-align: center;
+            background-color: #FFFFC4;
+            border-right:2px solid black;
+          }
+          td{
+            height:40px;
+            border:1px solid black;
+            border-right:2px solid black;
+            text-align: center;
+          }
+        }
+    }
+}

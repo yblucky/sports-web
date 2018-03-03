@@ -14,7 +14,7 @@ declare var layer: any;//layer对象
 export class Utils {
 
     static APP_SERVE_URL = 'http://120.25.120.154:8091/api';//请求路径 dev环境
-    //static FILE_SERVE_URL = 'http://dev.sutongbao.file.yb.com/';//文件服务器访问路径 开发
+    static FILE_SERVE_URL = 'http://dev.sutongbao.file.yb.com/';//文件服务器访问路径 开发
 
     //static APP_SERVE_URL = 'http://127.0.0.1:8080/app';//请求路径 本地环境
     //static FILE_SERVE_URL = 'http://dev.sutongbao.file.yb.com/';//文件服务器访问路径 开发

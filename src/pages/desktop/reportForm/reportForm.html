@@ -1,0 +1,88 @@
+<div class="bg_reportForm">
+  <div class="all-div_reportForm" align="center">
+    <div class="content-div_reportForm">
+        <!-- 定位组 -->
+        <div class="content-tab_1">
+            <span class="content-tab_1_1" (click)="betCategory($event,2)">日报表</span>
+            <span class="content-tab_1_2" (click)="betCategory($event,3)">周报表</span>
+            <span class="content-tab_1_3" (click)="betCategory($event,4)">月报表</span>
+            <hr />
+        </div>
+
+        <!-- 日报表页面 -->
+        <div class="content-tab_2">
+            <table class="touzhu_table">
+                  <thead>
+                      <tr>
+                          <th>笔数</th>
+                          <th>总投</th>
+                          <th>盈亏</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr style="cursor:pointer;">
+                          <td>3</td>
+                          <td>3000</td>
+                          <td>+3000</td>
+                      </tr>
+                  </tbody>
+            </table>
+        </div>
+
+        <!-- 周报表页面 -->
+        <div class="content-tab_3">
+            <table class="touzhu_table">
+                  <thead>
+                      <tr>
+                          <th colspan="3" style="background-color:#148EE2;text-align:left;">
+                              <span style="margin-left:30px;color:red;cursor:pointer;" (click)="queryReport($event,1)">上周</span>
+                              <span style="margin-left:6px;color:white;">|</span>
+                              <span style="margin-left:30px;margin-left:6px;color:white;cursor:pointer;" (click)="queryReport($event,2)">本周</span>
+                          </th>
+                      </tr>
+                      <tr>
+                          <th>笔数</th>
+                          <th>总投</th>
+                          <th>盈亏</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr style="cursor:pointer;">
+                          <td>3</td>
+                          <td>3000</td>
+                          <td>+3000</td>
+                      </tr>
+                  </tbody>
+            </table>
+        </div>
+
+        <!-- 月报表页面 -->
+        <div class="content-tab_4">
+            <table class="touzhu_table">
+                  <thead>
+                    <tr>
+                        <th colspan="3" style="background-color:#148EE2;text-align:left;">
+                            <span style="margin-left:30px;color:red;cursor:pointer;" (click)="queryReport($event,3)">上月</span>
+                            <span style="margin-left:6px;color:white;">|</span>
+                            <span style="margin-left:30px;margin-left:6px;color:white;cursor:pointer;" (click)="queryReport($event,4)">本月</span>
+                        </th>
+                    </tr>
+                      <tr>
+                          <th>笔数</th>
+                          <th>总投</th>
+                          <th>盈亏</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr style="cursor:pointer;">
+                          <td>3</td>
+                          <td>3000</td>
+                          <td>+3000</td>
+                      </tr>
+                  </tbody>
+            </table>
+        </div>
+
+    </div>
+  </div>
+</div>

@@ -81,13 +81,10 @@ export class LoginPage {
     }
 
     /**
-    * 清空表单数据
+    * 跳转注册页面
     */
     clearVal(){
-        this.loginName = '';
-        this.password = '';
-        this.imgCode = '';
-        $("#loginName").focus();
+        this.router.navigate(['common/register']);
     }
 
     //验证表单数据

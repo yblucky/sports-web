@@ -3,10 +3,12 @@
 <nav class="leftPanel">
     <div class="leftPanel_0"></div>
     <div class="leftPanel_1">游戏列表</div>
-    <div class="leftPanel_2" (click)='showStyle($event,"desktop/home")'>重庆时时彩</div>
+    <div class="leftPanel_2" (click)='showStyle($event,"desktop/timeLottery")'>重庆时时彩</div>
     <div class="leftPanel_2" (click)='showStyle($event,"desktop/tousu")'>北京赛车</div>
-    <div class="leftPanel_2" (click)='showStyle($event,"desktop/userOrder")'>订单信息</div>
-    <div class="leftPanel_2">个人设置</div>
+    <div class="leftPanel_2" (click)='showStyle($event,"desktop/userOrder")'>下单明细</div>
+    <div class="leftPanel_2" (click)='showStyle($event,"desktop/awardNumber")'>开奖号码</div>
+    <div class="leftPanel_2" (click)='showStyle($event,"desktop/reportForm")'>个人报表</div>
+    <div class="leftPanel_2" (click)='showStyle($event,"desktop/personalSettings")'>个人设置</div>
 </nav>
 
 
@@ -21,14 +23,15 @@
                         <img src="/assets/img/shanguang.png" />
                     </span>
                     <span style="padding-left:40px;">
-                        <img src="/assets/img/chongzhi.png" width="88" height="38" />
+                        <img src="/assets/img/chongzhi.png" style="cursor:pointer;" width="88" height="38" (click) = "rechargePage()" />
                     </span>
                     <span style="padding-left:15px;">
-                        <img src="/assets/img/tixian.png" width="88" height="38" />
+                        <img src="/assets/img/tixian.png" style="cursor:pointer;" width="88" height="38" (click) = "withdrawalsPage()" />
                     </span>
                 </div>
-                <div class="col-md-6 text-right">
-
+                <div class="col-md-6">
+                    <span style="font-size:14px;font-weight:bold;margin-left:35%;">会员名：<span style="font-size:18px;font-weight:bold;color:#de3c51;font-family:cursive;">王者荣耀</span></span>
+                    <span style="font-size:14px;font-weight:bold;margin-left:25px;">金额：<span style="font-size:20px;font-weight:bold;color:#d9e811;">200000.000</span>  元</span>
                 </div>
             </div>
         </div>
@@ -36,5 +39,78 @@
     <!-- 工作区域 -->
     <div class="articleWork">
         <router-outlet></router-outlet>
+    </div>
+
+    <!-- 模糊层,播放赛车视频 -->
+    <div class="cashMoney">
+        <div class="flag"></div>
+
+        <div class="recharge">
+            <img class="closeGame" src="/assets/pkImg/close.png" (click) = "closePage()" />
+            <div class="recharge_1">
+                <div class="qrcode">
+                    <img src="/assets/img/qrcode.png" />
+                </div>
+
+                <div class="qrcode_describe">充值：请扫描二维码，联系线下管理员进行充值，谢谢！</div>
+            </div>
+        </div>
+
+        <div class="withdrawals">
+            <img class="closeGame" src="/assets/pkImg/close.png" (click) = "closePage()" />
+            <div class="withdrawals_1">
+                <div class="panel panel-default">
+                    <div class="panel-heading" style="height:100px;">
+                        <div style="text-align:center;color:#009EE0;font-size:36px;margin-top:3%;font-weight:bold;">用户提现</div>
+                    </div>
+                    <div class="panel-body">
+                        <form class="form-horizontal" role="form">
+                            <!-- <div class="input-group">
+                                <span class="input-group-addon">账号</span>
+                                <input type="text" name="loginName" [(ngModel)]="loginName" class="form-control" id="loginName" placeholder="请输入用户名">
+                            </div> -->
+                            <div class="form-group">
+                                <div class="col-sm-3 control-label">
+                                    <div style="margin-top:-6px;margin-left:2%;font-size:18px;color:black;width:120px;height:32px;text-align:center;padding-top:4px;">提现金额</div>
+                                </div>
+                                <div class="col-sm-9">
+                                     <input type="text" name="loginName" [(ngModel)]="loginName" class="form-control" id="loginName" placeholder="请输入提现金额">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-3 control-label">
+                                    <div style="margin-top:-6px;margin-left:2%;font-size:18px;color:black;width:120px;height:32px;text-align:center;padding-top:4px;">提现用户名</div>
+                                </div>
+                                <div class="col-sm-9">
+                                     <input type="text" name="loginName" [(ngModel)]="loginName" class="form-control" id="loginName" placeholder="该名称需是与银行卡号对应的真实姓名">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-3 control-label">
+                                    <div style="margin-top:-6px;margin-left:2%;font-size:18px;color:black;width:120px;height:32px;text-align:center;padding-top:4px;">提现账号</div>
+                                </div>
+                                <div class="col-sm-9">
+                                     <input type="text" name="loginName" [(ngModel)]="loginName" class="form-control" id="loginName" placeholder="请输入支付宝、银行卡号">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-3 control-label">
+                                    <div style="margin-top:-6px;margin-left:2%;font-size:18px;color:black;width:120px;height:32px;text-align:center;padding-top:4px;">支付密码</div>
+                                </div>
+                                <div class="col-sm-9">
+                                     <input type="password" name="password" [(ngModel)]="password" class="form-control" id="password" placeholder="请输入支付密码">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="panel-footer">
+                        <div style="margin-top:3%;"><button type="submit" class="btn btn-block" style="background-color:#FDC278;height:40px;color:white;font-size:18px;" (click)="loginIn()">立即提现</button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
