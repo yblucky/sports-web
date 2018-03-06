@@ -16,12 +16,20 @@ var mainPage:any;
 export class MainPage {
     linkCls:string='';
     userImg:string = "/assets/images/avatar.png";
-    userName:string = '';
+    userName:string;
+    userMoney:number=0.00;
+    userQrcode:string;
     menuParent = "我的桌面";
     menuName = "首页";
     refreshLink ='desktop/timeLottery';
-    menuDatas:any;
-    parentMenuData:any;
+
+    //保存用户银行卡列表变量
+    userBankCardList:any;
+
+    amount:number;
+    bankCardId:string="-1";
+    payPwd:string;
+
     constructor(private router:Router,private aroute:ActivatedRoute,private httpService:HttpService) {
         _router = router;
         //获取用户信息
@@ -34,19 +42,17 @@ export class MainPage {
         $(".leftPanel_2").first().css("background-image","url('/assets/img/daohangdianjian.png')");
         $(".leftPanel_2").first().css("background-repeat","no-repeat");
         this.router.navigate(['common/main/desktop/timeLottery']);
+        this.loadUserInfo();
     }
 
-    loadMenu(roleId:string){
+    loadUserInfo(){
         this.httpService.get({
-            url:'/main/findMenu',
-            data:{roleId:roleId}
+            url:'/user/findUserInfo',
+            data:[]
         }).subscribe((data:any)=>{
             if(data.code==='0000'){
-                this.menuDatas = data.data;
-                this.parentMenuData = this.getParentMenu();
-                setTimeout(()=>{
-                    $("#menu").metisMenu();
-                },100);
+                this.userName = data.data.nickName;
+                this.userMoney = data.data.balance;
             }else if(data.code==='9999'){
                 Utils.show(data.message);
             }else{
@@ -55,29 +61,24 @@ export class MainPage {
         });
     }
 
-    getParentMenu(){
-        return this.getChilderMenu(this.getRootId());
-    }
-
-    getRootId(){
-        for(var o in this.menuDatas){
-            if(this.menuDatas[o].parentId==='0'){
-                return this.menuDatas[o].id;
+    /*
+    * 获取充值二维码参数
+    */
+    loadRechargeQrcode(){
+        this.httpService.get({
+            url:'/common/findParameter',
+            data:{
+                paraName:'recharge_qrcode'
             }
-        }
-        return null;
-    }
-
-    getChilderMenu(pid:string){
-        let lis = [];
-        for(var o in this.menuDatas){
-            if(this.menuDatas[o].parentId===pid){
-                lis.push(this.menuDatas[o]);
+        }).subscribe((data:any)=>{
+            if(data.code === "0000"){
+                //Utils.show("获取成功!");
+                this.userQrcode = data.data;
+            }else{
+                Utils.show("获取充值二维码失败!");
             }
-        }
-        return lis;
+        });
     }
-
 
     ngOnInit(){
         $(".leftPanel_2").first().addClass("w2");
@@ -91,6 +92,18 @@ export class MainPage {
             this.linkCls = 'open';
             $("body").addClass("big-page");
         }
+    }
+
+    //退出鼠标经过颜色
+    signOver($event:any){
+        $($event.target).css("color","red");
+        $($event.target).css("text-decoration","underline");
+    }
+
+    signOut($event:any){
+        var isClick = $($event.target).attr("isClick");
+        $($event.target).css("color","black");
+        $($event.target).css("text-decoration","none");
     }
 
     loginOut(){
@@ -120,17 +133,82 @@ export class MainPage {
     rechargePage(){
         $(".cashMoney").show();
         $(".recharge").show();
+        this.loadRechargeQrcode();
     }
 
     withdrawalsPage(){
         $(".cashMoney").show();
         $(".withdrawals").show();
+        this.loadUserBankCard();
     }
 
     closePage(){
         $(".cashMoney").hide();
         $(".withdrawals").hide();
         $(".recharge").hide();
+    }
+
+    //获取用户银行卡列表
+    //获取用户银行卡
+    loadUserBankCard(){
+        this.httpService.get({
+            url:'/setting/bank/findAll',
+            data:{}
+        }).subscribe((data:any)=>{
+            if(data.code==='0000'){
+                this.userBankCardList = data.data;
+                //alert(this.bankTypeList[0].bankName);
+            }else if(data.code==='9999'){
+                Utils.show(data.message);
+            }else{
+                Utils.show("系统异常，请联系管理员");
+            }
+        });
+    }
+
+    //提交提现表单
+    withdrawalsSubmit(){
+        if(this.validatorWithdrawals()){
+            this.httpService.post({
+                url:'/withdrawals/draw',
+                data:{
+                    amount:this.amount,
+                    bankCardId:this.bankCardId,
+                    payPwd:this.payPwd
+                }
+            }).subscribe((data:any)=>{
+                if(data.code==='0000'){
+                    Utils.show(data.message);
+                    this.closePage();
+                    this.amount=0;
+                    this.bankCardId="-1";
+                    this.payPwd="";
+                }else if(data.code==='9999'){
+                    Utils.show(data.message);
+                }else{
+                    Utils.show(data.message);
+                }
+            });
+        }
+    }
+
+    validatorWithdrawals(){
+        if(Utils.isEmpty(this.amount)){
+            layer.tips('提现金额不能为空', '#amount',{tips: 1});
+            $("#amount").focus();
+            return false;
+        }
+        if(Utils.isEmpty(this.bankCardId) || this.bankCardId == "-1"){
+            layer.tips('开户银行不能为空', '#bankCardId',{tips: 1});
+            $("#bankCardId").focus();
+            return false;
+        }
+        if(Utils.isEmpty(this.payPwd)){
+            layer.tips('支付密码不能为空', '#payPwd',{tips: 1});
+            $("#payPwd").focus();
+            return false;
+        }
+        return true;
     }
 
 }

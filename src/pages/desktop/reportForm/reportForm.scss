@@ -65,68 +65,29 @@
     .content-tab_2{
         margin-top:-20px;
         .touzhu_table{
-          color: black;
-          border: 1px solid black;
-          th{
-            width:500px;
-            height:40px;
-            border:1px solid black;
-            text-align: center;
-            background-color: #FFFFC4;
-            border-right:2px solid black;
-          }
-          td{
-            height:40px;
-            border:1px solid black;
-            border-right:2px solid black;
-            text-align: center;
-          }
-        }
-    }
+            color: black;
+            border: 1px solid black;
+            th{
+              width:500px;
+              height:40px;
+              border:1px solid black;
+              text-align: center;
+              background-color: #FFFFC4;
+              border-right:2px solid black;
+            }
+            td{
+              height:40px;
+              border:1px solid black;
+              border-right:2px solid black;
+              text-align: center;
+            }
+            .content-tab_2_13{
+                display: none;
+            }
 
-    .content-tab_3{
-        margin-top:-20px;
-        display: none;
-        .touzhu_table{
-          color: black;
-          border: 1px solid black;
-          th{
-            width:500px;
-            height:40px;
-            border:1px solid black;
-            text-align: center;
-            background-color: #FFFFC4;
-            border-right:2px solid black;
-          }
-          td{
-            height:40px;
-            border:1px solid black;
-            border-right:2px solid black;
-            text-align: center;
-          }
-        }
-    }
-
-    .content-tab_4{
-        margin-top:-20px;
-        display: none;
-        .touzhu_table{
-          color: black;
-          border: 1px solid black;
-          th{
-            width:500px;
-            height:40px;
-            border:1px solid black;
-            text-align: center;
-            background-color: #FFFFC4;
-            border-right:2px solid black;
-          }
-          td{
-            height:40px;
-            border:1px solid black;
-            border-right:2px solid black;
-            text-align: center;
-          }
+            .content-tab_2_15{
+                display: none;
+            }
         }
     }
 }

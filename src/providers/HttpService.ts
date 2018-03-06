@@ -136,7 +136,7 @@ export class HttpService {
 
     public loginOut(){
       this.post({
-            url:'/login/loginOut',
+            url:'/user/loginOut',
             data:{}
       }).subscribe((data:any)=>{
             if(data.code === "0000"){

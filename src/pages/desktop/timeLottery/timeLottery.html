@@ -70,11 +70,11 @@
                   </thead>
                   <tbody>
                       <tr style="cursor:pointer;" *ngFor="let haoma of haomas; let i = index">
-                          <td flag="1" (click)="betTimeLottery($event)"><span style="margin-left:10px;font-weight:bold;">{{i}}XXXX</span><span style="margin-left:120px;color:red;font-weight:bold;">9.95</span></td>
-                          <td flag="1" (click)="betTimeLottery($event)"><span style="margin-left:10px;font-weight:bold;">X{{i}}XXX</span><span style="margin-left:120px;color:red;font-weight:bold;">9.95</span></td>
-                          <td flag="1" (click)="betTimeLottery($event)"><span style="margin-left:10px;font-weight:bold;">XX{{i}}XX</span><span style="margin-left:120px;color:red;font-weight:bold;">9.95</span></td>
-                          <td flag="1" (click)="betTimeLottery($event)"><span style="margin-left:10px;font-weight:bold;">XXX{{i}}X</span><span style="margin-left:120px;color:red;font-weight:bold;">9.95</span></td>
-                          <td flag="1" (click)="betTimeLottery($event)"><span style="margin-left:10px;font-weight:bold;">XXXX{{i}}</span><span style="margin-left:120px;color:red;font-weight:bold;">9.95</span></td>
+                          <td flag="1" (click)="betTimeLottery($event)"><span flag="3" style="margin-left:10px;font-weight:bold;">{{i}}XXXX</span><span flag="3" style="margin-left:120px;color:red;font-weight:bold;">{{timeLotteryOdds_1}}</span></td>
+                          <td flag="1" (click)="betTimeLottery($event)"><span flag="3" style="margin-left:10px;font-weight:bold;">X{{i}}XXX</span><span flag="3" style="margin-left:120px;color:red;font-weight:bold;">{{timeLotteryOdds_1}}</span></td>
+                          <td flag="1" (click)="betTimeLottery($event)"><span flag="3" style="margin-left:10px;font-weight:bold;">XX{{i}}XX</span><span flag="3" style="margin-left:120px;color:red;font-weight:bold;">{{timeLotteryOdds_1}}</span></td>
+                          <td flag="1" (click)="betTimeLottery($event)"><span flag="3" style="margin-left:10px;font-weight:bold;">XXX{{i}}X</span><span flag="3" style="margin-left:120px;color:red;font-weight:bold;">{{timeLotteryOdds_1}}</span></td>
+                          <td flag="1" (click)="betTimeLottery($event)"><span flag="3" style="margin-left:10px;font-weight:bold;">XXXX{{i}}</span><span flag="3" style="margin-left:120px;color:red;font-weight:bold;">{{timeLotteryOdds_1}}</span></td>
                       </tr>
                   </tbody>
                   <tfoot>
@@ -122,39 +122,39 @@
                   </thead>
                   <tbody class="tbody_category">
                       <tr class="category_1" style="cursor:pointer;" *ngFor="let haoma of haomas; let i = index">
-                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLottery($event)"><span style="margin-left:10px;font-weight:bold;">{{i}}{{j}}XXX</span><span style="margin-left:50px;color:red;font-weight:bold;">97</span></td>
+                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLottery($event)"><span flag="3" style="margin-left:10px;font-weight:bold;">{{i}}{{j}}XXX</span><span flag="3" style="margin-left:50px;color:red;font-weight:bold;">{{timeLotteryOdds_2}}</span></td>
                       </tr>
 
                       <tr class="category_2" style="cursor:pointer;display:none;" *ngFor="let haoma of haomas; let i = index">
-                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLottery($event)"><span style="margin-left:10px;font-weight:bold;">{{i}}X{{j}}XX</span><span style="margin-left:50px;color:red;font-weight:bold;">97</span></td>
+                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLottery($event)"><span flag="3" style="margin-left:10px;font-weight:bold;">{{i}}X{{j}}XX</span><span flag="3" style="margin-left:50px;color:red;font-weight:bold;">{{timeLotteryOdds_2}}</span></td>
                       </tr>
 
                       <tr class="category_3" style="cursor:pointer;display:none;" *ngFor="let haoma of haomas; let i = index">
-                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLottery($event)"><span style="margin-left:10px;font-weight:bold;">{{i}}XXX{{j}}</span><span style="margin-left:50px;color:red;font-weight:bold;">97</span></td>
+                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLottery($event)"><span flag="3" style="margin-left:10px;font-weight:bold;">{{i}}XXX{{j}}</span><span flag="3" style="margin-left:50px;color:red;font-weight:bold;">{{timeLotteryOdds_2}}</span></td>
                       </tr>
 
                       <tr class="category_4" style="cursor:pointer;display:none;" *ngFor="let haoma of haomas; let i = index">
-                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLottery($event)"><span style="margin-left:10px;font-weight:bold;">X{{i}}{{j}}XX</span><span style="margin-left:50px;color:red;font-weight:bold;">97</span></td>
+                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLottery($event)"><span flag="3" style="margin-left:10px;font-weight:bold;">X{{i}}{{j}}XX</span><span flag="3" style="margin-left:50px;color:red;font-weight:bold;">{{timeLotteryOdds_2}}</span></td>
                       </tr>
 
                       <tr class="category_5" style="cursor:pointer;display:none;" *ngFor="let haoma of haomas; let i = index">
-                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLottery($event)"><span style="margin-left:10px;font-weight:bold;">X{{i}}X{{j}}X</span><span style="margin-left:50px;color:red;font-weight:bold;">97</span></td>
+                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLottery($event)"><span flag="3" style="margin-left:10px;font-weight:bold;">X{{i}}X{{j}}X</span><span flag="3" style="margin-left:50px;color:red;font-weight:bold;">{{timeLotteryOdds_2}}</span></td>
                       </tr>
 
                       <tr class="category_6" style="cursor:pointer;display:none;" *ngFor="let haoma of haomas; let i = index">
-                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLottery($event)"><span style="margin-left:10px;font-weight:bold;">X{{i}}XX{{j}}</span><span style="margin-left:50px;color:red;font-weight:bold;">97</span></td>
+                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLottery($event)"><span flag="3" style="margin-left:10px;font-weight:bold;">X{{i}}XX{{j}}</span><span flag="3" style="margin-left:50px;color:red;font-weight:bold;">{{timeLotteryOdds_2}}</span></td>
                       </tr>
 
                       <tr class="category_7" style="cursor:pointer;display:none;" *ngFor="let haoma of haomas; let i = index">
-                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLottery($event)"><span style="margin-left:10px;font-weight:bold;">XX{{i}}{{j}}X</span><span style="margin-left:50px;color:red;font-weight:bold;">97</span></td>
+                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLottery($event)"><span flag="3" style="margin-left:10px;font-weight:bold;">XX{{i}}{{j}}X</span><span flag="3" style="margin-left:50px;color:red;font-weight:bold;">{{timeLotteryOdds_2}}</span></td>
                       </tr>
 
                       <tr class="category_8" style="cursor:pointer;display:none;" *ngFor="let haoma of haomas; let i = index">
-                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLottery($event)"><span style="margin-left:10px;font-weight:bold;">XX{{i}}X{{j}}</span><span style="margin-left:50px;color:red;font-weight:bold;">97</span></td>
+                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLottery($event)"><span flag="3" style="margin-left:10px;font-weight:bold;">XX{{i}}X{{j}}</span><span flag="3" style="margin-left:50px;color:red;font-weight:bold;">{{timeLotteryOdds_2}}</span></td>
                       </tr>
 
                       <tr class="category_9" style="cursor:pointer;display:none;" *ngFor="let haoma of haomas; let i = index">
-                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLottery($event)"><span style="margin-left:10px;font-weight:bold;">XXX{{i}}{{j}}</span><span style="margin-left:50px;color:red;font-weight:bold;">97</span></td>
+                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLottery($event)"><span flag="3" style="margin-left:10px;font-weight:bold;">XXX{{i}}{{j}}</span><span flag="3" style="margin-left:50px;color:red;font-weight:bold;">{{timeLotteryOdds_2}}</span></td>
                       </tr>
                   </tbody>
                   <tfoot>

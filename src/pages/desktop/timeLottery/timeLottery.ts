@@ -53,6 +53,11 @@ export class TimeLotteryPage {
     inputMultiplier_back:number = 1;
 
 
+    //赔率
+    timeLotteryOdds_1:number;
+    timeLotteryOdds_2:number;
+
+
     constructor(private router:Router,private httpService:HttpService,private aroute:ActivatedRoute,private utils:Utils) {
         this.aroute.params.subscribe( params  => {
             this.showTime = new Date();
@@ -60,6 +65,7 @@ export class TimeLotteryPage {
         //this.orderStatistics();
         //this.init();
         this.loadData();
+        this.loadTimeLatteryOdds();
         //this.initnumsArray();
     }
 
@@ -395,12 +401,19 @@ export class TimeLotteryPage {
     betTimeLottery($event:any){
         //获取flag属性
         var flag = $($event.target).attr("flag");
+
         if(flag == 1){
           $($event.target).css("background-color","#FFFF00");
           $($event.target).attr("flag","2");
-        }else{
+        }else if(flag == 2){
           $($event.target).css("background-color","");
           $($event.target).attr("flag","1");
+        }else if(flag == 3){
+          $($event.target).parent().css("background-color","#FFFF00");
+          $($event.target).attr("flag","4");
+        }else if(flag == 4){
+          $($event.target).parent().css("background-color","");
+          $($event.target).attr("flag","3");
         }
     }
 
@@ -445,6 +458,22 @@ export class TimeLotteryPage {
 
         //设置
         $($event.target).attr("isClick","2");
+    }
+
+    //获取赔率
+    loadTimeLatteryOdds(){
+        this.httpService.get({
+            url:'/common/loadOdds',
+            data:[]
+        }).subscribe((data:any)=>{
+            if(data.code === "0000"){
+                //Utils.show("获取成功!");
+                this.timeLotteryOdds_1 = data.data.timelotteryodds_1;
+                this.timeLotteryOdds_2 = data.data.timelotteryodds_2;
+            }else{
+                Utils.show("获取赔率失败!");
+            }
+        });
     }
 
     //快打动画

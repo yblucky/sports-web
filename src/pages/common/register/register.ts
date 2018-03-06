@@ -69,9 +69,9 @@ export class RegisterPage {
     }
 
     /*
-    * 获取图片验证码
+    * 获取手机验证码
     */
-    loadValiCode(){
+    loadMobileCode(){
         if(Utils.isEmpty(this.mobile)){
             layer.tips('手机号不能为空', '#mobile',{tips: 1});
             $("#mobile").focus();

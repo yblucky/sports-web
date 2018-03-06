@@ -34,14 +34,14 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>2018-03-01 10:38</td>
-                    <td>201803011038</td>
-                    <td>5</td>
-                    <td>4</td>
-                    <td>3</td>
-                    <td>2</td>
-                    <td>1</td>
+                <tr *ngFor="let item of httpService.items; let i = index">
+                    <td>{{itme.lotteryTime}}</td>
+                    <td>{{item.issueNo}}</td>
+                    <td>{{item.lotteryFive}}</td>
+                    <td>{{item.lotteryFour}}</td>
+                    <td>{{item.lotteryThree}}</td>
+                    <td>{{item.lotteryTwo}}</td>
+                    <td>{{item.lotteryOne}}</td>
                     <!-- <td>{{utils.formatDate(item.createTime,'yyyy-MM-dd HH:mm:ss')}}</td> -->
                 </tr>
             </tbody>

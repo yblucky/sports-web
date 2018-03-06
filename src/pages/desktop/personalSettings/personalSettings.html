@@ -8,6 +8,7 @@
               <!-- <span class="content-tab_1_1" (click)="betCategory($event,2)">修改个人信息</span> -->
               <span class="content-tab_1_1" (click)="betCategory($event,2)">修改登录密码</span>
               <span class="content-tab_1_2" (click)="betCategory($event,3)">修改支付密码</span>
+              <span class="content-tab_1_3" (click)="betCategory($event,4)">银行卡管理</span>
               <hr />
           </div>
 
@@ -25,7 +26,7 @@
                                   <div style="margin-top:-6px;margin-left:2%;font-size:18px;color:black;width:120px;height:32px;text-align:center;padding-top:4px;">原登录密码</div>
                               </div>
                               <div class="col-sm-6">
-                                   <input type="text" name="loginName" [(ngModel)]="loginName" class="form-control" id="loginName" placeholder="请输入原登录密码">
+                                   <input type="password" name="oldLoginPwd" [(ngModel)]="oldLoginPwd" class="form-control" id="oldLoginPwd" placeholder="请输入原登录密码">
                               </div>
 
                               <div class="col-sm-4">
@@ -38,10 +39,10 @@
                                   <div style="margin-top:-6px;margin-left:2%;font-size:18px;color:black;width:120px;height:32px;text-align:center;padding-top:4px;">新登录密码</div>
                               </div>
                               <div class="col-sm-6">
-                                   <input type="text" name="loginName" [(ngModel)]="loginName" class="form-control" id="loginName" placeholder="请输入新登录密码">
+                                   <input type="password" name="newLoginPwd" [(ngModel)]="newLoginPwd" class="form-control" id="newLoginPwd" placeholder="请输入新登录密码">
                               </div>
                               <div class="col-sm-4">
-                                   <div style="font-size:13px;color:red;text-align:center;padding-top:8px;">(新密码不能跟账号和原密码相同)</div>
+                                   <div style="font-size:13px;color:red;text-align:center;padding-top:8px;">(新密码不能跟原密码相同)</div>
                               </div>
                           </div>
 
@@ -50,7 +51,7 @@
                                   <div style="margin-top:-6px;margin-left:2%;font-size:18px;color:black;width:120px;height:32px;text-align:center;padding-top:4px;">确认新密码</div>
                               </div>
                               <div class="col-sm-6">
-                                   <input type="text" name="loginName" [(ngModel)]="loginName" class="form-control" id="loginName" placeholder="请重新输入新登录密码">
+                                   <input type="password" name="confirmNewLoginPwd" [(ngModel)]="confirmNewLoginPwd" class="form-control" id="confirmNewLoginPwd" placeholder="请重新输入新登录密码">
                               </div>
                               <div class="col-sm-4">
                                    <div style="font-size:13px;color:red;text-align:center;padding-top:8px;">(确认密码与密码必须保持一致)</div>
@@ -59,7 +60,7 @@
                       </form>
                   </div>
                   <div class="panel-footer">
-                      <div style="margin-top:1%;"><button type="submit" class="btn btn-block" style="background-color:#148EE2;height:40px;color:white;font-size:18px;" (click)="loginIn()">提交</button></div>
+                      <div style="margin-top:1%;"><button type="submit" class="btn btn-block" style="background-color:#148EE2;height:40px;color:white;font-size:18px;" (click)="modfiyLoginPwd()">提交</button></div>
                   </div>
               </div>
           </div>
@@ -74,7 +75,7 @@
                                   <div style="margin-top:-6px;margin-left:2%;font-size:18px;color:black;width:120px;height:32px;text-align:center;padding-top:4px;">原支付密码</div>
                               </div>
                               <div class="col-sm-6">
-                                   <input type="text" name="loginName" [(ngModel)]="loginName" class="form-control" id="loginName" placeholder="请输入原支付密码">
+                                   <input type="password" name="oldPwd" [(ngModel)]="oldPwd" class="form-control" id="oldPwd" placeholder="请输入原支付密码">
                               </div>
 
                               <div class="col-sm-4">
@@ -87,10 +88,10 @@
                                   <div style="margin-top:-6px;margin-left:2%;font-size:18px;color:black;width:120px;height:32px;text-align:center;padding-top:4px;">新支付密码</div>
                               </div>
                               <div class="col-sm-6">
-                                   <input type="text" name="loginName" [(ngModel)]="loginName" class="form-control" id="loginName" placeholder="请输入新支付密码">
+                                   <input type="password" name="newPwd" [(ngModel)]="newPwd" class="form-control" id="newPwd" placeholder="请输入新支付密码">
                               </div>
                               <div class="col-sm-4">
-                                   <div style="font-size:13px;color:red;text-align:center;padding-top:8px;">(新密码不能跟账号和原密码相同)</div>
+                                   <div style="font-size:13px;color:red;text-align:center;padding-top:8px;">(新密码不能跟原密码相同)</div>
                               </div>
                           </div>
 
@@ -99,7 +100,7 @@
                                   <div style="margin-top:-6px;margin-left:2%;font-size:18px;color:black;width:120px;height:32px;text-align:center;padding-top:4px;">确认新密码</div>
                               </div>
                               <div class="col-sm-6">
-                                   <input type="text" name="loginName" [(ngModel)]="loginName" class="form-control" id="loginName" placeholder="请重新输入新登录密码">
+                                   <input type="password" name="confirmNewPwd" [(ngModel)]="confirmNewPwd" class="form-control" id="confirmNewPwd" placeholder="请重新输入新登录密码">
                               </div>
                               <div class="col-sm-4">
                                    <div style="font-size:13px;color:red;text-align:center;padding-top:8px;">(确认密码与密码必须保持一致)</div>
@@ -108,10 +109,98 @@
                       </form>
                   </div>
                   <div class="panel-footer">
-                      <div style="margin-top:1%;"><button type="submit" class="btn btn-block" style="background-color:#148EE2;height:40px;color:white;font-size:18px;" (click)="loginIn()">提交</button></div>
+                      <div style="margin-top:1%;"><button type="submit" class="btn btn-block" style="background-color:#148EE2;height:40px;color:white;font-size:18px;" (click)="modfiyPayPwd()">提交</button></div>
                   </div>
               </div>
           </div>
+
+          <!-- 银行卡管理 -->
+          <div class="content-tab_4">
+              <table class="touzhu_table">
+                    <thead>
+                        <tr>
+                            <th colspan="5" style="text-align:left;background-color:#1EBCEE;"><button class="btn btn-block" style="width:100px;height:30px;text-align:center;margin-left:60px;background-color:#F9C211;color:white;" (click)="addBankCardPage()">新增银行卡</button></th>
+                        </tr>
+                        <tr>
+                            <th>持卡人姓名</th>
+                            <th>银行卡号</th>
+                            <th>开户银行</th>
+                            <th>开户支行</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="cursor:pointer;" *ngFor="let userBankCard of userBankCardList; let i = index">
+                            <td>{{userBankCard.name}}</td>
+                            <td>{{userBankCard.bankCard}}</td>
+                            <td>{{userBankCard.bankName}}</td>
+                            <td>{{userBankCard.branch}}</td>
+                            <td text-align="center"><button class="btn" style="background-color:#2dadd4;width:80px;height:35px;color:white;font-size:18px;" (click)="delUserBankCard(userBankCard.id)">删除</button></td>
+                        </tr>
+                    </tbody>
+              </table>
+          </div>
+
+          <div class="addBankCard">
+              <div class="flag"></div>
+              <div class="withdrawals">
+                  <img class="closeGame" src="/assets/pkImg/close.png" (click) = "closePage()" />
+                  <div class="withdrawals_1">
+                      <div class="panel panel-default">
+                          <div class="panel-heading" style="height:100px;">
+                              <div style="text-align:center;color:#009EE0;font-size:36px;margin-top:1%;font-weight:bold;">添加银行卡</div>
+                              <div style="text-align:center;color:red;font-size:12px;font-weight:bold;">（注意：银行卡只限添加三张，谢谢配合！！）</div>
+                          </div>
+                          <div class="panel-body">
+                              <form class="form-horizontal" role="form">
+                                  <div class="form-group">
+                                      <div class="col-sm-3 control-label">
+                                          <div style="margin-top:-6px;margin-left:2%;font-size:18px;color:black;width:120px;height:32px;text-align:center;padding-top:4px;">持卡人姓名</div>
+                                      </div>
+                                      <div class="col-sm-9">
+                                           <input type="text" name="cardName" [(ngModel)]="cardName" class="form-control" id="cardName" placeholder="该名称需是与银行卡号对应的真实姓名">
+                                      </div>
+                                  </div>
+
+                                  <div class="form-group">
+                                      <div class="col-sm-3 control-label">
+                                          <div style="margin-top:-6px;margin-left:2%;font-size:18px;color:black;width:120px;height:32px;text-align:center;padding-top:4px;">银行卡号</div>
+                                      </div>
+                                      <div class="col-sm-9">
+                                           <input type="text" name="bankCard" [(ngModel)]="bankCard" class="form-control" id="bankCard" placeholder="该卡号需与持卡人的名称一致">
+                                      </div>
+                                  </div>
+
+                                  <div class="form-group">
+                                      <div class="col-sm-3 control-label">
+                                          <div style="margin-top:-6px;margin-left:2%;font-size:18px;color:black;width:120px;height:32px;text-align:center;padding-top:4px;">银行名称</div>
+                                      </div>
+                                      <div class="col-sm-9">
+                                           <select name="bankTypeId" [(ngModel)]="bankTypeId" id="bankTypeId" style="width:345px;height:30px;border-radius:3px;">
+                                                <option value="-1">请选择</option>
+                                                <option *ngFor="let bankType of bankTypeList; let i = index" value="{{bankType.id}}">{{bankType.bankName}}</option>
+                                           </select>
+                                      </div>
+                                  </div>
+
+                                  <div class="form-group">
+                                      <div class="col-sm-3 control-label">
+                                          <div style="margin-top:-6px;margin-left:2%;font-size:18px;color:black;width:120px;height:32px;text-align:center;padding-top:4px;">开户支行</div>
+                                      </div>
+                                      <div class="col-sm-9">
+                                           <input type="text" name="branch" [(ngModel)]="branch" class="form-control" id="branch" placeholder="请输入银行卡开户所在地">
+                                      </div>
+                                  </div>
+                              </form>
+                          </div>
+                          <div class="panel-footer">
+                              <div style="margin-top:3%;"><button type="submit" class="btn btn-block" style="background-color:#FDC278;height:40px;color:white;font-size:18px;" (click)="addUserBankCard()">提交</button></div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
     </div>
   </div>
 </div>
