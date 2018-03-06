@@ -187,11 +187,20 @@ export class TimeLotteryPage {
     //封装初始化每个投注的数组
     initClickArray(){
       var clickArr=new Array();
-      for(var i=0;i<6;i++){
+      for(var i=0;i<7;i++){
         clickArr[i]=-1;
-        if(i==5){
+        if(i==6){
           clickArr[i]=0;
         }
+      }
+      return clickArr;
+    }
+
+    //封装初始化每个投注的数组
+    initContentArray(){
+      var clickArr=new Array();
+      for(var i=0;i<5;i++){
+        clickArr[i]="X";
       }
       return clickArr;
     }
@@ -207,198 +216,103 @@ export class TimeLotteryPage {
     }
 
     //点击号码生成投注列表
-    createTouzhu($event:any){
-      //clickArr[0] 个位  clickArr[1] 十位 clickArr[2] 百位 clickArr[3] 千位 clickArr[4] 万位 clickArr[5] 投注倍数;
-        var clickArr=this.initClickArray();
-        var elm = $($event.target);
-        //获取点击事件的各个参数
-        var className = elm.attr("class");
-        var num =  parseInt(elm.text());
-
-        //获取输入倍数框
-        //改变加倍
-        $("#inputMultiplier1").css("display","block");
-        $("#inputMultiplier2").css("display","none");
-
-        //获取倍数
-        this.inputMultiplier = $("#shuru").val();
-
-        //判断是否投错位置
-        var n=this.dingwei_row.indexOf(className);
-        if(n==-1){
-          Utils.show("操作错误");
-          return;
-        }
-
-        //[-1,-1,-1,-1,-1,0]
-        //判断是否有添加过
-        if(this.betting_list.length==0){
-          //直接增加投注
-          // for(var j=0;j<this.dingwei_row.length;j++){
-            clickArr[n]=num;
-            clickArr[5]=this.inputMultiplier;
-            this.betting_list.push(clickArr);
-            this.dingwei_nums[n].push(num);
-            //恢复默认数组
-            clickArr=this.initClickArray();
-            //显示就好
-          // }
-        }else{
-          //for(var k=0;k<this.betting_list.length;k++){
-            //for(var j=0;j<5;j++){
-            var countPerNum=this.dingwei_nums[n].length;
-            if(countPerNum>=this.maxNumsPerWeizhi){
-               Utils.show("单个位只能最多投注"+this.maxNumsPerWeizhi+"个不同的数字");
-               return;
-            }
-            if(this.dingwei_nums[n].indexOf(num)>-1){
-              Utils.show("此位对应的数字已经添加过投注,请直接加倍");
-              return;
-            }
-            //}
-            //var n=this.dingwei_row.indexOf(className);
-
-          //}
-          clickArr[n]=num;
-          clickArr[5]=this.inputMultiplier;
-          this.betting_list.push(clickArr);
-          this.dingwei_nums[n].push(num);
-        }
-
-        //投注颜色变红
-        elm.css("background-image","url('/assets/img/haoma_red.png')");
-        //计算金额
-        this.calculateAmount();
-    }
-
-    //定义输入倍数(针对添加号码用的)
-    shurubeishu(flag:number){
-
-        //获取输入框中的参数
-        this.inputMultiplier = $("#shuru").val();
-
-        if(flag == 1){
-            this.inputMultiplier --;
-        }else if(flag == 2){
-            this.inputMultiplier ++;
-        }
-
-        if(this.inputMultiplier <= 0){
-            this.inputMultiplier = 1;
-        }
-        //赋值
-        $("#shuru").val(this.inputMultiplier);
-    }
-
-    //针对某一号码用的
-    shurubeishu1(flag:number){
-        //获取输入框中的参数
-        this.inputMultiplier_back = parseInt($("#shuru1").val());
-
-        if(flag == 1){
-            this.inputMultiplier_back --;
-        }else if(flag == 2){
-            this.inputMultiplier_back ++;
-        }
-
-        if(this.inputMultiplier_back <= 0){
-            this.inputMultiplier_back = 1;
-        }
-        //赋值
-        $("#shuru1").val(this.inputMultiplier_back);
-
-        this.doubling(this.target_elm,this.doubling_index,2);
-    }
-
-    //添加列表
-    addBettingList(){
-        this.betting_list_display = this.betting_list;
-        this.calculateAmount();
-    }
-
-    //删除号码
-    delBettingRow(index:number){
-        //新的
-      var del_betting_list_row=this.betting_list[index];
-      for(var i=0;i<del_betting_list_row.length-1;i++){
-        if(del_betting_list_row[i]!=-1){
-            if(i==4){
-              $("#wan_"+del_betting_list_row[i]).css("background-image","url('/assets/img/haoma_green.png')");
-            }else if(i==3){
-              $("#qian_"+del_betting_list_row[i]).css("background-image","url('/assets/img/haoma_green.png')");
-            }else if(i==2){
-              $("#bai_"+del_betting_list_row[i]).css("background-image","url('/assets/img/haoma_green.png')");
-            }else if(i==1){
-              $("#shi_"+del_betting_list_row[i]).css("background-image","url('/assets/img/haoma_green.png')");
-            }else if(i==0){
-              $("#ge_"+del_betting_list_row[i]).css("background-image","url('/assets/img/haoma_green.png')");
-            }
-            //console.log("定位数前:"+this.dingwei_nums);
-            var n = this.dingwei_nums[i].indexOf(parseInt(del_betting_list_row[i]));
-            this.dingwei_nums[i].splice(n,1);
-            //console.log("定位数后:"+this.dingwei_nums);
-            this.betting_list.splice(index,1);
-            break;
-        }
-      }
-
-      this.calculateAmount();
-    }
-
-    //点击加倍数（接着昨天做）
-    doubling($event:any,index:number,flag:number){
-        //改变加倍
-        $("#inputMultiplier1").css("display","none");
-        $("#inputMultiplier2").css("display","block");
-        //获取点击事件
-        this.doubling_index = index;
-        this.target_elm = $($event.target);
-        this.target_elm.parent().siblings("tr").css("background-color","");
-        this.target_elm.parent().css("background-color","#95928E");
-
-        //新的
-        var betting_row =this.betting_list[index] ;
-        if(flag == 2){
-            //获取倍数
-            betting_row[5] = parseInt($("#shuru1").val());
-        }
-        //赋值给加倍框
-        $("#shuru1").val(betting_row[5]);
-
-        //计算金额
-        this.calculateAmount();
-    }
-
-    //计算投注总金额
-    calculateAmount(){
-      this.sumMoney = 0;
-      for(var i=0;i<this.betting_list.length;i++){
-        this.sumMoney = this.sumMoney + parseInt(this.betting_list[i][5]);
-      }
-      return this.sumMoney;
-    }
-
-    //清空列表
-    clearBetList(){
-        //循环变颜色
-        for(var i=0;i<10;i++){
-          $("#wan_"+i).css("background-image","url('/assets/img/haoma_green.png')");
-          $("#qian_"+i).css("background-image","url('/assets/img/haoma_green.png')");
-          $("#bai_"+i).css("background-image","url('/assets/img/haoma_green.png')");
-          $("#shi_"+i).css("background-image","url('/assets/img/haoma_green.png')");
-        }
-
-        //清除列表
-        this.betting_list.splice(0,this.betting_list.length);
-        this.dingwei_nums.splice(0,this.dingwei_nums.length);
-        //console.log(this.betting_list.length);
-        //初始化
-        this.initnumsArray();
-        this.sumMoney = 0;
-    }
+    // createTouzhu($event:any){
+    //   //clickArr[0] 个位  clickArr[1] 十位 clickArr[2] 百位 clickArr[3] 千位 clickArr[4] 万位 clickArr[5] 投注倍数;
+    //     var clickArr=this.initClickArray();
+    //     var elm = $($event.target);
+    //     //获取点击事件的各个参数
+    //     var className = elm.attr("class");
+    //     var num =  parseInt(elm.text());
+    //
+    //     //获取输入倍数框
+    //     //改变加倍
+    //     $("#inputMultiplier1").css("display","block");
+    //     $("#inputMultiplier2").css("display","none");
+    //
+    //     //获取倍数
+    //     this.inputMultiplier = $("#shuru").val();
+    //
+    //     //判断是否投错位置
+    //     var n=this.dingwei_row.indexOf(className);
+    //     if(n==-1){
+    //       Utils.show("操作错误");
+    //       return;
+    //     }
+    //
+    //     //[-1,-1,-1,-1,-1,0]
+    //     //判断是否有添加过
+    //     if(this.betting_list.length==0){
+    //       //直接增加投注
+    //       // for(var j=0;j<this.dingwei_row.length;j++){
+    //         clickArr[n]=num;
+    //         clickArr[5]=this.inputMultiplier;
+    //         this.betting_list.push(clickArr);
+    //         this.dingwei_nums[n].push(num);
+    //         //恢复默认数组
+    //         clickArr=this.initClickArray();
+    //         //显示就好
+    //       // }
+    //     }else{
+    //       //for(var k=0;k<this.betting_list.length;k++){
+    //         //for(var j=0;j<5;j++){
+    //         var countPerNum=this.dingwei_nums[n].length;
+    //         if(countPerNum>=this.maxNumsPerWeizhi){
+    //            Utils.show("单个位只能最多投注"+this.maxNumsPerWeizhi+"个不同的数字");
+    //            return;
+    //         }
+    //         if(this.dingwei_nums[n].indexOf(num)>-1){
+    //           Utils.show("此位对应的数字已经添加过投注,请直接加倍");
+    //           return;
+    //         }
+    //         //}
+    //         //var n=this.dingwei_row.indexOf(className);
+    //
+    //       //}
+    //       clickArr[n]=num;
+    //       clickArr[5]=this.inputMultiplier;
+    //       this.betting_list.push(clickArr);
+    //       this.dingwei_nums[n].push(num);
+    //     }
+    //
+    //     //投注颜色变红
+    //     elm.css("background-image","url('/assets/img/haoma_red.png')");
+    //     //计算金额
+    //     this.calculateAmount();
+    // }
 
     //投注时时彩
-    betTimeLottery($event:any){
+    betTimeLotteryOne($event:any,digit:number,betNum:number){
+        //获取flag属性
+        var flag = $($event.target).attr("flag");
+        //获取投注数值
+        var clickArr=this.initClickArray();
+        var contentArr = this.initContentArray();
+
+        if(flag == 1){
+          $($event.target).css("background-color","#FFFF00");
+          $($event.target).attr("flag","2");
+        }else if(flag == 2){
+          $($event.target).css("background-color","");
+          $($event.target).attr("flag","1");
+        }else if(flag == 3){
+          $($event.target).parent().css("background-color","#FFFF00");
+          $($event.target).attr("flag","4");
+        }else if(flag == 4){
+          $($event.target).parent().css("background-color","");
+          $($event.target).attr("flag","3");
+        }
+
+        contentArr[digit] = betNum;
+        //alert((contentArr.toString()).replace(/,/g,""));
+        //放到服务上去
+        clickArr[digit] = betNum;
+        clickArr[5] = (contentArr.toString()).replace(/,/g,"");
+        //clickArr
+        this.betting_list.push(clickArr);
+
+    }
+
+    betTimeLotteryTwo($event:any){
         //获取flag属性
         var flag = $($event.target).attr("flag");
 
