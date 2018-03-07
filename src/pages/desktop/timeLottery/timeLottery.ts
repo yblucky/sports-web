@@ -38,20 +38,14 @@ export class TimeLotteryPage {
     fengpan_miao:number;
 
     //定义数组保存号码列表
-    betting_list:any=[];
-    betting_list_row:any=[];
-    dingwei_row:any=["ge","shi","bai","qian","wan"]; //个  十  百  千  万
-    dingwei_nums:any =[];
-    numsArr:any = [];
-    maxNumsPerWeizhi:any =3;
-    betting_list_display:any=[];
-    doubling_index:number;
-    target_elm:any;
+    bettingOne_list:any=[];
+    bettingTwo_list:any=[];
     sumMoney:number = 0;
-    //定义输入倍数
-    inputMultiplier:number = 1;
-    inputMultiplier_back:number = 1;
-
+    sumNumber:number = 0;
+    //支付密码
+    payPwd:string="";
+    //投注倍数
+    bet_num:number = 1;
 
     //赔率
     timeLotteryOdds_1:number;
@@ -79,7 +73,7 @@ export class TimeLotteryPage {
             //修改成功
             this.dataInfo = data.data;
             this.init();
-            console.log(this.dataInfo);
+            //console.log(this.dataInfo);
         }else if(data.code==='9999'){
             Utils.show(data.message);
         }else{
@@ -130,60 +124,6 @@ export class TimeLotteryPage {
         }
     }
 
-
-    //投注
-    bettingSubmit(){
-        var row={
-            lotteryOne:"",
-            lotteryTwo:"",
-            lotteryThree:"",
-            lotteryFour:"",
-            lotteryFive:"",
-            multiple:"",
-        };
-
-        var subData={
-          issueNo:this.dataInfo.historyIssuNo,
-          serialNumber:this.dataInfo.currentIssueNo,
-          payPwd:"123456",
-          timeList:new Array()
-        };
-
-        for(var i=0;i<this.betting_list.length;i++){
-          row.lotteryOne=this.betting_list[i][0];
-          row.lotteryTwo=this.betting_list[i][1];
-          row.lotteryThree=this.betting_list[i][2];
-          row.lotteryFour=this.betting_list[i][3];
-          row.lotteryFive=this.betting_list[i][4];
-          row.multiple=this.betting_list[i][5];
-          subData.timeList.push(row);
-        }
-        console.log("subData:"+subData)
-        if(this.validator()){
-            this.httpService.post({
-                url:'/time/timebetting',
-                data:subData
-            }).subscribe((data:any)=>{
-                if(data.code==='0000'){
-                    Utils.show(data.message);
-                }else if(data.code==='9999'){
-                    Utils.show(data.message);
-                }else{
-                    Utils.show("登录失败，请联系管理员");
-                }
-            });
-        }
-    }
-
-    //验证表单数据
-    validator(){
-        if(Utils.isEmpty(this.betting_list)){
-            Utils.show("请选择投注的号码");
-            return false;
-        }
-        return true;
-    }
-
     //封装初始化每个投注的数组
     initClickArray(){
       var clickArr=new Array();
@@ -205,80 +145,88 @@ export class TimeLotteryPage {
       return clickArr;
     }
 
-    //封装初始化每个不同的个十百千万对应的位置上投注的数字集合
-    initnumsArray(){
-      var numsArr=new Array();
-      for(var i=0;i<5;i++){
-        numsArr=[];
-        this.dingwei_nums.push(numsArr);
-      }
-      return this.dingwei_nums;
+    // betOneChange(){
+    //     //获取投注数组的长度
+    //     var length = this.bettingOne_list.length;
+    //     var beishu = $("#betOne").val();
+    //
+    // }
+
+    //投注
+    bettingOneSubmit(){
+        //获取倍数
+        this.sumNumber = this.bettingOne_list.length;
+        this.bet_num = $("#betOne").val();
+        this.payPwd = $("#payPwdOne").val();
+        //计算总金额
+        this.sumMoney = this.sumNumber * this.bet_num;
+
+        var row={
+            lotteryOne:"",
+            lotteryTwo:"",
+            lotteryThree:"",
+            lotteryFour:"",
+            lotteryFive:"",
+            multiple:"",
+            bettingContent:""
+        };
+
+        var subData={
+          issueNo:this.dataInfo.historyIssuNo,
+          serialNumber:this.dataInfo.currentIssueNo,
+          payPwd:this.payPwd,
+          timeList:new Array()
+        };
+
+        for(var i=0;i<this.bettingOne_list.length;i++){
+            row.lotteryOne=this.bettingOne_list[i][0];
+            row.lotteryTwo=this.bettingOne_list[i][1];
+            row.lotteryThree=this.bettingOne_list[i][2];
+            row.lotteryFour=this.bettingOne_list[i][3];
+            row.lotteryFive=this.bettingOne_list[i][4];
+            row.bettingContent=this.bettingOne_list[i][5];
+            row.multiple=this.bettingOne_list[i][6];
+            subData.timeList.push(row);
+        }
+        //console.log("subData:"+subData)
+        if(this.validatorBetOne()){
+            this.httpService.post({
+                url:'/time/oneTimeBetting',
+                data:subData
+            }).subscribe((data:any)=>{
+                if(data.code==='0000'){
+                    Utils.show(data.message);
+                    this.payPwd="";
+                    this.bet_num=0;
+                    $("#betOne").val(1);
+                    $("#payPwdOne").val("");
+                }else if(data.code==='9999'){
+                    Utils.show(data.message);
+                }else{
+                    Utils.show("登录失败，请联系管理员");
+                }
+            });
+        }
     }
 
-    //点击号码生成投注列表
-    // createTouzhu($event:any){
-    //   //clickArr[0] 个位  clickArr[1] 十位 clickArr[2] 百位 clickArr[3] 千位 clickArr[4] 万位 clickArr[5] 投注倍数;
-    //     var clickArr=this.initClickArray();
-    //     var elm = $($event.target);
-    //     //获取点击事件的各个参数
-    //     var className = elm.attr("class");
-    //     var num =  parseInt(elm.text());
-    //
-    //     //获取输入倍数框
-    //     //改变加倍
-    //     $("#inputMultiplier1").css("display","block");
-    //     $("#inputMultiplier2").css("display","none");
-    //
-    //     //获取倍数
-    //     this.inputMultiplier = $("#shuru").val();
-    //
-    //     //判断是否投错位置
-    //     var n=this.dingwei_row.indexOf(className);
-    //     if(n==-1){
-    //       Utils.show("操作错误");
-    //       return;
-    //     }
-    //
-    //     //[-1,-1,-1,-1,-1,0]
-    //     //判断是否有添加过
-    //     if(this.betting_list.length==0){
-    //       //直接增加投注
-    //       // for(var j=0;j<this.dingwei_row.length;j++){
-    //         clickArr[n]=num;
-    //         clickArr[5]=this.inputMultiplier;
-    //         this.betting_list.push(clickArr);
-    //         this.dingwei_nums[n].push(num);
-    //         //恢复默认数组
-    //         clickArr=this.initClickArray();
-    //         //显示就好
-    //       // }
-    //     }else{
-    //       //for(var k=0;k<this.betting_list.length;k++){
-    //         //for(var j=0;j<5;j++){
-    //         var countPerNum=this.dingwei_nums[n].length;
-    //         if(countPerNum>=this.maxNumsPerWeizhi){
-    //            Utils.show("单个位只能最多投注"+this.maxNumsPerWeizhi+"个不同的数字");
-    //            return;
-    //         }
-    //         if(this.dingwei_nums[n].indexOf(num)>-1){
-    //           Utils.show("此位对应的数字已经添加过投注,请直接加倍");
-    //           return;
-    //         }
-    //         //}
-    //         //var n=this.dingwei_row.indexOf(className);
-    //
-    //       //}
-    //       clickArr[n]=num;
-    //       clickArr[5]=this.inputMultiplier;
-    //       this.betting_list.push(clickArr);
-    //       this.dingwei_nums[n].push(num);
-    //     }
-    //
-    //     //投注颜色变红
-    //     elm.css("background-image","url('/assets/img/haoma_red.png')");
-    //     //计算金额
-    //     this.calculateAmount();
-    // }
+    //验证表单数据
+    validatorBetOne(){
+        if(Utils.isEmpty(this.bettingOne_list)){
+            Utils.show("请选择投注的号码");
+            return false;
+        }
+        if(Utils.isEmpty(this.sumMoney) || this.sumMoney == 0){
+            layer.tips('投注金额不合法', '#betOne',{tips: 1});
+            $("#betOne").focus();
+            return false;
+        }
+        if(Utils.isEmpty(this.payPwd)){
+            layer.tips('支付密码不能为空', '#payPwdOne',{tips: 1});
+            $("#payPwdOne").focus();
+            return false;
+        }
+        return true;
+    }
 
     //投注时时彩
     betTimeLotteryOne($event:any,digit:number,betNum:number){
@@ -287,49 +235,311 @@ export class TimeLotteryPage {
         //获取投注数值
         var clickArr=this.initClickArray();
         var contentArr = this.initContentArray();
+        contentArr[digit] = betNum;
+        var contentStr = (contentArr.toString()).replace(/,/g,"");
+        //定义一个变量保存数组
+        var rows;
 
         if(flag == 1){
           $($event.target).css("background-color","#FFFF00");
           $($event.target).attr("flag","2");
+          //添加进数组中
+
+          //alert((contentArr.toString()).replace(/,/g,""));
+          //放到服务上去
+          clickArr[digit] = betNum;
+          clickArr[5] = contentStr;
+          //clickArr
+          this.bettingOne_list.push(clickArr);
+
         }else if(flag == 2){
           $($event.target).css("background-color","");
           $($event.target).attr("flag","1");
+
+          for(var i=0;i<this.bettingOne_list.length;i++){
+              rows = this.bettingOne_list[i];
+              //判断是否该值
+              if(contentStr == rows[5]){
+                  //console.log("删除前"+this.bettingOne_list);
+                  this.bettingOne_list.splice(i,1);
+                  //console.log("删除后"+this.bettingOne_list);
+              }
+          }
         }else if(flag == 3){
-          $($event.target).parent().css("background-color","#FFFF00");
-          $($event.target).attr("flag","4");
+            $($event.target).parent().css("background-color","#FFFF00");
+            $($event.target).attr("flag","4");
+
+            //放到服务上去
+            clickArr[digit] = betNum;
+            clickArr[5] = contentStr;
+            //clickArr
+            this.bettingOne_list.push(clickArr);
         }else if(flag == 4){
-          $($event.target).parent().css("background-color","");
-          $($event.target).attr("flag","3");
+            $($event.target).parent().css("background-color","");
+            $($event.target).attr("flag","3");
+
+            for(var i=0;i<this.bettingOne_list.length;i++){
+                rows = this.bettingOne_list[i];
+                //判断是否该值
+                if(contentStr == rows[5]){
+                    //console.log("删除前"+this.bettingOne_list);
+                    this.bettingOne_list.splice(i,1);
+                    //console.log("删除后"+this.bettingOne_list);
+                }
+            }
         }
-
-        contentArr[digit] = betNum;
-        //alert((contentArr.toString()).replace(/,/g,""));
-        //放到服务上去
-        clickArr[digit] = betNum;
-        clickArr[5] = (contentArr.toString()).replace(/,/g,"");
-        //clickArr
-        this.betting_list.push(clickArr);
-
     }
 
-    betTimeLotteryTwo($event:any){
+    betTimeLotteryTwo($event:any,digit1:number,digit2:number,betNum1:number,betNum2:number){
         //获取flag属性
         var flag = $($event.target).attr("flag");
 
+        //获取投注数值
+        var clickArr=this.initClickArray();
+        var contentArr = this.initContentArray();
+        contentArr[digit1] = betNum1;
+        contentArr[digit2] = betNum2;
+        var contentStr = (contentArr.toString()).replace(/,/g,"");
+        //定义投注变量
+        var rows;
+
         if(flag == 1){
           $($event.target).css("background-color","#FFFF00");
           $($event.target).attr("flag","2");
+
+          //添加投注号码
+          clickArr[digit1] = betNum1;
+          clickArr[digit2] = betNum2;
+          clickArr[5] = contentStr;
+          //clickArr
+          this.bettingTwo_list.push(clickArr);
         }else if(flag == 2){
           $($event.target).css("background-color","");
           $($event.target).attr("flag","1");
+
+          //删除投注号码
+          for(var i=0;i<this.bettingTwo_list.length;i++){
+              rows = this.bettingTwo_list[i];
+              //判断是否该值
+              if(contentStr == rows[5]){
+                  //console.log("删除前"+this.bettingTwo_list);
+                  this.bettingTwo_list.splice(i,1);
+                  //console.log("删除后"+this.bettingTwo_list);
+              }
+          }
         }else if(flag == 3){
           $($event.target).parent().css("background-color","#FFFF00");
           $($event.target).attr("flag","4");
+
+          //添加投注号码
+          clickArr[digit1] = betNum1;
+          clickArr[digit2] = betNum2;
+          clickArr[5] = contentStr;
+          //clickArr
+          this.bettingTwo_list.push(clickArr);
         }else if(flag == 4){
           $($event.target).parent().css("background-color","");
           $($event.target).attr("flag","3");
+
+            //删除投注号码
+            for(var i=0;i<this.bettingTwo_list.length;i++){
+                rows = this.bettingTwo_list[i];
+                //判断是否该值
+                if(contentStr == rows[5]){
+                    //console.log("删除前"+this.bettingTwo_list);
+                    this.bettingTwo_list.splice(i,1);
+                    //console.log("删除后"+this.bettingTwo_list);
+                }
+            }
         }
     }
+
+    //二字定投注
+    bettingTwoSubmit(){
+        //获取倍数
+        this.sumNumber = this.bettingTwo_list.length;
+        this.bet_num = $("#betTwo").val();
+        this.payPwd = $("#payPwdTwo").val();
+        //计算总金额
+        this.sumMoney = this.sumNumber * this.bet_num;
+
+        var row={
+            lotteryOne:"",
+            lotteryTwo:"",
+            lotteryThree:"",
+            lotteryFour:"",
+            lotteryFive:"",
+            multiple:"",
+            bettingContent:""
+        };
+
+        var subData={
+          issueNo:this.dataInfo.historyIssuNo,
+          serialNumber:this.dataInfo.currentIssueNo,
+          payPwd:this.payPwd,
+          timeList:new Array()
+        };
+
+        for(var i=0;i<this.bettingTwo_list.length;i++){
+            row.lotteryOne=this.bettingTwo_list[i][0];
+            row.lotteryTwo=this.bettingTwo_list[i][1];
+            row.lotteryThree=this.bettingTwo_list[i][2];
+            row.lotteryFour=this.bettingTwo_list[i][3];
+            row.lotteryFive=this.bettingTwo_list[i][4];
+            row.bettingContent=this.bettingTwo_list[i][5];
+            row.multiple=this.bettingTwo_list[i][6];
+            subData.timeList.push(row);
+        }
+        //console.log("subData:"+subData)
+        if(this.validatorBetTwo()){
+            this.httpService.post({
+                url:'/time/twoTimeBetting',
+                data:subData
+            }).subscribe((data:any)=>{
+                if(data.code==='0000'){
+                    Utils.show(data.message);
+                    this.payPwd="";
+                    this.bet_num=0;
+                    $("#betTwo").val(1);
+                    $("#payPwdTwo").val("");
+                }else if(data.code==='9999'){
+                    Utils.show(data.message);
+                }else{
+                    Utils.show("登录失败，请联系管理员");
+                }
+            });
+        }
+    }
+
+    //验证表单数据
+    validatorBetTwo(){
+        if(Utils.isEmpty(this.bettingTwo_list)){
+            Utils.show("请选择投注的号码");
+            return false;
+        }
+        if(Utils.isEmpty(this.sumMoney) || this.sumMoney == 0){
+            layer.tips('投注金额不合法', '#betTwo',{tips: 1});
+            $("#betTwo").focus();
+            return false;
+        }
+        if(Utils.isEmpty(this.payPwd)){
+            layer.tips('支付密码不能为空', '#payPwdTwo',{tips: 1});
+            $("#payPwdTwo").focus();
+            return false;
+        }
+        return true;
+    }
+
+
+    //快打提交数据
+    quickPlaySubmit(){
+        var row={
+            lotteryOne:"",
+            lotteryTwo:"",
+            lotteryThree:"",
+            lotteryFour:"",
+            lotteryFive:"",
+            multiple:"",
+            bettingContent:""
+        };
+
+        var subData={
+          issueNo:this.dataInfo.historyIssuNo,
+          serialNumber:this.dataInfo.currentIssueNo,
+          payPwd:this.payPwd,
+          timeList:new Array()
+        };
+        var quickPlayBetNum = $("#quickPlayBetNum").val();
+        var quickPlayBetMoney = $("#quickPlayBetMoney").val();
+        this.payPwd = $("#payPwdQuickPlay").val();
+        if(this.validatorBetQuickPlay(quickPlayBetNum,quickPlayBetMoney)){
+              quickPlayBetNum = quickPlayBetNum.toUpperCase();
+              //判断X的个数
+              var n = (quickPlayBetNum.split('X')).length-1;
+              if(n != 3 && n != 4){
+                  layer.tips('投注号码不规范', '#quickPlayBetNum',{tips: 1});
+                  $("#quickPlayBetNum").focus();
+                  return false;
+              }
+
+              //判断投注规则
+              var d = [];
+              for(var i=0;i<quickPlayBetNum.length;i++){
+                  d.push(quickPlayBetNum.charAt(i).replace(/X/g,"-1"));
+              }
+              //alert(d.join(','));
+              //加入到集合中
+              row.lotteryOne=d[0];
+              row.lotteryTwo=d[1];
+              row.lotteryThree=d[2];
+              row.lotteryFour=d[3];
+              row.lotteryFive=d[4];
+              row.bettingContent=quickPlayBetNum;
+              row.multiple=quickPlayBetMoney;
+              //console.log(row);
+              subData.timeList.push(row);
+
+              var backUrl;
+              if(n == 4){
+                  backUrl = "/time/oneTimeBetting";
+              }else if(n == 3){
+                  backUrl = "/time/twoTimeBetting";
+              }else{
+                  Utils.show("网络不稳定！");
+              }
+
+              //提交表单
+              this.subQuickToBack(backUrl,subData);
+        }
+
+    }
+
+    //验证表单数据
+    validatorBetQuickPlay(quickPlayBetNum:string,quickPlayBetMoney:string){
+        if(Utils.isEmpty(quickPlayBetNum)){
+            layer.tips('投注号码不符合规则', '#quickPlayBetNum',{tips: 1});
+            $("#quickPlayBetNum").focus();
+            return false;
+        }
+        if(quickPlayBetNum.length != 5){
+            layer.tips('投注号码不符合规则', '#quickPlayBetNum',{tips: 1});
+            $("#quickPlayBetNum").focus();
+            return false;
+        }
+        if(Utils.isEmpty(quickPlayBetMoney)){
+            layer.tips('投注金额不符合规则', '#quickPlayBetMoney',{tips: 1});
+            $("#quickPlayBetMoney").focus();
+            return false;
+        }
+        if(Utils.isEmpty(this.payPwd)){
+            layer.tips('支付密码不能为空', '#payPwdQuickPlay',{tips: 1});
+            $("#payPwdQuickPlay").focus();
+            return false;
+        }
+        return true;
+    }
+
+    //提交快打数据
+    subQuickToBack(backUrl:string,subData:any){
+        //提交表单
+        this.httpService.post({
+            url:backUrl,
+            data:subData
+        }).subscribe((data:any)=>{
+            if(data.code==='0000'){
+                Utils.show(data.message);
+                this.payPwd = "";
+                $("#quickPlayBetNum").val("");
+                $("#quickPlayBetMoney").val(1);
+                $("#payPwdQuickPlay").val("");
+            }else if(data.code==='9999'){
+                Utils.show(data.message);
+            }else{
+                Utils.show("登录失败，请联系管理员");
+            }
+        });
+    }
+
 
     //投注类别
     betCategory($event:any,betCategory_index:string){
@@ -341,6 +551,11 @@ export class TimeLotteryPage {
         $(".content-tab_4").hide();
 
         $(".content-tab_"+betCategory_index).show();
+
+        //重置金额
+        this.sumNumber = 0;
+        //计算总金额
+        this.sumMoney = 0;
     }
 
     //鼠标经过颜色

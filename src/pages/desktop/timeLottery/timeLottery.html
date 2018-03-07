@@ -81,8 +81,11 @@
                       <tr>
                           <td colspan="5" style="text-align:center;height:50px;">
                             金额：
-                            <input id="shuru1" type="text" value="1" size="7" style="text-align:center;" (change)='shurubeishu1(3)' />
-                            <button>确定</button>
+                            <!-- (change)='betOneChange()' -->
+                            <input id="betOne" type="text" value="1" size="10" style="text-align:center;margin-right:10px;" />
+                            支付密码：
+                            <input id="payPwdOne" type="password" size="12" style="text-align:center;" />
+                            <button (click) = "bettingOneSubmit()">确定</button>
                             <button>取消</button>
                           </td>
                       </tr>
@@ -98,13 +101,14 @@
                           <th colspan="10" style="text-align:left">
                               <span class="category_type" isClick='1' style="margin-left:20px;text-decoration:underline;color:red;cursor:pointer;" (click)="categoryClick($event,1)" (mouseover)='categoryOver($event)' (mouseout)='categoryOut($event)'>口口XXX</span>
                               <span class="category_type" isClick='1' style="margin-left:20px;cursor:pointer;" (click)="categoryClick($event,2)" (mouseover)='categoryOver($event)' (mouseout)='categoryOut($event)'>口X口XX</span>
-                              <span class="category_type" isClick='1' style="margin-left:20px;cursor:pointer;" (click)="categoryClick($event,3)" (mouseover)='categoryOver($event)' (mouseout)='categoryOut($event)'>口XXX口</span>
-                              <span class="category_type" isClick='1' style="margin-left:20px;cursor:pointer;" (click)="categoryClick($event,4)" (mouseover)='categoryOver($event)' (mouseout)='categoryOut($event)'>X口口XX</span>
-                              <span class="category_type" isClick='1' style="margin-left:20px;cursor:pointer;" (click)="categoryClick($event,5)" (mouseover)='categoryOver($event)' (mouseout)='categoryOut($event)'>X口X口X</span>
-                              <span class="category_type" isClick='1' style="margin-left:20px;cursor:pointer;" (click)="categoryClick($event,6)" (mouseover)='categoryOver($event)' (mouseout)='categoryOut($event)'>X口XX口</span>
-                              <span class="category_type" isClick='1' style="margin-left:20px;cursor:pointer;" (click)="categoryClick($event,7)" (mouseover)='categoryOver($event)' (mouseout)='categoryOut($event)'>XX口口X</span>
-                              <span class="category_type" isClick='1' style="margin-left:20px;cursor:pointer;" (click)="categoryClick($event,8)" (mouseover)='categoryOver($event)' (mouseout)='categoryOut($event)'>XX口X口</span>
-                              <span class="category_type" isClick='1' style="margin-left:20px;cursor:pointer;" (click)="categoryClick($event,9)" (mouseover)='categoryOver($event)' (mouseout)='categoryOut($event)'>XXX口口</span>
+                              <span class="category_type" isClick='1' style="margin-left:20px;cursor:pointer;" (click)="categoryClick($event,3)" (mouseover)='categoryOver($event)' (mouseout)='categoryOut($event)'>口XX口X</span>
+                              <span class="category_type" isClick='1' style="margin-left:20px;cursor:pointer;" (click)="categoryClick($event,4)" (mouseover)='categoryOver($event)' (mouseout)='categoryOut($event)'>口XXX口</span>
+                              <span class="category_type" isClick='1' style="margin-left:20px;cursor:pointer;" (click)="categoryClick($event,5)" (mouseover)='categoryOver($event)' (mouseout)='categoryOut($event)'>X口口XX</span>
+                              <span class="category_type" isClick='1' style="margin-left:20px;cursor:pointer;" (click)="categoryClick($event,6)" (mouseover)='categoryOver($event)' (mouseout)='categoryOut($event)'>X口X口X</span>
+                              <span class="category_type" isClick='1' style="margin-left:20px;cursor:pointer;" (click)="categoryClick($event,7)" (mouseover)='categoryOver($event)' (mouseout)='categoryOut($event)'>X口XX口</span>
+                              <span class="category_type" isClick='1' style="margin-left:20px;cursor:pointer;" (click)="categoryClick($event,8)" (mouseover)='categoryOver($event)' (mouseout)='categoryOut($event)'>XX口口X</span>
+                              <span class="category_type" isClick='1' style="margin-left:20px;cursor:pointer;" (click)="categoryClick($event,9)" (mouseover)='categoryOver($event)' (mouseout)='categoryOut($event)'>XX口X口</span>
+                              <span class="category_type" isClick='1' style="margin-left:20px;cursor:pointer;" (click)="categoryClick($event,10)" (mouseover)='categoryOver($event)' (mouseout)='categoryOut($event)'>XXX口口</span>
                           </th>
                       </tr>
                       <tr>
@@ -122,47 +126,53 @@
                   </thead>
                   <tbody class="tbody_category">
                       <tr class="category_1" style="cursor:pointer;" *ngFor="let haoma of haomas; let i = index">
-                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLotteryTwo($event)"><span flag="3" style="margin-left:10px;font-weight:bold;">{{i}}{{j}}XXX</span><span flag="3" style="margin-left:50px;color:red;font-weight:bold;">{{timeLotteryOdds_2}}</span></td>
+                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLotteryTwo($event,0,1,i,j)"><span flag="3" style="margin-left:10px;font-weight:bold;">{{i}}{{j}}XXX</span><span flag="3" style="margin-left:50px;color:red;font-weight:bold;">{{timeLotteryOdds_2}}</span></td>
                       </tr>
 
                       <tr class="category_2" style="cursor:pointer;display:none;" *ngFor="let haoma of haomas; let i = index">
-                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLotteryTwo($event)"><span flag="3" style="margin-left:10px;font-weight:bold;">{{i}}X{{j}}XX</span><span flag="3" style="margin-left:50px;color:red;font-weight:bold;">{{timeLotteryOdds_2}}</span></td>
+                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLotteryTwo($event,0,2,i,j)"><span flag="3" style="margin-left:10px;font-weight:bold;">{{i}}X{{j}}XX</span><span flag="3" style="margin-left:50px;color:red;font-weight:bold;">{{timeLotteryOdds_2}}</span></td>
                       </tr>
 
                       <tr class="category_3" style="cursor:pointer;display:none;" *ngFor="let haoma of haomas; let i = index">
-                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLotteryTwo($event)"><span flag="3" style="margin-left:10px;font-weight:bold;">{{i}}XXX{{j}}</span><span flag="3" style="margin-left:50px;color:red;font-weight:bold;">{{timeLotteryOdds_2}}</span></td>
+                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLotteryTwo($event,0,3,i,j)"><span flag="3" style="margin-left:10px;font-weight:bold;">{{i}}XX{{j}}X</span><span flag="3" style="margin-left:50px;color:red;font-weight:bold;">{{timeLotteryOdds_2}}</span></td>
                       </tr>
 
                       <tr class="category_4" style="cursor:pointer;display:none;" *ngFor="let haoma of haomas; let i = index">
-                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLotteryTwo($event)"><span flag="3" style="margin-left:10px;font-weight:bold;">X{{i}}{{j}}XX</span><span flag="3" style="margin-left:50px;color:red;font-weight:bold;">{{timeLotteryOdds_2}}</span></td>
+                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLotteryTwo($event,0,4,i,j)"><span flag="3" style="margin-left:10px;font-weight:bold;">{{i}}XXX{{j}}</span><span flag="3" style="margin-left:50px;color:red;font-weight:bold;">{{timeLotteryOdds_2}}</span></td>
                       </tr>
 
                       <tr class="category_5" style="cursor:pointer;display:none;" *ngFor="let haoma of haomas; let i = index">
-                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLotteryTwo($event)"><span flag="3" style="margin-left:10px;font-weight:bold;">X{{i}}X{{j}}X</span><span flag="3" style="margin-left:50px;color:red;font-weight:bold;">{{timeLotteryOdds_2}}</span></td>
+                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLotteryTwo($event,1,2,i,j)"><span flag="3" style="margin-left:10px;font-weight:bold;">X{{i}}{{j}}XX</span><span flag="3" style="margin-left:50px;color:red;font-weight:bold;">{{timeLotteryOdds_2}}</span></td>
                       </tr>
 
                       <tr class="category_6" style="cursor:pointer;display:none;" *ngFor="let haoma of haomas; let i = index">
-                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLotteryTwo($event)"><span flag="3" style="margin-left:10px;font-weight:bold;">X{{i}}XX{{j}}</span><span flag="3" style="margin-left:50px;color:red;font-weight:bold;">{{timeLotteryOdds_2}}</span></td>
+                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLotteryTwo($event,1,3,i,j)"><span flag="3" style="margin-left:10px;font-weight:bold;">X{{i}}X{{j}}X</span><span flag="3" style="margin-left:50px;color:red;font-weight:bold;">{{timeLotteryOdds_2}}</span></td>
                       </tr>
 
                       <tr class="category_7" style="cursor:pointer;display:none;" *ngFor="let haoma of haomas; let i = index">
-                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLotteryTwo($event)"><span flag="3" style="margin-left:10px;font-weight:bold;">XX{{i}}{{j}}X</span><span flag="3" style="margin-left:50px;color:red;font-weight:bold;">{{timeLotteryOdds_2}}</span></td>
+                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLotteryTwo($event,1,4,i,j)"><span flag="3" style="margin-left:10px;font-weight:bold;">X{{i}}XX{{j}}</span><span flag="3" style="margin-left:50px;color:red;font-weight:bold;">{{timeLotteryOdds_2}}</span></td>
                       </tr>
 
                       <tr class="category_8" style="cursor:pointer;display:none;" *ngFor="let haoma of haomas; let i = index">
-                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLotteryTwo($event)"><span flag="3" style="margin-left:10px;font-weight:bold;">XX{{i}}X{{j}}</span><span flag="3" style="margin-left:50px;color:red;font-weight:bold;">{{timeLotteryOdds_2}}</span></td>
+                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLotteryTwo($event,2,3,i,j)"><span flag="3" style="margin-left:10px;font-weight:bold;">XX{{i}}{{j}}X</span><span flag="3" style="margin-left:50px;color:red;font-weight:bold;">{{timeLotteryOdds_2}}</span></td>
                       </tr>
 
                       <tr class="category_9" style="cursor:pointer;display:none;" *ngFor="let haoma of haomas; let i = index">
-                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLotteryTwo($event)"><span flag="3" style="margin-left:10px;font-weight:bold;">XXX{{i}}{{j}}</span><span flag="3" style="margin-left:50px;color:red;font-weight:bold;">{{timeLotteryOdds_2}}</span></td>
+                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLotteryTwo($event,2,4,i,j)"><span flag="3" style="margin-left:10px;font-weight:bold;">XX{{i}}X{{j}}</span><span flag="3" style="margin-left:50px;color:red;font-weight:bold;">{{timeLotteryOdds_2}}</span></td>
+                      </tr>
+
+                      <tr class="category_10" style="cursor:pointer;display:none;" *ngFor="let haoma of haomas; let i = index">
+                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLotteryTwo($event,3,4,i,j)"><span flag="3" style="margin-left:10px;font-weight:bold;">XXX{{i}}{{j}}</span><span flag="3" style="margin-left:50px;color:red;font-weight:bold;">{{timeLotteryOdds_2}}</span></td>
                       </tr>
                   </tbody>
                   <tfoot>
                       <tr>
                           <td colspan="10" style="text-align:center;height:50px;">
                             金额：
-                            <input id="shuru1" type="text" value="1" size="7" style="text-align:center;" (change)='shurubeishu1(3)' />
-                            <button>确定</button>
+                            <input id="betTwo" type="text" value="1" size="10" style="text-align:center;margin-right:10px;" />
+                            支付密码：
+                            <input id="payPwdTwo" type="password" size="12" style="text-align:center;" />
+                            <button (click)="bettingTwoSubmit()">确定</button>
                             <button>取消</button>
                           </td>
                       </tr>
@@ -197,16 +207,6 @@
                           <td>已投注</td>
                           <td><button>退码</button></td>
                       </tr>
-
-                      <tr style="cursor:pointer;" (mouseover)='quickPlayOver($event)' (mouseout)='quickPlayOut($event)'>
-                          <td>二字定</td>
-                          <td>201802281438</td>
-                          <td>XX23X</td>
-                          <td>97</td>
-                          <td>100</td>
-                          <td>已投注</td>
-                          <td><button>退码</button></td>
-                      </tr>
                   </tbody>
                   <tfoot>
                       <tr>
@@ -214,15 +214,16 @@
                       </tr>
                       <tr>
                           <td colspan="7" style="text-align:center;height:50px;">
-                            号码：<input type="text" size="10" style="text-align:center;margin-right:10px;" />
-                            金额：<input type="text" size="10" style="text-align:center;margin-right:10px;" />
-                            <button>确认下注</button>
+                              号码：<input type="text" id="quickPlayBetNum" size="10" style="text-align:center;margin-right:10px;" />
+                              金额：<input type="text" id="quickPlayBetMoney" value="1" size="10" style="text-align:center;margin-right:10px;" />
+                              支付密码：
+                              <input id="payPwdQuickPlay" type="password" size="12" style="text-align:center;" />
+                              <button (click) = "quickPlaySubmit()">确认下注</button>
                           </td>
                       </tr>
                   </tfoot>
             </table>
         </div>
-
     </div>
   </div>
 </div>
