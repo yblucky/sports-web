@@ -185,9 +185,9 @@
             <table class="touzhu_table">
                   <thead>
                       <tr>
-                          <th colspan="7" style="text-align:center;background-color:#1595C7;">下注框</th>
+                          <th colspan="10" style="text-align:center;background-color:#1595C7;">下注框</th>
                       </tr>
-                      <tr>
+                      <!-- <tr>
                           <th>彩种</th>
                           <th>注单编号</th>
                           <th>号码</th>
@@ -195,10 +195,34 @@
                           <th>金额</th>
                           <th>状态</th>
                           <th>退码</th>
+                      </tr> -->
+                      <tr>
+                          <th>一字定规则</th>
+                          <th>口XXXX</th>
+                          <th>X口XXX</th>
+                          <th>XX口XX</th>
+                          <th>XXX口X</th>
+                          <th>XXXX口</th>
+                          <th></th>
+                          <th></th>
+                          <th></th>
+                          <th></th>
+                      </tr>
+                      <tr>
+                          <th>二字定规则</th>
+                          <th>口X口XX</th>
+                          <th>口XX口X</th>
+                          <th>口XXX口</th>
+                          <th>X口口XX</th>
+                          <th>X口X口X</th>
+                          <th>X口XX口</th>
+                          <th>XX口口X</th>
+                          <th>XX口X口</th>
+                          <th>XXX口口</th>
                       </tr>
                   </thead>
                   <tbody>
-                      <tr style="cursor:pointer;" (mouseover)='quickPlayOver($event)' (mouseout)='quickPlayOut($event)'>
+                      <!-- <tr style="cursor:pointer;" (mouseover)='quickPlayOver($event)' (mouseout)='quickPlayOut($event)'>
                           <td>一字定</td>
                           <td>201802281433</td>
                           <td>XXX2X</td>
@@ -206,16 +230,18 @@
                           <td>100</td>
                           <td>已投注</td>
                           <td><button>退码</button></td>
-                      </tr>
+                      </tr> -->
                   </tbody>
                   <tfoot>
                       <tr>
-                          <th colspan="7" style="text-align:center;background-color:#1595C7;"></th>
+                          <th colspan="10" style="text-align:left;background-color:#1595C7;">
+                              <span style="color:#efe90f;"><marquee width="1500">未来的亿万富翁，请您根据以上规则进行快打投注！！！</marquee></span>
+                          </th>
                       </tr>
                       <tr>
-                          <td colspan="7" style="text-align:center;height:50px;">
-                              号码：<input type="text" id="quickPlayBetNum" size="10" style="text-align:center;margin-right:10px;" />
-                              金额：<input type="text" id="quickPlayBetMoney" value="1" size="10" style="text-align:center;margin-right:10px;" />
+                          <td colspan="10" style="text-align:center;height:50px;">
+                              号码：<input type="text" id="quickPlayBetNum" size="12" placeholder="1XXXX" style="text-align:center;margin-right:10px;" />
+                              金额：<input type="text" id="quickPlayBetMoney" value="1" size="12" style="text-align:center;margin-right:10px;" />
                               支付密码：
                               <input id="payPwdQuickPlay" type="password" size="12" style="text-align:center;" />
                               <button (click) = "quickPlaySubmit()">确认下注</button>

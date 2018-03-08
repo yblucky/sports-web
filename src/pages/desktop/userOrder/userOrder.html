@@ -32,7 +32,7 @@
                     <th>投注金额</th>
                     <th>投注前金额</th>
                     <th>投注后金额</th>
-                    <th>投注内容</th>
+                    <!-- <th>投注内容</th> -->
                     <th>投注时间</th>
                     <th>详情</th>
                 </tr>
@@ -48,10 +48,10 @@
                     <td>{{item.balance}}</td>
                     <td>{{item.beforeBalance}}</td>
                     <td>{{item.afterBalance}}</td>
-                    <td>{{item.extend}}</td>
+                    <!-- <td>{{item.extend}}</td> -->
                     <td>{{utils.formatDate(item.createTime,'yyyy-MM-dd HH:mm:ss')}}</td>
                     <th>
-                      <button type="button" (click)="openDetail(item)" class="btn btn-info btn-sm">查看详情</button>
+                      <button type="button" (click)="openDetail(item.busnessType,item.businessNumber)" class="btn btn-info btn-sm">查看详情</button>
                     </th>
                 </tr>
             </tbody>
@@ -91,7 +91,7 @@
                       <th>投注内容</th>
                       <th>盈亏</th>
                       <th>状态</th>
-                      <th>投注时间</th>
+                      <th>操作</th>
                   </tr>
               </thead>
               <tbody>
@@ -106,7 +106,10 @@
                       <td>{{item.bettingContent}}</td>
                       <th>{{item.winningAmount}}</th>
                       <th>{{item.lotteryFlag}}</th>
-                      <td>{{utils.formatDate(item.createTime,'yyyy-MM-dd HH:mm:ss')}}</td>
+                      <th>
+                          <button type="button" (click)="returnCode(item.id,item.businessNumber)" class="btn btn-info btn-sm">退码</button>
+                      </th>
+                      <!-- <td>{{utils.formatDate(item.createTime,'yyyy-MM-dd HH:mm:ss')}}</td> -->
                   </tr>
               </tbody>
           </table>

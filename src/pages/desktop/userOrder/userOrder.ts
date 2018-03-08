@@ -21,6 +21,10 @@ export class UserOrderPage {
     businessTypeDesc:string;
     bettingContent:string = "";
     showTime:any = new Date();
+
+    //定义一个变量保存彩种类型
+    colorType:number;
+
     constructor(private router:Router,private httpService:HttpService,private aroute:ActivatedRoute,private utils:Utils) {
         this.aroute.params.subscribe( params  => {
             this.showTime = new Date();
@@ -52,33 +56,32 @@ export class UserOrderPage {
       /**
       * 弹出等级面板
       */
-      openDetail(item:any){
-          if(item.busnessType==31 || item.busnessType == 32){
+      openDetail(busnessType:number,businessNumber:string){
+          this.colorType = busnessType;
+          if(busnessType==31 || busnessType == 32){
             this.httpService.get({
                 url:'/record/racingBettingRecord',
-                data:{businessNumber:item.businessNumber}
+                data:{businessNumber:businessNumber}
             }).subscribe((data:any)=>{
                 if(data.code==='0000'){
-                  this.orderData = data.data;
-                  this.businessTypeDesc = '北京赛车';
-                  this.bettingContent = "";
-                  for(var i = 0;i<data.data.length;i++){
+                    this.orderData = data.data;
+                    this.businessTypeDesc = '北京赛车';
                     this.bettingContent = "";
-                    this.bettingContent += this.orderData[i].lotteryOne + ",";
-                    this.bettingContent += this.orderData[i].lotteryTwo + ",";
-                    this.bettingContent += this.orderData[i].lotteryThree + ",";
-                    this.bettingContent += this.orderData[i].lotteryFour + ",";
-                    this.bettingContent += this.orderData[i].lotteryFive + ",";
-                    this.bettingContent += this.orderData[i].lotterySix + ",";
-                    this.bettingContent += this.orderData[i].lotterySeven + ",";
-                    this.bettingContent += this.orderData[i].lotteryEight + ",";
-                    this.bettingContent += this.orderData[i].lotteryNine + ",";
-                    this.bettingContent += this.orderData[i].lotteryTen;
-                    this.bettingContent = this.bettingContent.replace(/-1/g,"-");
-                    this.orderData[i].bettingContent=this.bettingContent;
-                  }
-
-
+                    for(var i = 0;i<data.data.length;i++){
+                      this.bettingContent = "";
+                      this.bettingContent += this.orderData[i].lotteryOne + ",";
+                      this.bettingContent += this.orderData[i].lotteryTwo + ",";
+                      this.bettingContent += this.orderData[i].lotteryThree + ",";
+                      this.bettingContent += this.orderData[i].lotteryFour + ",";
+                      this.bettingContent += this.orderData[i].lotteryFive + ",";
+                      this.bettingContent += this.orderData[i].lotterySix + ",";
+                      this.bettingContent += this.orderData[i].lotterySeven + ",";
+                      this.bettingContent += this.orderData[i].lotteryEight + ",";
+                      this.bettingContent += this.orderData[i].lotteryNine + ",";
+                      this.bettingContent += this.orderData[i].lotteryTen;
+                      this.bettingContent = this.bettingContent.replace(/-1/g,"-");
+                      this.orderData[i].bettingContent=this.bettingContent;
+                    }
                 }else if(data.code==='9999'){
                     Utils.show(data.message);
                 }else{
@@ -88,7 +91,7 @@ export class UserOrderPage {
           }else{
             this.httpService.get({
                 url:'/record/timeBettingRecord',
-                data:{businessNumber:item.businessNumber}
+                data:{businessNumber:businessNumber}
             }).subscribe((data:any)=>{
                 if(data.code==='0000'){
                   this.orderData = data.data;
@@ -112,8 +115,6 @@ export class UserOrderPage {
             });
           }
 
-
-
           layer.open({
               title: "投注明细",
               btn: ["确认","退出"],
@@ -129,7 +130,24 @@ export class UserOrderPage {
                      layer.closeAll();
               }
           });
+      }
 
+      returnCode(codeId:string,businessNumber:string){
+          this.httpService.post({
+              url:'/time/undobetting',
+              data:{
+                  id:codeId
+              }
+          }).subscribe((data:any)=>{
+              if(data.code==='0000'){
+                  Utils.show(data.message);
+                  this.openDetail(this.colorType,businessNumber);
+              }else if(data.code==='9999'){
+                  Utils.show(data.message);
+              }else{
+                  Utils.show("登录失败，请联系管理员");
+              }
+          });
       }
 
 }

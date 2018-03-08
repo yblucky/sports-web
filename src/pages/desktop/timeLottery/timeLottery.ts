@@ -161,31 +161,35 @@ export class TimeLotteryPage {
         //计算总金额
         this.sumMoney = this.sumNumber * this.bet_num;
 
-        var row={
-            lotteryOne:"",
-            lotteryTwo:"",
-            lotteryThree:"",
-            lotteryFour:"",
-            lotteryFive:"",
-            multiple:"",
-            bettingContent:""
-        };
+
 
         var subData={
           issueNo:this.dataInfo.historyIssuNo,
           serialNumber:this.dataInfo.currentIssueNo,
           payPwd:this.payPwd,
+          betType:10,
           timeList:new Array()
         };
 
         for(var i=0;i<this.bettingOne_list.length;i++){
+            var row={
+                lotteryOne:"",
+                lotteryTwo:"",
+                lotteryThree:"",
+                lotteryFour:"",
+                lotteryFive:"",
+                multiple:0,
+                bettingContent:""
+            };
             row.lotteryOne=this.bettingOne_list[i][0];
             row.lotteryTwo=this.bettingOne_list[i][1];
             row.lotteryThree=this.bettingOne_list[i][2];
             row.lotteryFour=this.bettingOne_list[i][3];
             row.lotteryFive=this.bettingOne_list[i][4];
+            //console.log(this.bettingOne_list[i][5]);
             row.bettingContent=this.bettingOne_list[i][5];
-            row.multiple=this.bettingOne_list[i][6];
+            row.multiple=this.bet_num;
+            //console.log(row);
             subData.timeList.push(row);
         }
         //console.log("subData:"+subData)
@@ -200,6 +204,7 @@ export class TimeLotteryPage {
                     this.bet_num=0;
                     $("#betOne").val(1);
                     $("#payPwdOne").val("");
+                    location.reload();
                 }else if(data.code==='9999'){
                     Utils.show(data.message);
                 }else{
@@ -363,31 +368,31 @@ export class TimeLotteryPage {
         //计算总金额
         this.sumMoney = this.sumNumber * this.bet_num;
 
-        var row={
-            lotteryOne:"",
-            lotteryTwo:"",
-            lotteryThree:"",
-            lotteryFour:"",
-            lotteryFive:"",
-            multiple:"",
-            bettingContent:""
-        };
-
         var subData={
           issueNo:this.dataInfo.historyIssuNo,
           serialNumber:this.dataInfo.currentIssueNo,
           payPwd:this.payPwd,
+          betType:20,
           timeList:new Array()
         };
 
         for(var i=0;i<this.bettingTwo_list.length;i++){
+            var row={
+                lotteryOne:"",
+                lotteryTwo:"",
+                lotteryThree:"",
+                lotteryFour:"",
+                lotteryFive:"",
+                multiple:0,
+                bettingContent:""
+            };
             row.lotteryOne=this.bettingTwo_list[i][0];
             row.lotteryTwo=this.bettingTwo_list[i][1];
             row.lotteryThree=this.bettingTwo_list[i][2];
             row.lotteryFour=this.bettingTwo_list[i][3];
             row.lotteryFive=this.bettingTwo_list[i][4];
             row.bettingContent=this.bettingTwo_list[i][5];
-            row.multiple=this.bettingTwo_list[i][6];
+            row.multiple=this.bet_num;
             subData.timeList.push(row);
         }
         //console.log("subData:"+subData)
@@ -399,9 +404,10 @@ export class TimeLotteryPage {
                 if(data.code==='0000'){
                     Utils.show(data.message);
                     this.payPwd="";
-                    this.bet_num=0;
+                    this.bet_num=1;
                     $("#betTwo").val(1);
                     $("#payPwdTwo").val("");
+                    location.reload();
                 }else if(data.code==='9999'){
                     Utils.show(data.message);
                 }else{
@@ -439,7 +445,7 @@ export class TimeLotteryPage {
             lotteryThree:"",
             lotteryFour:"",
             lotteryFive:"",
-            multiple:"",
+            multiple:0,
             bettingContent:""
         };
 
@@ -447,6 +453,7 @@ export class TimeLotteryPage {
           issueNo:this.dataInfo.historyIssuNo,
           serialNumber:this.dataInfo.currentIssueNo,
           payPwd:this.payPwd,
+          betType:10,
           timeList:new Array()
         };
         var quickPlayBetNum = $("#quickPlayBetNum").val();
@@ -482,8 +489,10 @@ export class TimeLotteryPage {
               var backUrl;
               if(n == 4){
                   backUrl = "/time/oneTimeBetting";
+                  subData.betType = 10;
               }else if(n == 3){
                   backUrl = "/time/twoTimeBetting";
+                  subData.betType = 20;
               }else{
                   Utils.show("网络不稳定！");
               }
@@ -532,6 +541,7 @@ export class TimeLotteryPage {
                 $("#quickPlayBetNum").val("");
                 $("#quickPlayBetMoney").val(1);
                 $("#payPwdQuickPlay").val("");
+                location.reload();
             }else if(data.code==='9999'){
                 Utils.show(data.message);
             }else{
