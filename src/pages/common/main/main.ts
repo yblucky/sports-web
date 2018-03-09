@@ -128,6 +128,9 @@ export class MainPage {
         $(".leftPanel_2").removeClass("w2");
         $($event.target).addClass("w2");
         this.router.navigate(['common/main/'+refreshLink]);
+
+        //重新加载用户信息
+        
     }
 
     rechargePage(){

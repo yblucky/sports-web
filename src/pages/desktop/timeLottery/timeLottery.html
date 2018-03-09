@@ -82,9 +82,9 @@
                           <td colspan="5" style="text-align:center;height:50px;">
                             金额：
                             <!-- (change)='betOneChange()' -->
-                            <input id="betOne" type="text" value="1" size="10" style="text-align:center;margin-right:10px;" />
-                            支付密码：
-                            <input id="payPwdOne" type="password" size="12" style="text-align:center;" />
+                            <input id="betOne" type="text" value="1" size="12" style="text-align:center;margin-right:10px;" />
+                            <!-- 支付密码：
+                            <input id="payPwdOne" type="password" size="12" style="text-align:center;" /> -->
                             <button (click) = "bettingOneSubmit()">确定</button>
                             <button>取消</button>
                           </td>
@@ -169,9 +169,9 @@
                       <tr>
                           <td colspan="10" style="text-align:center;height:50px;">
                             金额：
-                            <input id="betTwo" type="text" value="1" size="10" style="text-align:center;margin-right:10px;" />
-                            支付密码：
-                            <input id="payPwdTwo" type="password" size="12" style="text-align:center;" />
+                            <input id="betTwo" type="text" value="1" size="12" style="text-align:center;margin-right:10px;" />
+                            <!-- 支付密码：
+                            <input id="payPwdTwo" type="password" size="12" style="text-align:center;" /> -->
                             <button (click)="bettingTwoSubmit()">确定</button>
                             <button>取消</button>
                           </td>
@@ -242,8 +242,8 @@
                           <td colspan="10" style="text-align:center;height:50px;">
                               号码：<input type="text" id="quickPlayBetNum" size="12" placeholder="1XXXX" style="text-align:center;margin-right:10px;" />
                               金额：<input type="text" id="quickPlayBetMoney" value="1" size="12" style="text-align:center;margin-right:10px;" />
-                              支付密码：
-                              <input id="payPwdQuickPlay" type="password" size="12" style="text-align:center;" />
+                              <!-- 支付密码：
+                              <input id="payPwdQuickPlay" type="password" size="12" style="text-align:center;" /> -->
                               <button (click) = "quickPlaySubmit()">确认下注</button>
                           </td>
                       </tr>
@@ -252,4 +252,30 @@
         </div>
     </div>
   </div>
+
+
+  <div id="editPanel" class="form-horizontal">
+    <!--数据显示区域-->
+    <div class="table-box">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr class="active">
+                    <th colspan="10"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of bettingPrompt_list; let i = index">
+                    <td *ngFor="let row of item; let j = index">{{row}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- 静止投注模糊层 -->
+<div class="bet_vague">
+    <div class="prompt">当前没有开盘</div>
+    <div class="flag"></div>
 </div>

@@ -74,15 +74,27 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                         		<div class="col-sm-4 control-label">
                                 <div style="margin-top:-6px;margin-left:2%;font-size:18px;color:white;background-color:#157C85;width:120px;height:32px;text-align:center;padding-top:4px;">验证码</div>
                             </div>
                         		<div class="col-sm-4">
-                        			   <input type="text" maxlength="4" name="smsCode" (keydown)="submitData($event)" [(ngModel)]="smsCode" class="form-control" id="smsCode" placeholder="请输入验证码">
+                        			   <input type="text" maxlength="6" name="smsCode" (keydown)="submitData($event)" [(ngModel)]="smsCode" class="form-control" id="smsCode" placeholder="请输入验证码">
                         		</div>
                             <div class="col-sm-4">
                         			   <span style="padding:0;" class="input-group-addon codeSpan"><button class="btn btn-block" style="background-color:rgba(255,255,255,0.5);height:30px;color:#1B7F86;" (click)="loadMobileCode()">获取手机验证码</button></span>
+                        		</div>
+                      	</div> -->
+
+                        <div class="form-group">
+                        		<div class="col-sm-4 control-label">
+                                <div style="margin-top:-6px;margin-left:2%;font-size:18px;color:white;background-color:#157C85;width:120px;height:32px;text-align:center;padding-top:4px;">验证码</div>
+                            </div>
+                        		<div class="col-sm-5">
+                        			   <input type="text" maxlength="4" name="code" (keydown)="submitData($event)" [(ngModel)]="imgCode" class="form-control" id="imgCode" placeholder="请输入验证码">
+                        		</div>
+                            <div class="col-sm-3">
+                        			   <span style="padding:0;" class="input-group-addon codeSpan"><img [src]="imgStr" class="imgStr" (click)="loadValiCode()"></span>
                         		</div>
                       	</div>
 

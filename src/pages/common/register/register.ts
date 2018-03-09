@@ -21,8 +21,12 @@ export class RegisterPage {
     confirmLoginPwd:string;//确认登录密码
     payPwd:string;//支付密码
     confirmPayPwd:string;//确认支付密码
-    smsCode:string;//短信验证码
+    imgCode:string;//验证码
+    imgStr:string;//图片验证码
+    imgKey:string;//验证码对应的key
+    //smsCode:string;//短信验证码
     constructor(private router:Router,private httpService:HttpService) {
+        this.loadValiCode();
     }
 
     ngOnInit(){
@@ -51,7 +55,8 @@ export class RegisterPage {
                     inviteMobile:this.inviteMobile,
                     loginPwd:this.loginPwd,
                     payPwd:this.payPwd,
-                    smsCode:this.smsCode
+                    imgKey:this.imgKey,
+                    imgKeyValue:this.imgCode
                 }
             }).subscribe((data:any)=>{
                 if(data.code==='0000'){
@@ -69,28 +74,43 @@ export class RegisterPage {
     }
 
     /*
-    * 获取手机验证码
+    * 获取图片验证码
     */
-    loadMobileCode(){
-        if(Utils.isEmpty(this.mobile)){
-            layer.tips('手机号不能为空', '#mobile',{tips: 1});
-            $("#mobile").focus();
-            return false;
-        }
+    loadValiCode(){
         this.httpService.get({
-            url:'/common/registerSms',
-            data:{
-                mobile:this.mobile,
-                areaNum:'86'
-            }
+            url:'/common/loadImgCode',
+            data:[]
         }).subscribe((data:any)=>{
             if(data.code === "0000"){
-                Utils.show("获取验证码成功!");
-            }else{
-                Utils.show("获取验证码失败!");
+                this.imgStr = "data:image/jpg;base64,"+data.data.imgStr;
+                this.imgKey = data.data.imgKey;
             }
         });
     }
+
+    /*
+    * 获取手机验证码
+    */
+    // loadMobileCode(){
+    //     if(Utils.isEmpty(this.mobile)){
+    //         layer.tips('手机号不能为空', '#mobile',{tips: 1});
+    //         $("#mobile").focus();
+    //         return false;
+    //     }
+    //     this.httpService.get({
+    //         url:'/common/registerSms',
+    //         data:{
+    //             mobile:this.mobile,
+    //             areaNum:'86'
+    //         }
+    //     }).subscribe((data:any)=>{
+    //         if(data.code === "0000"){
+    //             Utils.show("获取验证码成功!");
+    //         }else{
+    //             Utils.show("获取验证码失败!");
+    //         }
+    //     });
+    // }
 
     /**
     * 清空表单数据
@@ -126,11 +146,6 @@ export class RegisterPage {
             $("#payPwd").focus();
             return false;
         }
-        if(Utils.isEmpty(this.smsCode)){
-            layer.tips('验证码不能为空', '#smsCode',{tips: 1});
-            $("#smsCode").focus();
-            return false;
-        }
         if(this.confirmLoginPwd != this.loginPwd){
             layer.tips('登录密码不一致', '#confirmLoginPwd',{tips: 1});
             $("#confirmLoginPwd").focus();
@@ -139,6 +154,11 @@ export class RegisterPage {
         if(this.confirmPayPwd != this.payPwd){
             layer.tips('支付密码不一致', '#confirmPayPwd',{tips: 1});
             $("#confirmPayPwd").focus();
+            return false;
+        }
+        if(Utils.isEmpty(this.imgCode)){
+            layer.tips('验证码不能为空', '#imgCode',{tips: 1});
+            $("#imgCode").focus();
             return false;
         }
         return true;

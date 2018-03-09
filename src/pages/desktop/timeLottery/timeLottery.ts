@@ -22,24 +22,29 @@ export class TimeLotteryPage {
     showTime:any = new Date();
     //定义号码
     haomas:any = [0,1,2,3,4,5,6,7,8,9];
-    lotteryList:any = [];
+    lotteryList:any = [0,0,0,0,0];
 
     //定义开奖时间
-    openTime: any;
+    openTime: any="2018-01-01 00:00:00";
     //定义当前期数
-    currentIssuNo:any;
+    currentIssuNo:string="20180101001";
     //定义下期期数
     lotteryInfo:any;
     //定义定时器
     timer:any;
+    //定义数据定时器
+    timerData:any;
 
     //定义封盘时间的分
-    fengpan_feng:number;
-    fengpan_miao:number;
+    fengpan_feng:number=0;
+    fengpan_miao:number=0;
 
     //定义数组保存号码列表
     bettingOne_list:any=[];
     bettingTwo_list:any=[];
+    bettingPrompt_list:any=[];
+    //定义一个保存投注集合的变量
+    //bettingPrompt_num
     sumMoney:number = 0;
     sumNumber:number = 0;
     //支付密码
@@ -72,10 +77,21 @@ export class TimeLotteryPage {
         if(data.code==='0000'){
             //修改成功
             this.dataInfo = data.data;
+            if(this.dataInfo.restTime != 0){
+                $(".bet_vague").hide();
+                clearInterval(this.timerData);
+            }
+            // else{
+            //     $(".bet_vague").show();
+            //     this.initLoadData();
+            // }
             this.init();
-            //console.log(this.dataInfo);
         }else if(data.code==='9999'){
             Utils.show(data.message);
+            if(data.message == "非投注时间"){
+                $(".bet_vague").show();
+                $(".prompt").text("非投注时间");
+            }
         }else{
             Utils.show("网络异常");
         }
@@ -98,6 +114,7 @@ export class TimeLotteryPage {
 
         //计算封盘时间
         var diff = this.dataInfo.restTime;
+        //var diff = 1646;
         if(diff != 0){
             diff = diff / 1000;
             this.fengpan_feng = Math.floor(diff/ 60);
@@ -113,6 +130,11 @@ export class TimeLotteryPage {
                        clearInterval(this.timer);
                        this.fengpan_feng = 0;
                        this.fengpan_miao = 0;
+                       $(".bet_vague").show();
+                       $(".prompt").text("已封盘,禁止投注");
+                       //$(".row-tab_2_2").css("background-image","url('/assets/img/banBetting.png')");
+                       //this.loadData();
+                       this.initLoadData();
                        return;
                     }
                 }
@@ -120,8 +142,21 @@ export class TimeLotteryPage {
         }else{
             clearInterval(this.timer);
             //切换禁止投注背景色
-            //$(".row-tab_2_2").css("background-image","url('/assets/img/bg.png')");
+            //$(".row-tab_2_2").css("background-image","url('/assets/img/banBetting.png')");
         }
+    }
+
+    initLoadData(){
+        var countDown = 120;
+        this.timerData = setInterval(() => {
+            countDown = countDown - 1;
+            //如果秒减完，就减分
+            if(countDown == 0){
+                clearInterval(this.timerData);
+            }
+            //每隔5秒调用一次
+            this.loadData();
+        }, 5000);
     }
 
     //封装初始化每个投注的数组
@@ -161,8 +196,6 @@ export class TimeLotteryPage {
         //计算总金额
         this.sumMoney = this.sumNumber * this.bet_num;
 
-
-
         var subData={
           issueNo:this.dataInfo.historyIssuNo,
           serialNumber:this.dataInfo.currentIssueNo,
@@ -170,7 +203,10 @@ export class TimeLotteryPage {
           betType:10,
           timeList:new Array()
         };
-
+        var promptRow = new Array();
+        this.bettingPrompt_list = [];
+        var str;
+        var str1 = this.bettingOne_list.length - 1;
         for(var i=0;i<this.bettingOne_list.length;i++){
             var row={
                 lotteryOne:"",
@@ -191,32 +227,51 @@ export class TimeLotteryPage {
             row.multiple=this.bet_num;
             //console.log(row);
             subData.timeList.push(row);
+            //添加数据
+            promptRow.push(row.bettingContent);
+            str = i + "";
+            //str1 = str1 + "";
+            if(str.indexOf("9") != -1){
+                alert("str="+str);
+                this.bettingPrompt_list.push(promptRow);
+                promptRow = new Array();
+            }
+
+            if(i == str1){
+                alert("str1="+str1);
+                this.bettingPrompt_list.push(promptRow);
+                promptRow = new Array();
+            }
         }
+        console.log(this.bettingPrompt_list);
+        //this.bettingPrompt_list = this.bettingOne_list;
+        this.openBettingPrompt();
         //console.log("subData:"+subData)
-        if(this.validatorBetOne()){
-            this.httpService.post({
-                url:'/time/oneTimeBetting',
-                data:subData
-            }).subscribe((data:any)=>{
-                if(data.code==='0000'){
-                    Utils.show(data.message);
-                    this.payPwd="";
-                    this.bet_num=0;
-                    $("#betOne").val(1);
-                    $("#payPwdOne").val("");
-                    location.reload();
-                }else if(data.code==='9999'){
-                    Utils.show(data.message);
-                }else{
-                    Utils.show("登录失败，请联系管理员");
-                }
-            });
-        }
+        // if(this.validatorBetOne()){
+        //     this.httpService.post({
+        //         url:'/time/oneTimeBetting',
+        //         data:subData
+        //     }).subscribe((data:any)=>{
+        //         if(data.code==='0000'){
+        //             Utils.show(data.message);
+        //             this.payPwd="";
+        //             this.bet_num=0;
+        //             $("#betOne").val(1);
+        //             $("#payPwdOne").val("");
+        //             location.reload();
+        //         }else if(data.code==='9999'){
+        //             Utils.show(data.message);
+        //         }else{
+        //             Utils.show("登录失败，请联系管理员");
+        //         }
+        //     });
+        // }
     }
 
     //验证表单数据
     validatorBetOne(){
-        if(Utils.isEmpty(this.bettingOne_list)){
+
+        if(Utils.isEmpty(this.bettingOne_list) || this.bettingOne_list.length == 0){
             Utils.show("请选择投注的号码");
             return false;
         }
@@ -225,11 +280,11 @@ export class TimeLotteryPage {
             $("#betOne").focus();
             return false;
         }
-        if(Utils.isEmpty(this.payPwd)){
-            layer.tips('支付密码不能为空', '#payPwdOne',{tips: 1});
-            $("#payPwdOne").focus();
-            return false;
-        }
+        // if(Utils.isEmpty(this.payPwd)){
+        //     layer.tips('支付密码不能为空', '#payPwdOne',{tips: 1});
+        //     $("#payPwdOne").focus();
+        //     return false;
+        // }
         return true;
     }
 
@@ -419,7 +474,7 @@ export class TimeLotteryPage {
 
     //验证表单数据
     validatorBetTwo(){
-        if(Utils.isEmpty(this.bettingTwo_list)){
+        if(Utils.isEmpty(this.bettingTwo_list) || this.sumNumber == 0){
             Utils.show("请选择投注的号码");
             return false;
         }
@@ -428,11 +483,11 @@ export class TimeLotteryPage {
             $("#betTwo").focus();
             return false;
         }
-        if(Utils.isEmpty(this.payPwd)){
-            layer.tips('支付密码不能为空', '#payPwdTwo',{tips: 1});
-            $("#payPwdTwo").focus();
-            return false;
-        }
+        // if(Utils.isEmpty(this.payPwd)){
+        //     layer.tips('支付密码不能为空', '#payPwdTwo',{tips: 1});
+        //     $("#payPwdTwo").focus();
+        //     return false;
+        // }
         return true;
     }
 
@@ -520,11 +575,11 @@ export class TimeLotteryPage {
             $("#quickPlayBetMoney").focus();
             return false;
         }
-        if(Utils.isEmpty(this.payPwd)){
-            layer.tips('支付密码不能为空', '#payPwdQuickPlay',{tips: 1});
-            $("#payPwdQuickPlay").focus();
-            return false;
-        }
+        // if(Utils.isEmpty(this.payPwd)){
+        //     layer.tips('支付密码不能为空', '#payPwdQuickPlay',{tips: 1});
+        //     $("#payPwdQuickPlay").focus();
+        //     return false;
+        // }
         return true;
     }
 
@@ -622,6 +677,28 @@ export class TimeLotteryPage {
 
     quickPlayOut($event:any){
         $($event.target).parent().css("background-color","white");
+    }
+
+
+    /**
+    * 弹出等级面板
+    */
+    openBettingPrompt(){
+        layer.open({
+            title: "是否确认投注",
+            btn: ["确认","退出"],
+            type: 1,
+            closeBtn: 0,
+            shade: 0,
+            fixed: true,
+            shadeClose: false,
+            resize: false,
+            area: ['880px','400px'],
+            content: $("#editPanel"),
+            yes: function(index:number){
+                layer.closeAll();
+            }
+        });
     }
 
 

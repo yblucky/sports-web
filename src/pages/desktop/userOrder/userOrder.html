@@ -105,9 +105,13 @@
                       <th *ngIf="find.busnessType==21">{{item.lotteryOne+','+item.lotteryTwo+','+item.lotteryThree+','+item.lotteryFour+','+item.lotteryFive}}</th> -->
                       <td>{{item.bettingContent}}</td>
                       <th>{{item.winningAmount}}</th>
-                      <th>{{item.lotteryFlag}}</th>
+                      <th *ngIf="item.lotteryFlag == 10">已投注</th>
+                      <th *ngIf="item.lotteryFlag == 20">已开奖</th>
+                      <th *ngIf="item.lotteryFlag == 30">已退码</th>
                       <th>
-                          <button type="button" (click)="returnCode(item.id,item.businessNumber)" class="btn btn-info btn-sm">退码</button>
+                          <button *ngIf="item.lotteryFlag != 30 && item.lotteryFlag != 20" type="button" (click)="returnCode(item.id,item.businessNumber)" class="btn btn-info btn-sm">退码</button>
+                          <span *ngIf="item.lotteryFlag == 20">开奖成功</span>
+                          <span *ngIf="item.lotteryFlag == 30">退码成功</span>
                       </th>
                       <!-- <td>{{utils.formatDate(item.createTime,'yyyy-MM-dd HH:mm:ss')}}</td> -->
                   </tr>

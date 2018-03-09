@@ -3,9 +3,11 @@ import { HttpService } from "../../../providers/HttpService";
 import { Utils } from "../../../providers/Utils";
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
+import { MainPage } from '../../common/main/main';
 declare var $: any;
 declare var layer: any;
 var userOrderPage: any;
+var mainPage :any;
 
 @Component({
     selector   : 'page-userOrder',
@@ -25,10 +27,11 @@ export class UserOrderPage {
     //定义一个变量保存彩种类型
     colorType:number;
 
-    constructor(private router:Router,private httpService:HttpService,private aroute:ActivatedRoute,private utils:Utils) {
+    constructor(private router:Router,private httpService:HttpService,private aroute:ActivatedRoute,private utils:Utils,private mPage:MainPage) {
         this.aroute.params.subscribe( params  => {
             this.showTime = new Date();
         });
+        mainPage = mPage;
         userOrderPage=this;
         this.loadDataOne();
     }
@@ -127,7 +130,7 @@ export class UserOrderPage {
               area: ['880px','400px'],
               content: $("#editPanel"),
               yes: function(index:number){
-                     layer.closeAll();
+                  layer.closeAll();
               }
           });
       }
@@ -142,6 +145,7 @@ export class UserOrderPage {
               if(data.code==='0000'){
                   Utils.show(data.message);
                   this.openDetail(this.colorType,businessNumber);
+                  mainPage.loadUserInfo();
               }else if(data.code==='9999'){
                   Utils.show(data.message);
               }else{
