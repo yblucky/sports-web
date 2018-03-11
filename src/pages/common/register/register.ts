@@ -148,12 +148,12 @@ export class RegisterPage {
         }
         if(this.confirmLoginPwd != this.loginPwd){
             layer.tips('登录密码不一致', '#confirmLoginPwd',{tips: 1});
-            $("#confirmLoginPwd").focus();
+            //$("#confirmLoginPwd").focus();
             return false;
         }
         if(this.confirmPayPwd != this.payPwd){
             layer.tips('支付密码不一致', '#confirmPayPwd',{tips: 1});
-            $("#confirmPayPwd").focus();
+            //$("#confirmPayPwd").focus();
             return false;
         }
         if(Utils.isEmpty(this.imgCode)){
@@ -168,7 +168,7 @@ export class RegisterPage {
     loginPwdPair(){
         if(this.confirmLoginPwd != this.loginPwd){
             layer.tips('登录密码不一致', '#confirmLoginPwd',{tips: 1});
-            $("#confirmLoginPwd").focus();
+            //$("#confirmLoginPwd").focus();
             return false;
         }
     }
@@ -176,7 +176,7 @@ export class RegisterPage {
     payPwdPair(){
         if(this.confirmPayPwd != this.payPwd){
             layer.tips('支付密码不一致', '#confirmPayPwd',{tips: 1});
-            $("#confirmPayPwd").focus();
+            //$("#confirmPayPwd").focus();
             return false;
         }
     }

@@ -8,6 +8,7 @@ import { TimeLotteryPage } from '../desktop/timeLottery/timeLottery';
 import { AwardNumberPage } from '../desktop/awardNumber/awardNumber';
 import { PersonalSettingsPage } from '../desktop/personalSettings/personalSettings';
 import { ReportFormPage } from '../desktop/reportForm/reportForm';
+import { WithdrawalsPage } from '../desktop/withdrawals/withdrawals';
 
 export const MainRoutes: Routes = [ // Routes类型的数组
     {
@@ -38,6 +39,9 @@ export const MainRoutes: Routes = [ // Routes类型的数组
     },{
         path     : 'desktop/reportForm',//个人报表
         component: ReportFormPage
+    },{
+        path     : 'desktop/withdrawals',//个人提现
+        component: WithdrawalsPage
     },{
         path     : '**',
         //component: HomePage

@@ -17,6 +17,7 @@ import { TimeLotteryPage } from '../desktop/timeLottery/timeLottery';
 import { AwardNumberPage } from '../desktop/awardNumber/awardNumber';
 import { PersonalSettingsPage } from '../desktop/personalSettings/personalSettings';
 import { ReportFormPage } from '../desktop/reportForm/reportForm';
+import { WithdrawalsPage } from '../desktop/withdrawals/withdrawals';
 
 @NgModule({
     declarations: [
@@ -29,7 +30,8 @@ import { ReportFormPage } from '../desktop/reportForm/reportForm';
         TimeLotteryPage,
         AwardNumberPage,
         PersonalSettingsPage,
-        ReportFormPage
+        ReportFormPage,
+        WithdrawalsPage
     ],
     imports: [
         BrowserModule,

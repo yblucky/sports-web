@@ -16,7 +16,7 @@ var mainPage :any;
 })
 export class UserOrderPage {
     find:any={
-      busnessType:[21,22]
+      busnessType:[21]
     };
 
     orderData:any;

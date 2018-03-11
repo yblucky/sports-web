@@ -29,6 +29,7 @@
                     <th>用户昵称</th>
                     <th>手机号</th>
                     <th>彩种</th>
+                    <th>期数</th>
                     <th>投注金额</th>
                     <th>投注前金额</th>
                     <th>投注后金额</th>
@@ -45,6 +46,7 @@
                     <td>{{item.mobile}}</td>
                     <td *ngIf="item.busnessType == 21 || item.busnessType == 22">时时彩</td>
                     <td *ngIf="item.busnessType == 31 || item.busnessType == 32">北京赛车</td>
+                    <td>{{item.extend}}</td>
                     <td>{{item.balance}}</td>
                     <td>{{item.beforeBalance}}</td>
                     <td>{{item.afterBalance}}</td>

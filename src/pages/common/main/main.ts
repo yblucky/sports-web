@@ -124,13 +124,18 @@ export class MainPage {
         this.router.navigate(['common/main/'+refreshLink]);
     }
 
-    showStyle($event:any,refreshLink:string){
-        $(".leftPanel_2").removeClass("w2");
-        $($event.target).addClass("w2");
+    showStyle($event:any,refreshLink:string,refreshClass:string){
+        $(".leftPanel_total").children().removeClass("w2");
+        if(refreshClass == ""){
+            $($event.target).addClass("w2");
+        }else{
+            $(refreshClass).addClass("w2");
+        }
+
         this.router.navigate(['common/main/'+refreshLink]);
 
         //重新加载用户信息
-        
+        this.loadUserInfo();
     }
 
     rechargePage(){
@@ -186,6 +191,7 @@ export class MainPage {
                     this.amount=0;
                     this.bankCardId="-1";
                     this.payPwd="";
+                    this.showStyle("","/desktop/withdrawals",".leftPanel_7");
                 }else if(data.code==='9999'){
                     Utils.show(data.message);
                 }else{

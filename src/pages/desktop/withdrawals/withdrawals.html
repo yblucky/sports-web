@@ -24,25 +24,25 @@
         <table class="table table-bordered table-hover">
             <thead>
                 <tr class="active">
-                    <th>开奖时间</th>
-                    <th>期号</th>
-                    <th>万</th>
-                    <th>千</th>
-                    <th>百</th>
-                    <th>十</th>
-                    <th>个</th>
+                    <th>提现时间</th>
+                    <th>提现前金额</th>
+                    <th>提现金额</th>
+                    <th>提现手续费</th>
+                    <th>提现银行卡</th>
+                    <th>提现状态</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let item of httpService.items; let i = index">
-                    <td>{{utils.formatDate(item.lotteryTime,'yyyy-MM-dd HH:mm:ss')}}</td>
+                    <td>{{utils.formatDate(item.createTime,'yyyy-MM-dd HH:mm:ss')}}</td>
                     <!-- <td >站位</td> -->
-                    <td>{{item.issueNo}}</td>
-                    <td>{{item.lotteryOne}}</td>
-                    <td>{{item.lotteryTwo}}</td>
-                    <td>{{item.lotteryThree}}</td>
-                    <td>{{item.lotteryFour}}</td>
-                    <td>{{item.lotteryFive}}</td>
+                    <td>{{item.beforeBalance}}</td>
+                    <td>{{item.amount}}</td>
+                    <td>{{item.fee}}</td>
+                    <td>{{item.bankCardId}}</td>
+                    <td *ngIf="item.state == 10">提现中</td>
+                    <td *ngIf="item.state == 20">已提现</td>
+                    <td *ngIf="item.state == 30">已驳回</td>
                     <!-- <td>{{utils.formatDate(item.createTime,'yyyy-MM-dd HH:mm:ss')}}</td> -->
                 </tr>
             </tbody>

@@ -23,7 +23,7 @@
 
         <div class="row-tab_3">
             <div class="row-tab_3_1">
-                <p style="color:#B6C0B2;" *ngIf="currentIssuNo">第{{currentIssuNo}}期</p>
+                <p style="color:#B6C0B2;" *ngIf="preIssuNo">第{{preIssuNo}}期</p>
                 <p style="margin-top:-85px;margin-left:65px;color:white;">开奖号码</p>
             </div>
             <div class="row-tab_3_2" *ngIf="lotteryList">
@@ -53,6 +53,7 @@
             <span class="content-tab_1_1" (click)="betCategory($event,2)">一字定</span>
             <span class="content-tab_1_2" (click)="betCategory($event,3)">二字定</span>
             <span class="content-tab_1_3" (click)="betCategory($event,4)">快打</span>
+            <span class="content-tab_1_4" (click)="betCategory($event,5)">时时彩规则</span>
             <hr />
         </div>
 
@@ -70,11 +71,11 @@
                   </thead>
                   <tbody>
                       <tr style="cursor:pointer;" *ngFor="let haoma of haomas; let i = index">
-                          <td flag="1" (click)="betTimeLotteryOne($event,0,haoma)"><span flag="3" style="margin-left:10px;font-weight:bold;">{{haoma}}XXXX</span><span flag="3" style="margin-left:120px;color:red;font-weight:bold;">{{timeLotteryOdds_1}}</span></td>
-                          <td flag="1" (click)="betTimeLotteryOne($event,1,haoma)"><span flag="3" style="margin-left:10px;font-weight:bold;">X{{haoma}}XXX</span><span flag="3" style="margin-left:120px;color:red;font-weight:bold;">{{timeLotteryOdds_1}}</span></td>
-                          <td flag="1" (click)="betTimeLotteryOne($event,2,haoma)"><span flag="3" style="margin-left:10px;font-weight:bold;">XX{{haoma}}XX</span><span flag="3" style="margin-left:120px;color:red;font-weight:bold;">{{timeLotteryOdds_1}}</span></td>
-                          <td flag="1" (click)="betTimeLotteryOne($event,3,haoma)"><span flag="3" style="margin-left:10px;font-weight:bold;">XXX{{haoma}}X</span><span flag="3" style="margin-left:120px;color:red;font-weight:bold;">{{timeLotteryOdds_1}}</span></td>
-                          <td flag="1" (click)="betTimeLotteryOne($event,4,haoma)"><span flag="3" style="margin-left:10px;font-weight:bold;">XXXX{{haoma}}</span><span flag="3" style="margin-left:120px;color:red;font-weight:bold;">{{timeLotteryOdds_1}}</span></td>
+                          <td flag="1" (click)="betTimeLotteryOne($event,0,haoma)" style="font-weight:bold;"><span style="margin-left:20px;"></span>{{haoma}}XXXX<span style="margin-left:120px;color:red;font-weight:bold;">{{timeLotteryOdds_1}}</span></td>
+                          <td flag="1" (click)="betTimeLotteryOne($event,1,haoma)" style="font-weight:bold;"><span style="margin-left:20px;"></span>X{{haoma}}XXX<span style="margin-left:120px;color:red;font-weight:bold;">{{timeLotteryOdds_1}}</span></td>
+                          <td flag="1" (click)="betTimeLotteryOne($event,2,haoma)" style="font-weight:bold;"><span style="margin-left:20px;"></span>XX{{haoma}}XX<span style="margin-left:120px;color:red;font-weight:bold;">{{timeLotteryOdds_1}}</span></td>
+                          <td flag="1" (click)="betTimeLotteryOne($event,3,haoma)" style="font-weight:bold;"><span style="margin-left:20px;"></span>XXX{{haoma}}X<span style="margin-left:120px;color:red;font-weight:bold;">{{timeLotteryOdds_1}}</span></td>
+                          <td flag="1" (click)="betTimeLotteryOne($event,4,haoma)" style="font-weight:bold;"><span style="margin-left:20px;"></span>XXXX{{haoma}}<span style="margin-left:120px;color:red;font-weight:bold;">{{timeLotteryOdds_1}}</span></td>
                       </tr>
                   </tbody>
                   <tfoot>
@@ -99,16 +100,16 @@
                   <thead>
                       <tr>
                           <th colspan="10" style="text-align:left">
-                              <span class="category_type" isClick='1' style="margin-left:20px;text-decoration:underline;color:red;cursor:pointer;" (click)="categoryClick($event,1)" (mouseover)='categoryOver($event)' (mouseout)='categoryOut($event)'>口口XXX</span>
-                              <span class="category_type" isClick='1' style="margin-left:20px;cursor:pointer;" (click)="categoryClick($event,2)" (mouseover)='categoryOver($event)' (mouseout)='categoryOut($event)'>口X口XX</span>
-                              <span class="category_type" isClick='1' style="margin-left:20px;cursor:pointer;" (click)="categoryClick($event,3)" (mouseover)='categoryOver($event)' (mouseout)='categoryOut($event)'>口XX口X</span>
-                              <span class="category_type" isClick='1' style="margin-left:20px;cursor:pointer;" (click)="categoryClick($event,4)" (mouseover)='categoryOver($event)' (mouseout)='categoryOut($event)'>口XXX口</span>
-                              <span class="category_type" isClick='1' style="margin-left:20px;cursor:pointer;" (click)="categoryClick($event,5)" (mouseover)='categoryOver($event)' (mouseout)='categoryOut($event)'>X口口XX</span>
-                              <span class="category_type" isClick='1' style="margin-left:20px;cursor:pointer;" (click)="categoryClick($event,6)" (mouseover)='categoryOver($event)' (mouseout)='categoryOut($event)'>X口X口X</span>
-                              <span class="category_type" isClick='1' style="margin-left:20px;cursor:pointer;" (click)="categoryClick($event,7)" (mouseover)='categoryOver($event)' (mouseout)='categoryOut($event)'>X口XX口</span>
-                              <span class="category_type" isClick='1' style="margin-left:20px;cursor:pointer;" (click)="categoryClick($event,8)" (mouseover)='categoryOver($event)' (mouseout)='categoryOut($event)'>XX口口X</span>
-                              <span class="category_type" isClick='1' style="margin-left:20px;cursor:pointer;" (click)="categoryClick($event,9)" (mouseover)='categoryOver($event)' (mouseout)='categoryOut($event)'>XX口X口</span>
-                              <span class="category_type" isClick='1' style="margin-left:20px;cursor:pointer;" (click)="categoryClick($event,10)" (mouseover)='categoryOver($event)' (mouseout)='categoryOut($event)'>XXX口口</span>
+                              <span class="category_type" isClick='1' style="margin-left:20px;text-decoration:underline;color:red;cursor:pointer;" (click)="categoryClick($event,0)" (mouseover)='categoryOver($event)' (mouseout)='categoryOut($event)'>口口XXX</span>
+                              <span class="category_type" isClick='1' style="margin-left:20px;cursor:pointer;" (click)="categoryClick($event,1)" (mouseover)='categoryOver($event)' (mouseout)='categoryOut($event)'>口X口XX</span>
+                              <span class="category_type" isClick='1' style="margin-left:20px;cursor:pointer;" (click)="categoryClick($event,2)" (mouseover)='categoryOver($event)' (mouseout)='categoryOut($event)'>口XX口X</span>
+                              <span class="category_type" isClick='1' style="margin-left:20px;cursor:pointer;" (click)="categoryClick($event,3)" (mouseover)='categoryOver($event)' (mouseout)='categoryOut($event)'>口XXX口</span>
+                              <span class="category_type" isClick='1' style="margin-left:20px;cursor:pointer;" (click)="categoryClick($event,4)" (mouseover)='categoryOver($event)' (mouseout)='categoryOut($event)'>X口口XX</span>
+                              <span class="category_type" isClick='1' style="margin-left:20px;cursor:pointer;" (click)="categoryClick($event,5)" (mouseover)='categoryOver($event)' (mouseout)='categoryOut($event)'>X口X口X</span>
+                              <span class="category_type" isClick='1' style="margin-left:20px;cursor:pointer;" (click)="categoryClick($event,6)" (mouseover)='categoryOver($event)' (mouseout)='categoryOut($event)'>X口XX口</span>
+                              <span class="category_type" isClick='1' style="margin-left:20px;cursor:pointer;" (click)="categoryClick($event,7)" (mouseover)='categoryOver($event)' (mouseout)='categoryOut($event)'>XX口口X</span>
+                              <span class="category_type" isClick='1' style="margin-left:20px;cursor:pointer;" (click)="categoryClick($event,8)" (mouseover)='categoryOver($event)' (mouseout)='categoryOut($event)'>XX口X口</span>
+                              <span class="category_type" isClick='1' style="margin-left:20px;cursor:pointer;" (click)="categoryClick($event,9)" (mouseover)='categoryOver($event)' (mouseout)='categoryOut($event)'>XXX口口</span>
                           </th>
                       </tr>
                       <tr>
@@ -125,44 +126,44 @@
                       </tr>
                   </thead>
                   <tbody class="tbody_category">
-                      <tr class="category_1" style="cursor:pointer;" *ngFor="let haoma of haomas; let i = index">
-                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLotteryTwo($event,0,1,i,j)"><span flag="3" style="margin-left:10px;font-weight:bold;">{{i}}{{j}}XXX</span><span flag="3" style="margin-left:50px;color:red;font-weight:bold;">{{timeLotteryOdds_2}}</span></td>
+                      <tr class="category_0" style="cursor:pointer;" *ngFor="let haoma of haomas; let i = index">
+                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLotteryTwo($event,0,1,i,j)" style="font-weight:bold;"><span style="margin-left:10px;"></span>{{i}}{{j}}XXX<span style="margin-left:40px;color:red;">{{timeLotteryOdds_2}}</span></td>
+                      </tr>
+
+                      <tr class="category_1" style="cursor:pointer;display:none;" *ngFor="let haoma of haomas; let i = index">
+                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLotteryTwo($event,0,2,i,j)" style="font-weight:bold;"><span style="margin-left:10px;"></span>{{i}}X{{j}}XX<span style="margin-left:40px;color:red;">{{timeLotteryOdds_2}}</span></td>
                       </tr>
 
                       <tr class="category_2" style="cursor:pointer;display:none;" *ngFor="let haoma of haomas; let i = index">
-                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLotteryTwo($event,0,2,i,j)"><span flag="3" style="margin-left:10px;font-weight:bold;">{{i}}X{{j}}XX</span><span flag="3" style="margin-left:50px;color:red;font-weight:bold;">{{timeLotteryOdds_2}}</span></td>
+                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLotteryTwo($event,0,3,i,j)" style="font-weight:bold;"><span style="margin-left:10px;"></span>{{i}}XX{{j}}X<span style="margin-left:40px;color:red;">{{timeLotteryOdds_2}}</span></td>
                       </tr>
 
                       <tr class="category_3" style="cursor:pointer;display:none;" *ngFor="let haoma of haomas; let i = index">
-                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLotteryTwo($event,0,3,i,j)"><span flag="3" style="margin-left:10px;font-weight:bold;">{{i}}XX{{j}}X</span><span flag="3" style="margin-left:50px;color:red;font-weight:bold;">{{timeLotteryOdds_2}}</span></td>
+                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLotteryTwo($event,0,4,i,j)" style="font-weight:bold;"><span style="margin-left:10px;"></span>{{i}}XXX{{j}}<span style="margin-left:40px;color:red;">{{timeLotteryOdds_2}}</span></td>
                       </tr>
 
                       <tr class="category_4" style="cursor:pointer;display:none;" *ngFor="let haoma of haomas; let i = index">
-                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLotteryTwo($event,0,4,i,j)"><span flag="3" style="margin-left:10px;font-weight:bold;">{{i}}XXX{{j}}</span><span flag="3" style="margin-left:50px;color:red;font-weight:bold;">{{timeLotteryOdds_2}}</span></td>
+                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLotteryTwo($event,1,2,i,j)" style="font-weight:bold;"><span style="margin-left:10px;"></span>X{{i}}{{j}}XX<span style="margin-left:40px;color:red;">{{timeLotteryOdds_2}}</span></td>
                       </tr>
 
                       <tr class="category_5" style="cursor:pointer;display:none;" *ngFor="let haoma of haomas; let i = index">
-                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLotteryTwo($event,1,2,i,j)"><span flag="3" style="margin-left:10px;font-weight:bold;">X{{i}}{{j}}XX</span><span flag="3" style="margin-left:50px;color:red;font-weight:bold;">{{timeLotteryOdds_2}}</span></td>
+                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLotteryTwo($event,1,3,i,j)" style="font-weight:bold;"><span style="margin-left:10px;"></span>X{{i}}X{{j}}X<span style="margin-left:40px;color:red;">{{timeLotteryOdds_2}}</span></td>
                       </tr>
 
                       <tr class="category_6" style="cursor:pointer;display:none;" *ngFor="let haoma of haomas; let i = index">
-                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLotteryTwo($event,1,3,i,j)"><span flag="3" style="margin-left:10px;font-weight:bold;">X{{i}}X{{j}}X</span><span flag="3" style="margin-left:50px;color:red;font-weight:bold;">{{timeLotteryOdds_2}}</span></td>
+                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLotteryTwo($event,1,4,i,j)" style="font-weight:bold;"><span style="margin-left:10px;"></span>X{{i}}XX{{j}}<span style="margin-left:40px;color:red;">{{timeLotteryOdds_2}}</span></td>
                       </tr>
 
                       <tr class="category_7" style="cursor:pointer;display:none;" *ngFor="let haoma of haomas; let i = index">
-                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLotteryTwo($event,1,4,i,j)"><span flag="3" style="margin-left:10px;font-weight:bold;">X{{i}}XX{{j}}</span><span flag="3" style="margin-left:50px;color:red;font-weight:bold;">{{timeLotteryOdds_2}}</span></td>
+                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLotteryTwo($event,2,3,i,j)" style="font-weight:bold;"><span style="margin-left:10px;"></span>XX{{i}}{{j}}X<span style="margin-left:40px;color:red;">{{timeLotteryOdds_2}}</span></td>
                       </tr>
 
                       <tr class="category_8" style="cursor:pointer;display:none;" *ngFor="let haoma of haomas; let i = index">
-                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLotteryTwo($event,2,3,i,j)"><span flag="3" style="margin-left:10px;font-weight:bold;">XX{{i}}{{j}}X</span><span flag="3" style="margin-left:50px;color:red;font-weight:bold;">{{timeLotteryOdds_2}}</span></td>
+                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLotteryTwo($event,2,4,i,j)" style="font-weight:bold;"><span style="margin-left:10px;"></span>XX{{i}}X{{j}}<span style="margin-left:40px;color:red;">{{timeLotteryOdds_2}}</span></td>
                       </tr>
 
                       <tr class="category_9" style="cursor:pointer;display:none;" *ngFor="let haoma of haomas; let i = index">
-                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLotteryTwo($event,2,4,i,j)"><span flag="3" style="margin-left:10px;font-weight:bold;">XX{{i}}X{{j}}</span><span flag="3" style="margin-left:50px;color:red;font-weight:bold;">{{timeLotteryOdds_2}}</span></td>
-                      </tr>
-
-                      <tr class="category_10" style="cursor:pointer;display:none;" *ngFor="let haoma of haomas; let i = index">
-                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLotteryTwo($event,3,4,i,j)"><span flag="3" style="margin-left:10px;font-weight:bold;">XXX{{i}}{{j}}</span><span flag="3" style="margin-left:50px;color:red;font-weight:bold;">{{timeLotteryOdds_2}}</span></td>
+                          <td *ngFor="let haoma of haomas; let j = index" flag="1" (click)="betTimeLotteryTwo($event,3,4,i,j)" style="font-weight:bold;"><span style="margin-left:10px;"></span>XXX{{i}}{{j}}<span style="margin-left:40px;color:red;">{{timeLotteryOdds_2}}</span></td>
                       </tr>
                   </tbody>
                   <tfoot>
@@ -250,6 +251,38 @@
                   </tfoot>
             </table>
         </div>
+
+        <!-- 规则页面 -->
+        <div class="content-tab_5">
+            <table class="touzhu_table">
+                  <tr>
+                      <td style="font-size:22px;font-weight:bold;padding-left:20px;color:red;">一字定规则</td>
+                  </tr>
+                  <tr>
+                      <td style="padding-left:60px;">① 万、千、百、十、个，五个位，最多选取3个进行投注</td>
+                  </tr>
+                  <tr>
+                      <td style="padding-left:60px;">② 万、千、百、十、个，五个位，选中某个位后，该位最多从[0-9]10个数中，选取3个数进行下注</td>
+                  </tr>
+                  <tr>
+                      <td style="padding-left:60px;">③ 单注下注注数最多500注</td>
+                  </tr>
+
+                  <tr>
+                      <td style="font-size:22px;font-weight:bold;padding-left:20px;color:red;">二字定规则</td>
+                  </tr>
+                  <tr>
+                      <td style="padding-left:60px;">① 万、千、百、十、个，五个位，最多选取3个位进行两两组合，形成类似：万千、万百、千百的组合投注</td>
+                  </tr>
+                  <tr>
+                      <td style="padding-left:60px;">② 万、千、百、十、个，五个位，选中某两个位组合后，该位最多从该组合的100种方式中，选取30种进行下注</td>
+                  </tr>
+                  <tr>
+                      <td style="padding-left:60px;">③ 单注下注注数最多500注</td>
+                  </tr>
+            </table>
+        </div>
+
     </div>
   </div>
 
@@ -260,7 +293,10 @@
         <table class="table table-bordered table-hover">
             <thead>
                 <tr class="active">
-                    <th colspan="10"></th>
+                    <td colspan="10" style="background-color:#1595C7;">
+                      <span style="color:#FEFF01;">笔数：{{sumNumber}}</span>
+                      <span style="color:#FEFF01;margin-left:30px;">总金额：{{sumMoney}}</span>
+                    </td>
                 </tr>
             </thead>
             <tbody>

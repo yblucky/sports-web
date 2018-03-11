@@ -110,7 +110,7 @@ export class ReportFormPage {
               console.log(index);
               this.costs = data.data.costs;
               this.income = data.data.income;
-              //this.penNumber = data.data.;
+              this.penNumber = data.data.costsCount;
           }else if(data.code==='9999'){
               Utils.show(data.message);
           }else{
