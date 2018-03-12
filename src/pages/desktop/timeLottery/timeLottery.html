@@ -7,7 +7,7 @@
 
         <div class="row-tab_2">
             <div class="row-tab_2_1">
-                <p style="color:#2396DB;" *ngIf="currentIssuNo">第{{currentIssuNo}}期</p>
+                <p style="color:#f6e404;" *ngIf="currentIssuNo">第{{currentIssuNo}}期</p>
                 <p style="margin-top:-85px;margin-left:55px;color:white;">离封盘时间</p>
             </div>
             <div class="row-tab_2_2">
@@ -87,7 +87,7 @@
                             <!-- 支付密码：
                             <input id="payPwdOne" type="password" size="12" style="text-align:center;" /> -->
                             <button (click) = "bettingOneSubmit()">确定</button>
-                            <button>取消</button>
+                            <button (click)="bettingCacle()">取消</button>
                           </td>
                       </tr>
                   </tfoot>
@@ -174,7 +174,7 @@
                             <!-- 支付密码：
                             <input id="payPwdTwo" type="password" size="12" style="text-align:center;" /> -->
                             <button (click)="bettingTwoSubmit()">确定</button>
-                            <button>取消</button>
+                            <button (click)="bettingCacle()">取消</button>
                           </td>
                       </tr>
                   </tfoot>
@@ -294,8 +294,8 @@
             <thead>
                 <tr class="active">
                     <td colspan="10" style="background-color:#1595C7;">
-                      <span style="color:#FEFF01;">笔数：{{sumNumber}}</span>
-                      <span style="color:#FEFF01;margin-left:30px;">总金额：{{sumMoney}}</span>
+                      <span style="color:#e6e643;">笔数：{{sumNumber}}</span>
+                      <span style="color:#e6e643;margin-left:30px;">总金额：{{sumMoney}}</span>
                     </td>
                 </tr>
             </thead>

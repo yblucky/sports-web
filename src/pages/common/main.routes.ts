@@ -9,6 +9,7 @@ import { AwardNumberPage } from '../desktop/awardNumber/awardNumber';
 import { PersonalSettingsPage } from '../desktop/personalSettings/personalSettings';
 import { ReportFormPage } from '../desktop/reportForm/reportForm';
 import { WithdrawalsPage } from '../desktop/withdrawals/withdrawals';
+import { BlankPage } from '../desktop/blank/blank';
 
 export const MainRoutes: Routes = [ // Routes类型的数组
     {
@@ -42,6 +43,9 @@ export const MainRoutes: Routes = [ // Routes类型的数组
     },{
         path     : 'desktop/withdrawals',//个人提现
         component: WithdrawalsPage
+    },{
+        path     : 'desktop/blank',//空白页
+        component: BlankPage
     },{
         path     : '**',
         //component: HomePage

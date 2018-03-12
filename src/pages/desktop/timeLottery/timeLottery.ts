@@ -813,7 +813,7 @@ export class TimeLotteryPage {
                         }
                     });
                 }else if(gameType == 2){
-                    this.httpService.post({
+                    timeLotteryPage.httpService.post({
                         url:'/time/twoTimeBetting',
                         data:subData
                     }).subscribe((data:any)=>{
@@ -842,6 +842,11 @@ export class TimeLotteryPage {
     jumpPage(){
         mainPage.showStyle("","/desktop/userOrder",".leftPanel_3");
         //mainPage.loadUserInfo();
+    }
+
+    //取消投注
+    bettingCacle(){
+        mainPage.showStyle("","/desktop/blank",".leftPanel_2");
     }
 
 }

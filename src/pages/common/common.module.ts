@@ -18,6 +18,7 @@ import { AwardNumberPage } from '../desktop/awardNumber/awardNumber';
 import { PersonalSettingsPage } from '../desktop/personalSettings/personalSettings';
 import { ReportFormPage } from '../desktop/reportForm/reportForm';
 import { WithdrawalsPage } from '../desktop/withdrawals/withdrawals';
+import { BlankPage } from '../desktop/blank/blank';
 
 @NgModule({
     declarations: [
@@ -31,7 +32,8 @@ import { WithdrawalsPage } from '../desktop/withdrawals/withdrawals';
         AwardNumberPage,
         PersonalSettingsPage,
         ReportFormPage,
-        WithdrawalsPage
+        WithdrawalsPage,
+        BlankPage
     ],
     imports: [
         BrowserModule,
