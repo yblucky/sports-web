@@ -14,7 +14,8 @@ var awardNumberPage: any;
 })
 export class AwardNumberPage {
     find:any={
-      issueNo:[21,22]
+      startTime:"",
+      endTime:""
     };
 
     orderData:any;
@@ -26,6 +27,14 @@ export class AwardNumberPage {
             this.showTime = new Date();
         });
         awardNumberPage=this;
+        if(this.aroute.snapshot.queryParams["startTime"]!=undefined){
+          this.find.startTime=this.aroute.snapshot.queryParams["startTime"];
+          this.httpService.currentPage=1;
+        }
+        if(this.aroute.snapshot.queryParams["endTime"]!=undefined){
+          this.find.endTime=this.aroute.snapshot.queryParams["endTime"];
+          this.httpService.currentPage=1;
+        }
         this.loadDataOne();
     }
 
@@ -43,7 +52,7 @@ export class AwardNumberPage {
     loadData(){
       this.httpService.pagination({
           url:'/time/awardNumberList',
-          data:{}
+          data:this.find
       });
 
     }

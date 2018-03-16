@@ -4,11 +4,15 @@
     top:0;
     overflow: auto;
     width:1700px;
-    height:800px;
+    height:830px;
     z-index: 1;
     padding: 20px;
     //background-image: url("/assets/img/bg.png");
     background-repeat:no-repeat;
+}
+
+.notice-div_timeLottery{
+    color:red;
 }
 
 .title-div_timeLottery{
@@ -25,12 +29,13 @@
       border-top-left-radius:25px;
       border-bottom-left-radius:25px;
       display:inline-block;
+      margin-left:100px;
       float: left;
     }
 
     .row-tab_2{
         background-color: rgba(0,0,0,0.5);
-        width:560px;
+        width:360px;
         height:100px;
         border: 1px solid #32E5E5;
         border-left:none;
@@ -45,7 +50,7 @@
             width:130px;
             height: 50px;
             margin-top:-15px;
-            margin-left:10px;
+            margin-left:30px;
             display:inline-block;
         }
 
@@ -78,7 +83,7 @@
 
     .row-tab_3{
         background-color: rgba(0,0,0,0.5);
-        width:420px;
+        width:500px;
         height:100px;
         border: 1px solid #32E5E5;
         line-height:100px;
@@ -112,6 +117,13 @@
               display:inline-block;
               background-image: url("/assets/img/kaijianghaoma.png");
               background-repeat:no-repeat;
+            }
+
+            .row-tab_3_2_2{
+                float: left;
+                width:80px;
+                height:42px;
+                display:inline-block;
             }
         }
     }
@@ -162,6 +174,18 @@
           cursor: pointer;
         }
         .content-tab_1_4{
+          width:70px;
+          height:30px;
+          float: left;
+          line-height:30px;
+          text-align: center;
+          color: white;
+          font-weight: bold;
+          display: inline-block;
+          background-color: #A7D6CD;
+          cursor: pointer;
+        }
+        .content-tab_1_5{
           width:100px;
           height:30px;
           float: left;
@@ -254,6 +278,29 @@
         .touzhu_table{
           color: black;
           border: 1px solid black;
+          th{
+            width:250px;
+            height:40px;
+            border:1px solid black;
+            text-align: center;
+            //background-color: #FFFFC4;
+          }
+          td{
+            text-align: center;
+            font-size:18px;
+            width:1450px;
+            height:40px;
+            border:1px solid black;
+          }
+        }
+    }
+
+    .content-tab_6{
+        margin-top:-20px;
+        display: none;
+        .touzhu_table{
+          color: black;
+          border: 1px solid black;
           td{
             text-align: left;
             font-size:18px;
@@ -268,7 +315,7 @@
 
 .bet_vague{
     clear: both;
-    //display: none;
+    display: none;
     .prompt{
         position: absolute;
         top: 33%;

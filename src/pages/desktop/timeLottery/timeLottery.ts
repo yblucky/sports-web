@@ -27,7 +27,7 @@ export class TimeLotteryPage {
     showTime:any = new Date();
     //定义号码
     haomas:any = [0,1,2,3,4,5,6,7,8,9];
-    lotteryList:any = [10,10,10,10,10];
+    lotteryList:any;
 
     //定义开奖时间
     openTime: any="2018-01-01 00:00:00";
@@ -35,13 +35,20 @@ export class TimeLotteryPage {
     currentIssuNo:string="20180101001";
     //定义上期期数
     preIssuNo:string="20180101000";
-    //定义下期期数
+    //定义上期期数号码
     lotteryInfo:any;
+    //定义上期期数号码
+    preLotteryInfo:any;
+    //定义时时彩公告
+    timeNotice:string;
+
     //定义定时器
     timer:any;
     //定义数据定时器
     timerData:any;
     countDown = 120;
+    //定义获取开奖号码定时器
+    timerAwardNumber:any;
 
     //定义封盘时间的分
     fengpan_feng:number=0;
@@ -70,6 +77,14 @@ export class TimeLotteryPage {
     timeLotteryOdds_1:number;
     timeLotteryOdds_2:number;
 
+    //快选变量
+    judgeList:any = [];
+    keyCodeList:any = [];
+    quickNumberList:any;
+    quickCountList:any = [0,1,2,3,4,5,6,7,8];
+    kindType:number = 1;
+    //oldCodeList:any = [];
+
 
     constructor(private router:Router,private httpService:HttpService,private aroute:ActivatedRoute,private utils:Utils,private mPage:MainPage) {
         this.aroute.params.subscribe( params  => {
@@ -81,6 +96,7 @@ export class TimeLotteryPage {
         //this.init();
         this.loadData();
         this.loadTimeLotteryRule();
+        this.loadNotice();
         //this.loadTimeLotteryOdds();
         //this.initnumsArray();
     }
@@ -99,7 +115,7 @@ export class TimeLotteryPage {
             if(this.dataInfo.restTime != 0){
                 $(".bet_vague").hide();
                 this.countDown=0;
-            }else if(this.dataInfo.restTime == 0){
+            }else if(this.dataInfo.restTime == 0 || !Utils.isNumber(this.dataInfo.restTime)){
                 $(".bet_vague").show();
                 this.initLoadData();
                 // clearInterval(this.timer);
@@ -136,32 +152,20 @@ export class TimeLotteryPage {
         });
     }
 
-    validatorTimeBettingRule(gameType:number,index:number){
-       if (gameType==1) {
-         var count=0;
-          for(var i=0;i< this.bettingOneRule_list.length;i++){
-            if (this.bettingOneRule_list[i].length>0) {
-                // if(count < this.dataRuleInfo.maxBetSeats){
-                    count++;
-                // }
-            }
-            if(count>this.dataRuleInfo.maxBetSeats){
-                Utils.show("最多选取个"+this.dataRuleInfo.maxBetDigitalNoPerSeat+"位");
-                return false;
-            }
-            if(this.bettingOneRule_list[index].length>this.dataRuleInfo.maxBetDigitalNoPerSeat){
-                Utils.show("单个位,最多选取个"+this.dataRuleInfo.maxBetDigitalNoPerSeat+"不同的号码");
-                return false;
-            }
+    loadNotice(){
+        this.httpService.get({
+          url:'/common/loadNotice',
+          data:{}
+        }).subscribe((data:any)=>{
+          if(data.code==='0000'){
+              //修改成功
+              this.timeNotice = data.data;
+          }else if(data.code==='9999'){
+              Utils.show(data.message);
+          }else{
+              Utils.show("网络异常");
           }
-
-          var betNum = $("#betOne").val();
-          if(betNum < this.dataRuleInfo.minBetNoPerDigital || betNum > this.dataRuleInfo.maxBetNoPerDigital){
-              Utils.show("单注投注范围【"+this.dataRuleInfo.minBetNoPerDigital+","+this.dataRuleInfo.maxBetNoPerDigital+"】");
-              return false;
-          }
-       }
-       return true;
+        });
     }
 
     //封盘时间倒计时
@@ -178,6 +182,7 @@ export class TimeLotteryPage {
         this.lotteryList.push(this.lotteryInfo.lotteryThree);
         this.lotteryList.push(this.lotteryInfo.lotteryFour);
         this.lotteryList.push(this.lotteryInfo.lotteryFive);
+        //this.loadAwardNumber();
 
         //计算封盘时间
         var diff = this.dataInfo.restTime;
@@ -188,7 +193,8 @@ export class TimeLotteryPage {
             this.fengpan_miao = Math.floor(diff % 60);
             this.timer = setInterval(() => {
                 this.fengpan_miao = this.fengpan_miao - 1;
-  //              clearInterval(this.timerData);
+                //这个是后面加的，如果定时器有问题，立马删掉
+                clearInterval(this.timerData);
                 //如果秒减完，就减分
                 if(this.fengpan_miao == 0){
                     this.fengpan_feng = this.fengpan_feng - 1;
@@ -228,6 +234,44 @@ export class TimeLotteryPage {
         }, 20000);
     }
 
+    loadAwardNumberTimer(){
+        this.timerAwardNumber = setInterval(() => {
+            //每隔10秒调用一次获取号码
+            this.loadAwardNumber();
+        }, 10000);
+    }
+
+    //获取时时彩信息
+    loadAwardNumber(){
+        // if(Utils.isEmpty(this.preIssuNo) && this.preIssuNo == "系统维护"){
+        //     return false;
+        // }
+        this.httpService.get({
+          url:'/time/loadAwardNumber',
+          data:{
+              issueNo:this.preIssuNo
+          }
+        }).subscribe((data:any)=>{
+          if(data.code==='0000'){
+              this.preLotteryInfo = data.data;
+              //修改成功
+              if(Utils.isNotEmpty(this.preLotteryInfo)){
+                  this.preIssuNo = this.preLotteryInfo.issueNo;
+                  this.lotteryList = new Array();
+                  this.lotteryList.push(this.preLotteryInfo.lotteryOne);
+                  this.lotteryList.push(this.preLotteryInfo.lotteryTwo);
+                  this.lotteryList.push(this.preLotteryInfo.lotteryThree);
+                  this.lotteryList.push(this.preLotteryInfo.lotteryFour);
+                  this.lotteryList.push(this.preLotteryInfo.lotteryFive);
+              }
+          }else if(data.code==='9999'){
+
+          }else{
+              Utils.show("网络异常");
+          }
+        });
+    }
+
     //封装初始化每个投注的数组
     initClickArray(){
       var clickArr=new Array();
@@ -263,59 +307,61 @@ export class TimeLotteryPage {
         this.sumNumber = this.bettingOne_list.length;
         this.bet_num = $("#betOne").val();
         this.payPwd = $("#payPwdOne").val();
-        //计算总金额
-        this.sumMoney = this.sumNumber * this.bet_num;
 
-        var subData={
-          issueNo:this.dataInfo.historyIssuNo,
-          serialNumber:this.dataInfo.currentIssueNo,
-          payPwd:this.payPwd,
-          betType:10,
-          timeList:new Array()
-        };
-        var promptRow = new Array();
-        this.bettingPrompt_list = [];
-        var str;
-        var str1 = this.bettingOne_list.length - 1;
-        for(var i=0;i<this.bettingOne_list.length;i++){
-            var row={
-                lotteryOne:"",
-                lotteryTwo:"",
-                lotteryThree:"",
-                lotteryFour:"",
-                lotteryFive:"",
-                multiple:0,
-                bettingContent:""
-            };
-            row.lotteryOne=this.bettingOne_list[i][0];
-            row.lotteryTwo=this.bettingOne_list[i][1];
-            row.lotteryThree=this.bettingOne_list[i][2];
-            row.lotteryFour=this.bettingOne_list[i][3];
-            row.lotteryFive=this.bettingOne_list[i][4];
-            //console.log(this.bettingOne_list[i][5]);
-            row.bettingContent=this.bettingOne_list[i][5];
-            row.multiple=this.bet_num;
-            //console.log(row);
-            subData.timeList.push(row);
-            //添加数据
-            promptRow.push(row.bettingContent);
-            str = i + "";
-            //str1 = str1 + "";
-            if(str.indexOf("9") != -1){
-                //alert("str="+str);
-                this.bettingPrompt_list.push(promptRow);
-                promptRow = new Array();
-            }
-
-            if(i == str1){
-                //alert("str1="+str1);
-                this.bettingPrompt_list.push(promptRow);
-                promptRow = new Array();
-            }
-        }
-        //console.log(this.bettingPrompt_list);
-        //this.bettingPrompt_list = this.bettingOne_list;
         if(this.validatorBetOne()){
+            //计算总金额
+            this.sumMoney = this.sumNumber * this.bet_num;
+
+            var subData={
+              issueNo:this.dataInfo.historyIssuNo,
+              serialNumber:this.dataInfo.currentIssueNo,
+              payPwd:this.payPwd,
+              betType:10,
+              timeList:new Array()
+            };
+            var promptRow = new Array();
+            this.bettingPrompt_list = [];
+            var str;
+            var str1 = this.bettingOne_list.length - 1;
+            for(var i=0;i<this.bettingOne_list.length;i++){
+                var row={
+                    lotteryOne:"",
+                    lotteryTwo:"",
+                    lotteryThree:"",
+                    lotteryFour:"",
+                    lotteryFive:"",
+                    multiple:0,
+                    bettingContent:""
+                };
+                row.lotteryOne=this.bettingOne_list[i][0];
+                row.lotteryTwo=this.bettingOne_list[i][1];
+                row.lotteryThree=this.bettingOne_list[i][2];
+                row.lotteryFour=this.bettingOne_list[i][3];
+                row.lotteryFive=this.bettingOne_list[i][4];
+                //console.log(this.bettingOne_list[i][5]);
+                row.bettingContent=this.bettingOne_list[i][5];
+                row.multiple=this.bet_num;
+                //console.log(row);
+                subData.timeList.push(row);
+                //添加数据
+                promptRow.push(row.bettingContent);
+                str = i + "";
+                //str1 = str1 + "";
+                if(str.indexOf("9") != -1){
+                    //alert("str="+str);
+                    this.bettingPrompt_list.push(promptRow);
+                    promptRow = new Array();
+                }
+
+                if(i == str1){
+                    //alert("str1="+str1);
+                    this.bettingPrompt_list.push(promptRow);
+                    promptRow = new Array();
+                }
+            }
+            //console.log(this.bettingPrompt_list);
+            //this.bettingPrompt_list = this.bettingOne_list;
+
             this.openBettingPrompt(1,subData);
         }
         //console.log("subData:"+subData)
@@ -329,11 +375,18 @@ export class TimeLotteryPage {
             Utils.show("请选择投注的号码");
             return false;
         }
-        if(Utils.isEmpty(this.sumMoney) || this.sumMoney == 0){
+        if(Utils.isEmpty(this.bet_num) || this.bet_num == 0){
             layer.tips('投注金额不合法', '#betOne',{tips: 1});
             $("#betOne").focus();
             return false;
         }
+
+        if(this.bet_num < this.dataRuleInfo.minBetNoPerDigital || this.bet_num > this.dataRuleInfo.maxBetNoPerDigital){
+            Utils.show("单注投注范围【"+this.dataRuleInfo.minBetNoPerDigital+"-"+this.dataRuleInfo.maxBetNoPerDigital+"】");
+            $("#betOne").focus();
+            return false;
+        }
+
         // if(Utils.isEmpty(this.payPwd)){
         //     layer.tips('支付密码不能为空', '#payPwdOne',{tips: 1});
         //     $("#payPwdOne").focus();
@@ -396,6 +449,31 @@ export class TimeLotteryPage {
           var removeIndex=this.bettingOneRule_list[digit].indexOf(contentStr);
           this.bettingOneRule_list[digit].splice(removeIndex,1);
         }
+    }
+
+    validatorTimeBettingRule(gameType:number,index:number){
+       if (gameType==1) {
+         var count=0;
+          for(var i=0;i< this.bettingOneRule_list.length;i++){
+            if (this.bettingOneRule_list[i].length>0) {
+                // if(count < this.dataRuleInfo.maxBetSeats){
+                    count++;
+                // }
+            }
+            if(count>this.dataRuleInfo.maxBetSeats){
+                Utils.show("最多选取"+this.dataRuleInfo.maxBetSeats+"个位置");
+                return false;
+            }
+            if(this.bettingOneRule_list[index].length>this.dataRuleInfo.maxBetDigitalNoPerSeat){
+                Utils.show("单个位,最多选取"+this.dataRuleInfo.maxBetDigitalNoPerSeat+"个不同的号码");
+                return false;
+            }
+          }
+
+          //var betNum = $("#betOne").val();
+
+       }
+       return true;
     }
 
     betTimeLotteryTwo($event:any,digit1:number,digit2:number,betNum1:number,betNum2:number){
@@ -476,68 +554,6 @@ export class TimeLotteryPage {
         }
     }
 
-    //二字定投注
-    bettingTwoSubmit(){
-        //获取倍数
-        this.sumNumber = this.bettingTwo_list.length;
-        this.bet_num = $("#betTwo").val();
-        this.payPwd = $("#payPwdTwo").val();
-        //计算总金额
-        this.sumMoney = this.sumNumber * this.bet_num;
-
-        var subData={
-          issueNo:this.dataInfo.historyIssuNo,
-          serialNumber:this.dataInfo.currentIssueNo,
-          payPwd:this.payPwd,
-          betType:20,
-          timeList:new Array()
-        };
-
-        var promptRow = new Array();
-        this.bettingPrompt_list = [];
-        var str;
-        var str1 = this.bettingTwo_list.length - 1;
-        for(var i=0;i<this.bettingTwo_list.length;i++){
-            var row={
-                lotteryOne:"",
-                lotteryTwo:"",
-                lotteryThree:"",
-                lotteryFour:"",
-                lotteryFive:"",
-                multiple:0,
-                bettingContent:""
-            };
-            row.lotteryOne=this.bettingTwo_list[i][0];
-            row.lotteryTwo=this.bettingTwo_list[i][1];
-            row.lotteryThree=this.bettingTwo_list[i][2];
-            row.lotteryFour=this.bettingTwo_list[i][3];
-            row.lotteryFive=this.bettingTwo_list[i][4];
-            row.bettingContent=this.bettingTwo_list[i][5];
-            row.multiple=this.bet_num;
-            subData.timeList.push(row);
-
-            //添加数据
-            promptRow.push(row.bettingContent);
-            str = i + "";
-            //str1 = str1 + "";
-            if(str.indexOf("9") != -1){
-                //alert("str="+str);
-                this.bettingPrompt_list.push(promptRow);
-                promptRow = new Array();
-            }
-
-            if(i == str1){
-                //alert("str1="+str1);
-                this.bettingPrompt_list.push(promptRow);
-                promptRow = new Array();
-            }
-        }
-        //console.log("subData:"+subData)
-        if(this.validatorBetTwo()){
-            this.openBettingPrompt(2,subData);
-        }
-    }
-
     //验证二字定时时彩规则
     validatorTimeTwoBettingRule(twoBettingIndex:number){
 
@@ -548,20 +564,77 @@ export class TimeLotteryPage {
 
         //console.log("每种类型组合为："+this.bettingTwoRule_list[twoBettingIndex]);
         if(this.bettingTwoRule_list[twoBettingIndex] > this.dataRuleInfo.timeDoubleMaxBetKindPerTwoSeats){
-            Utils.show("二字定选定两个位后,最多选"+this.dataRuleInfo.maxBetDigitalNoPerSeat+"种组合");
+            Utils.show("二字定选定两个位后,最多选"+this.dataRuleInfo.timeDoubleMaxBetKindPerTwoSeats+"个不同的号码");
             this.bettingTwoRule_list[twoBettingIndex] = this.bettingTwoRule_list[twoBettingIndex] - 1;
             return false;
         }
 
-        var betNum = $("#betTwo").val();
-        if(betNum > this.dataRuleInfo.timeDoubleMaxBetNoPerKind || betNum < 1){
-            Utils.show("二字定每种组合投注范围【1-"+this.dataRuleInfo.timeDoubleMaxBetNoPerKind+"】");
-            return false;
-        }
-
+        //var betNum = $("#betTwo").val();
         return true;
    }
 
+    //二字定投注
+    bettingTwoSubmit(){
+        //获取倍数
+        this.sumNumber = this.bettingTwo_list.length;
+        this.bet_num = $("#betTwo").val();
+        this.payPwd = $("#payPwdTwo").val();
+
+        if(this.validatorBetTwo()){
+            //计算总金额
+            this.sumMoney = this.sumNumber * this.bet_num;
+
+            var subData={
+              issueNo:this.dataInfo.historyIssuNo,
+              serialNumber:this.dataInfo.currentIssueNo,
+              payPwd:this.payPwd,
+              betType:20,
+              timeList:new Array()
+            };
+
+            var promptRow = new Array();
+            this.bettingPrompt_list = [];
+            var str;
+            var str1 = this.bettingTwo_list.length - 1;
+            for(var i=0;i<this.bettingTwo_list.length;i++){
+                var row={
+                    lotteryOne:"",
+                    lotteryTwo:"",
+                    lotteryThree:"",
+                    lotteryFour:"",
+                    lotteryFive:"",
+                    multiple:0,
+                    bettingContent:""
+                };
+                row.lotteryOne=this.bettingTwo_list[i][0];
+                row.lotteryTwo=this.bettingTwo_list[i][1];
+                row.lotteryThree=this.bettingTwo_list[i][2];
+                row.lotteryFour=this.bettingTwo_list[i][3];
+                row.lotteryFive=this.bettingTwo_list[i][4];
+                row.bettingContent=this.bettingTwo_list[i][5];
+                row.multiple=this.bet_num;
+                subData.timeList.push(row);
+
+                //添加数据
+                promptRow.push(row.bettingContent);
+                str = i + "";
+                //str1 = str1 + "";
+                if(str.indexOf("9") != -1){
+                    //alert("str="+str);
+                    this.bettingPrompt_list.push(promptRow);
+                    promptRow = new Array();
+                }
+
+                if(i == str1){
+                    //alert("str1="+str1);
+                    this.bettingPrompt_list.push(promptRow);
+                    promptRow = new Array();
+                }
+            }
+            //console.log("subData:"+subData)
+            this.openBettingPrompt(2,subData);
+        }
+    }
 
     //验证表单数据
     validatorBetTwo(){
@@ -569,9 +642,14 @@ export class TimeLotteryPage {
             Utils.show("请选择投注的号码");
             return false;
         }
-        if(Utils.isEmpty(this.sumMoney) || this.sumMoney == 0){
+        if(Utils.isEmpty(this.bet_num) || this.bet_num == 0){
             layer.tips('投注金额不合法', '#betTwo',{tips: 1});
             $("#betTwo").focus();
+            return false;
+        }
+        if(this.bet_num > this.dataRuleInfo.timeDoubleMaxBetNoPerKind || this.bet_num < 1){
+            Utils.show("二字定每种组合投注范围【1-"+this.dataRuleInfo.timeDoubleMaxBetNoPerKind+"】");
+            $("#betOne").focus();
             return false;
         }
         // if(Utils.isEmpty(this.payPwd)){
@@ -606,6 +684,7 @@ export class TimeLotteryPage {
         var quickPlayBetMoney = $("#quickPlayBetMoney").val();
         this.payPwd = $("#payPwdQuickPlay").val();
         if(this.validatorBetQuickPlay(quickPlayBetNum,quickPlayBetMoney)){
+              this.sumMoney = quickPlayBetMoney;
               quickPlayBetNum = quickPlayBetNum.toUpperCase();
               //判断X的个数
               var n = (quickPlayBetNum.split('X')).length-1;
@@ -676,24 +755,31 @@ export class TimeLotteryPage {
 
     //提交快打数据
     subQuickToBack(backUrl:string,subData:any){
-        //提交表单
-        this.httpService.post({
-            url:backUrl,
-            data:subData
-        }).subscribe((data:any)=>{
-            if(data.code==='0000'){
-                Utils.show(data.message);
-                this.payPwd = "";
-                $("#quickPlayBetNum").val("");
-                $("#quickPlayBetMoney").val(1);
-                $("#payPwdQuickPlay").val("");
-                timeLotteryPage.jumpPage();
-                //location.reload();
-            }else if(data.code==='9999'){
-                Utils.show(data.message);
-            }else{
-                Utils.show("登录失败，请联系管理员");
-            }
+        layer.confirm('已选中一组号码，投注金额为'+this.sumMoney+'，是否确认投注', {
+            btn: ['确定','取消'] //按钮
+        }, function(idx:number){
+          layer.closeAll();
+          //提交表单
+          timeLotteryPage.httpService.post({
+              url:backUrl,
+              data:subData
+          }).subscribe((data:any)=>{
+              if(data.code==='0000'){
+                  Utils.show(data.message);
+                  timeLotteryPage.payPwd = "";
+                  $("#quickPlayBetNum").val("");
+                  $("#quickPlayBetMoney").val("");
+                  $("#payPwdQuickPlay").val("");
+                  timeLotteryPage.jumpPage();
+                  //location.reload();
+              }else if(data.code==='9999'){
+                  Utils.show(data.message);
+              }else{
+                  Utils.show("登录失败，请联系管理员");
+              }
+          });
+        }, function(){
+            //取消
         });
     }
 
@@ -707,6 +793,7 @@ export class TimeLotteryPage {
         $(".content-tab_3").hide();
         $(".content-tab_4").hide();
         $(".content-tab_5").hide();
+        $(".content-tab_6").hide();
 
         $(".content-tab_"+betCategory_index).show();
 
@@ -802,7 +889,7 @@ export class TimeLotteryPage {
                             Utils.show(data.message);
                             timeLotteryPage.payPwd="";
                             timeLotteryPage.bet_num=1;
-                            $("#betOne").val(1);
+                            $("#betOne").val("");
                             $("#payPwdOne").val("");
                             timeLotteryPage.jumpPage();
                             //location.reload();
@@ -821,7 +908,7 @@ export class TimeLotteryPage {
                             Utils.show(data.message);
                             this.payPwd="";
                             this.bet_num=1;
-                            $("#betTwo").val(1);
+                            $("#betTwo").val("");
                             $("#payPwdTwo").val("");
                             timeLotteryPage.jumpPage();
                             //location.reload();
@@ -848,5 +935,246 @@ export class TimeLotteryPage {
     bettingCacle(){
         mainPage.showStyle("","/desktop/blank",".leftPanel_2");
     }
+
+    //快选界面js
+    judgeNumBlur(judgeId:string){
+        var judgeNum = $("#"+judgeId).val();
+        var judgeCount = this.judgeList.indexOf(judgeId);
+        //console.log("judgeCount:"+judgeCount);
+
+        if(judgeCount < 0){
+            if(Utils.isNotEmpty(judgeNum)){
+                if(judgeNum.indexOf("-") >= 0){
+                    $("#"+judgeId).val("");
+                    return false;
+                }
+                if(this.judgeList.length >= 2){
+                    $("#"+judgeId).val("");
+                    return false;
+                }
+                this.judgeList.push(judgeId);
+            }
+        }else{
+            if(Utils.isEmpty(judgeNum)){
+                this.judgeList.splice(judgeCount,1);
+            }
+        }
+        //console.log(this.judgeList);
+    }
+
+    judgeNumFocus(judgeId:string){
+        this.keyCodeList = new Array();
+        $("#"+judgeId).val("");
+    }
+
+    judgeNumDown($event:any,judgeId:string){
+        var judgeNum = $("#"+judgeId).val();
+        var keyCodeNum = $event.keyCode;
+        //console.log(keyCodeNum);
+        if(Utils.isEmpty(judgeNum)){
+            //this.oldCodeList = new Array();
+            this.keyCodeList = new Array();
+        }
+
+        if((keyCodeNum >= 48 && keyCodeNum <=57) || (keyCodeNum >= 96 && keyCodeNum <=105)){
+            if(keyCodeNum > 58){
+                keyCodeNum = keyCodeNum - 48;
+            }
+
+            var charCode = String.fromCharCode(keyCodeNum);
+
+            var judgeCount = this.keyCodeList.indexOf(keyCodeNum);
+            //console.log("judgeCount:"+judgeCount);
+            if(judgeCount < 0){
+                this.keyCodeList.push(keyCodeNum);
+                //this.oldCodeList = this.keyCodeList;
+                //console.log("judgeNum:"+judgeNum);
+            }else{
+                //console.log(String.fromCharCode(65));
+                //this.oldCode
+                return false;
+            }
+
+            //$("#"+judgeId).val(this.oldCode);
+
+            //console.log("keyCodeNum:"+keyCodeNum);
+        }
+
+        if(keyCodeNum == 8 || keyCodeNum == 46){
+            this.keyCodeList = new Array();
+            $("#"+judgeId).val("");
+            return false;
+        }
+
+    }
+
+    generatingNumber(){
+      if(this.judgeList.length <= 1){
+          Utils.show("请从【万千百十个】中任意选两种组合");
+          return false;
+      }
+      this.judgeList.sort();
+      var quickMap = {};
+      var quickKey;
+      var quickNum;
+      //console.log(this.judgeList.length);
+      for(var i=0;i<this.judgeList.length;i++){
+          //console.log(this.judgeList[i]);
+          //console.log(this.judgeList[i].substring(this.judgeList[i].length-1,this.judgeList[i].length));
+          quickNum = $("#"+this.judgeList[i]).val();
+          quickKey = this.judgeList[i].substring(this.judgeList[i].length-1,this.judgeList[i].length);
+          quickMap[quickKey]=quickNum;
+          //quickMap.put(this.judgeList[i].substring(this.judgeList[i].length-1,this.judgeList[i].length),quickNum);
+      }
+
+      //console.log(quickMap);
+      //console.log("this.kindType:"+this.kindType);
+      this.httpService.post({
+          url:'/time/quickChoose',
+          data:{
+              betType:2,
+              multiple:0,
+              kindType:this.kindType,
+              map:quickMap
+          }
+      }).subscribe((data:any)=>{
+          if(data.code==='0000'){
+              Utils.show(data.message);
+              this.quickNumberList = data.data;
+          }else if(data.code==='9999'){
+              Utils.show(data.message);
+              this.cacleNumber();
+          }else{
+              Utils.show("登录失败，请联系管理员");
+          }
+      });
+    }
+
+    cacleNumber(){
+        this.quickNumberList = new Array();
+        for(var i=0;i<this.judgeList.length;i++){
+            $("#"+this.judgeList[i]).val("");
+        }
+        this.judgeList = new Array();
+        this.keyCodeList = new Array();
+        $("#exceptNumber").prop("checked","");
+        $("#takeNumber").prop("checked","");
+        this.kindType = 1;
+    }
+
+    doubleNumber(doubleType:number){
+        var doubleId;
+        var checkState;
+        if(doubleType == 2){
+          doubleId = "takeNumber";
+          $("#exceptNumber").prop("checked","");
+        }else if(doubleType == 3){
+          doubleId = "exceptNumber";
+          $("#takeNumber").prop("checked","");
+        }
+
+        checkState = $("#"+doubleId).prop("checked");
+        //console.log("checkState:"+checkState);
+        if(checkState){
+            this.kindType = doubleType;
+        }else{
+            this.kindType = 1;
+        }
+        //console.log("kindType:"+this.kindType);
+    }
+
+    quickChooseSubmit(){
+
+        if(Utils.isEmpty(this.quickNumberList)){
+            Utils.show("请选择投注的号码");
+            return false;
+        }
+        //获取倍数
+        this.sumNumber = 0;
+        this.bet_num = $("#quickSelectionBetMoney").val();
+
+        if(Utils.isEmpty(this.bet_num) || this.bet_num == 0){
+            Utils.show("投注金额不规范");
+            return false;
+        }
+
+        //this.payPwd = $("#payPwdTwo").val();
+
+        var subData={
+          issueNo:this.dataInfo.historyIssuNo,
+          serialNumber:this.dataInfo.currentIssueNo,
+          payPwd:this.payPwd,
+          betType:20,
+          timeList:new Array()
+        };
+
+        var quickStr;
+        for(var i=0;i<this.quickNumberList.length;i++){
+            for(var j=0;j<this.quickNumberList[i].length;j++){
+                var row={
+                    lotteryOne:"",
+                    lotteryTwo:"",
+                    lotteryThree:"",
+                    lotteryFour:"",
+                    lotteryFive:"",
+                    multiple:0,
+                    bettingContent:""
+                };
+                quickStr = this.quickNumberList[i][j];
+                this.sumNumber ++;
+                var d = [];
+                for(var k=0;k<quickStr.length;k++){
+                    d.push(quickStr.charAt(k).replace(/X/g,"-1"));
+                }
+                //quickStr = quickStr.replace(/X/g,"-1");
+                //console.log("quickStr:"+quickStr);
+                row.lotteryOne=d[0];
+                row.lotteryTwo=d[1];
+                row.lotteryThree=d[2];
+                row.lotteryFour=d[3];
+                row.lotteryFive=d[4];
+                row.bettingContent=this.quickNumberList[i][j];
+                row.multiple=this.bet_num;
+                //console.log(row);
+                subData.timeList.push(row);
+            }
+      }
+
+      //计算总金额
+      this.sumMoney = this.sumNumber * this.bet_num;
+
+      //提交表单
+      this.submitQuickChooseData(subData);
+  }
+
+  submitQuickChooseData(subData:any){
+      layer.confirm('已选中'+this.sumNumber+'组号码，投注金额为'+this.sumMoney+'，是否确认下注', {
+          btn: ['确定','取消'] //按钮
+      }, function(idx:number){
+        layer.closeAll();
+        //提交表单
+        timeLotteryPage.httpService.post({
+            url:"/time/twoTimeBetting",
+            data:subData
+        }).subscribe((data:any)=>{
+            if(data.code==='0000'){
+                Utils.show(data.message);
+                timeLotteryPage.payPwd = "";
+                $("#quickSelectionBetMoney").val("");
+                timeLotteryPage.jumpPage();
+                //location.reload();
+            }else if(data.code==='9999'){
+                Utils.show(data.message);
+            }else{
+                Utils.show("登录失败，请联系管理员");
+            }
+        });
+      }, function(){
+          //取消
+      });
+  }
+
+
+
 
 }

@@ -1,5 +1,8 @@
 <div class="bg_timeLottery">
   <div class="all-div_timeLottery" align="center">
+    <div class="notice-div_timeLottery" *ngIf="timeNotice">
+        <marquee>{{timeNotice}}</marquee>
+    </div>
     <div class="title-div_timeLottery">
         <div class="row-tab_1">
           <img src="/assets/img/shishicailogo.png"/>
@@ -13,12 +16,12 @@
             <div class="row-tab_2_2">
                 <div style="color:white;font-size:36px;margin-top:-25px;">0<span ng-app="">{{fengpan_feng}}</span> : <span ng-app=""><span *ngIf="fengpan_miao < 10">0</span>{{fengpan_miao}}</span></div>
             </div>
-            <div class="row-tab_2_3">
-                <p style="color:white;margin-top:10px;">开奖时间</p>
+            <!-- <div class="row-tab_2_3">
+                <p style="color:white;margin-top:10px;">当前时间</p>
             </div>
             <div class="row-tab_2_4">
-                <div style="color:white;font-size:36px;margin-top:-25px;"><span *ngIf="openTime">{{ openTime | date:'HH' }}</span> : <span *ngIf="openTime">{{ openTime | date:'mm'}}</span></div>
-            </div>
+                <div style="color:white;font-size:36px;margin-top:-25px;"><span *ngIf="showTime">{{ showTime | date:'HH' }}</span> : <span *ngIf="showTime">{{ showTime | date:'mm'}}</span></div>
+            </div> -->
         </div>
 
         <div class="row-tab_3">
@@ -42,6 +45,9 @@
                 <div class="row-tab_3_2_1">
                   <div style="color:black;font-size:24px;margin-top:-30px;">{{lotteryList[4]}}</div>
                 </div>
+                <div class="row-tab_3_2_2">
+                    <a style="color:#cee618;cursor: pointer;" (click)="loadAwardNumber()">刷新</a>
+                </div>
             </div>
         </div>
     </div>
@@ -53,7 +59,8 @@
             <span class="content-tab_1_1" (click)="betCategory($event,2)">一字定</span>
             <span class="content-tab_1_2" (click)="betCategory($event,3)">二字定</span>
             <span class="content-tab_1_3" (click)="betCategory($event,4)">快打</span>
-            <span class="content-tab_1_4" (click)="betCategory($event,5)">时时彩规则</span>
+            <span class="content-tab_1_4" (click)="betCategory($event,5)">快选</span>
+            <span class="content-tab_1_5" (click)="betCategory($event,6)">时时彩规则</span>
             <hr />
         </div>
 
@@ -83,7 +90,7 @@
                           <td colspan="5" style="text-align:center;height:50px;">
                             金额：
                             <!-- (change)='betOneChange()' -->
-                            <input id="betOne" type="text" value="1" size="12" style="text-align:center;margin-right:10px;" />
+                            <input id="betOne" type="text" size="12" style="text-align:center;margin-right:10px;" />
                             <!-- 支付密码：
                             <input id="payPwdOne" type="password" size="12" style="text-align:center;" /> -->
                             <button (click) = "bettingOneSubmit()">确定</button>
@@ -170,7 +177,7 @@
                       <tr>
                           <td colspan="10" style="text-align:center;height:50px;">
                             金额：
-                            <input id="betTwo" type="text" value="1" size="12" style="text-align:center;margin-right:10px;" />
+                            <input id="betTwo" type="text" size="12" style="text-align:center;margin-right:10px;" />
                             <!-- 支付密码：
                             <input id="payPwdTwo" type="password" size="12" style="text-align:center;" /> -->
                             <button (click)="bettingTwoSubmit()">确定</button>
@@ -242,7 +249,7 @@
                       <tr>
                           <td colspan="10" style="text-align:center;height:50px;">
                               号码：<input type="text" id="quickPlayBetNum" size="12" placeholder="1XXXX" style="text-align:center;margin-right:10px;" />
-                              金额：<input type="text" id="quickPlayBetMoney" value="1" size="12" style="text-align:center;margin-right:10px;" />
+                              金额：<input type="text" id="quickPlayBetMoney" size="12" style="text-align:center;margin-right:10px;" />
                               <!-- 支付密码：
                               <input id="payPwdQuickPlay" type="password" size="12" style="text-align:center;" /> -->
                               <button (click) = "quickPlaySubmit()">确认下注</button>
@@ -252,8 +259,77 @@
             </table>
         </div>
 
-        <!-- 规则页面 -->
+        <!-- 快选页面 -->
         <div class="content-tab_5">
+            <table class="touzhu_table">
+                  <thead>
+                      <tr>
+                          <th colspan="10" style="text-align:center;background-color:#1595C7;">
+                              <span style="color:#efe90f;"><marquee width="1500">未来的亿万富翁，请从（万、千、百、十、个）中任意选择两个生成投注号码!!!</marquee></span>
+                          </th>
+                      </tr>
+                      <tr>
+                          <th colspan="2">万</th>
+                          <th colspan="2">千</th>
+                          <th colspan="2">百</th>
+                          <th colspan="2">十</th>
+                          <th colspan="2">个</th>
+                      </tr>
+                      <tr>
+                          <th colspan="2">
+                            <!-- (blur)="judgeNum('quickSelectionBetNum1')" -->
+                            <!-- (keyup)="judgeNumDown($event,'quickSelectionBetNum1')" -->
+                             <input type="number" id="quickSelectionBetNum0" (keydown)="judgeNumDown($event,'quickSelectionBetNum0')" (focus)="judgeNumFocus('quickSelectionBetNum0')" (blur)="judgeNumBlur('quickSelectionBetNum0')" value="" style="text-align:center;width:100px;" />
+                          </th>
+                          <th colspan="2">
+                             <input type="number" id="quickSelectionBetNum1" (keydown)="judgeNumDown($event,'quickSelectionBetNum1')" (focus)="judgeNumFocus('quickSelectionBetNum1')" (blur)="judgeNumBlur('quickSelectionBetNum1')" value="" style="text-align:center;width:100px;" />
+                          </th>
+                          <th colspan="2">
+                             <input type="number" id="quickSelectionBetNum2" (keydown)="judgeNumDown($event,'quickSelectionBetNum2')" (focus)="judgeNumFocus('quickSelectionBetNum2')" (blur)="judgeNumBlur('quickSelectionBetNum2')" value="" style="text-align:center;width:100px;" />
+                          </th>
+                          <th colspan="2">
+                             <input type="number" id="quickSelectionBetNum3" (keydown)="judgeNumDown($event,'quickSelectionBetNum3')" (focus)="judgeNumFocus('quickSelectionBetNum3')" (blur)="judgeNumBlur('quickSelectionBetNum3')" value="" style="text-align:center;width:100px;" />
+                          </th>
+                          <th colspan="2">
+                             <input type="number" id="quickSelectionBetNum4" (keydown)="judgeNumDown($event,'quickSelectionBetNum4')" (focus)="judgeNumFocus('quickSelectionBetNum4')" (blur)="judgeNumBlur('quickSelectionBetNum4')" value="" style="text-align:center;width:100px;" />
+                          </th>
+                      </tr>
+                      <tr>
+                          <th colspan="10" style="height:50px;">
+                              <span style="margin-left:5px;"><input type="checkbox" name="doubleNum" id = "exceptNumber" value="3" (click)="doubleNumber(3)" /> 除</span>
+                              <span style="margin-left:5px;"><input type="checkbox" name="doubleNum" id = "takeNumber" value="2" (click)="doubleNumber(2)" /> 取(<span style="color:red;">双重</span>)</span>
+                              <button style="width:80px;border-radius:1px;margin-left:30px;" (click)="generatingNumber()">生成</button>
+                              <button style="width:80px;margin-left:20px;border-radius:1px;" (click)="cacleNumber()">复位</button>
+                          </th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <th colspan="10" style="background-color:#e7e8d7;">生成号码框</th>
+                      </tr>
+                      <tr *ngFor="let item of quickNumberList; let i = index">
+                          <td *ngFor="let row of quickCountList; let j = index">{{item[j]}}</td>
+                      </tr>
+                      <tr>
+                          <td colspan="10" style="background-color:#e7e8d7;"></td>
+                      </tr>
+                  </tbody>
+                  <tfoot>
+                      <tr>
+                          <th colspan="10" style="text-align:left;background-color:#1595C7;"></th>
+                      </tr>
+                      <tr>
+                          <td colspan="10" style="text-align:center;height:50px;">
+                              金额：<input type="text" id="quickSelectionBetMoney" size="12" style="text-align:center;margin-right:10px;" />
+                              <button (click) = "quickChooseSubmit()">确认下注</button>
+                          </td>
+                      </tr>
+                  </tfoot>
+            </table>
+        </div>
+
+        <!-- 规则页面 -->
+        <div class="content-tab_6">
             <table class="touzhu_table">
                   <tr>
                       <td style="font-size:22px;font-weight:bold;padding-left:20px;color:red;">一字定规则</td>
