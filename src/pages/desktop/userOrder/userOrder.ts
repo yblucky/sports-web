@@ -16,7 +16,9 @@ var mainPage :any;
 })
 export class UserOrderPage {
     find:any={
-      busnessType:[21]
+      busnessType:[21],
+      startTime:"",
+      endTime:""
     };
 
     orderData:any;
@@ -33,6 +35,14 @@ export class UserOrderPage {
         });
         mainPage = mPage;
         userOrderPage=this;
+        if(this.aroute.snapshot.queryParams["startTime"]!=undefined){
+          this.find.startTime=this.aroute.snapshot.queryParams["startTime"];
+          this.httpService.currentPage=1;
+        }
+        if(this.aroute.snapshot.queryParams["endTime"]!=undefined){
+          this.find.endTime=this.aroute.snapshot.queryParams["endTime"];
+          this.httpService.currentPage=1;
+        }
         this.loadDataOne();
     }
 

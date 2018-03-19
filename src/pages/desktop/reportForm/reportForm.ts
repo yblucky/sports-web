@@ -17,6 +17,12 @@ declare var Highcharts: any;
 })
 export class ReportFormPage {
 
+    find:any={
+      paramTime:11,
+      startTime:"",
+      endTime:""
+    };
+
     //定义data
     costs:number;
     income:number;
@@ -27,6 +33,13 @@ export class ReportFormPage {
         });
         //this.orderStatistics();
         //this.init();
+        if(this.aroute.snapshot.queryParams["startTime"]!=undefined){
+          this.find.startTime=this.aroute.snapshot.queryParams["startTime"];
+        }
+        if(this.aroute.snapshot.queryParams["endTime"]!=undefined){
+          this.find.endTime=this.aroute.snapshot.queryParams["endTime"];
+        }
+
         this.loadData();
         //this.initnumsArray();
     }
@@ -34,6 +47,10 @@ export class ReportFormPage {
     //获取时时彩信息
     loadData(){
         this.loadReportInfo(11);
+    }
+
+    loadDataOne(){
+        this.loadReportInfo(16);
     }
 
     //投注类别
@@ -100,11 +117,10 @@ export class ReportFormPage {
     }
 
     loadReportInfo(index:number){
+        this.find.paramTime = index;
         this.httpService.get({
           url:'/report/consume',
-          data:{
-              paramTime:index
-          }
+          data:this.find
         }).subscribe((data:any)=>{
           if(data.code==='0000'){
               console.log(index);

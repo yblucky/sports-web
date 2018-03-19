@@ -27,14 +27,14 @@ export class TimeLotteryPage {
     showTime:any = new Date();
     //定义号码
     haomas:any = [0,1,2,3,4,5,6,7,8,9];
-    lotteryList:any;
+    lotteryList:any = ['?','?','?','?','?'];
 
     //定义开奖时间
     openTime: any="2018-01-01 00:00:00";
     //定义当前期数
-    currentIssuNo:string="20180101001";
+    currentIssuNo:string="2018XXXXXXX";
     //定义上期期数
-    preIssuNo:string="20180101000";
+    preIssuNo:string="2018XXXXXXX";
     //定义上期期数号码
     lotteryInfo:any;
     //定义上期期数号码
@@ -129,6 +129,8 @@ export class TimeLotteryPage {
             }
         }else{
             Utils.show("网络异常");
+            $(".bet_vague").show();
+            $(".prompt").text("网络异常");
         }
       });
     }

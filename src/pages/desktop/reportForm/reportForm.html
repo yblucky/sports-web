@@ -1,4 +1,9 @@
 <div class="bg_reportForm">
+  <!--搜索区域-->
+  <div class="search-box" style="margin-left:6.5%;">
+        查询时间： <input [(ngModel)]="find.startTime" type="date" style="width:150px;"/> - <input [(ngModel)]="find.endTime" type="date" style="width:150px;" />
+        <button type="button" class="btn btn-primary" (click)='loadDataOne()'>搜索</button>
+  </div>
   <div class="all-div_reportForm" align="center">
     <div class="content-div_reportForm">
         <!-- 定位组 -->

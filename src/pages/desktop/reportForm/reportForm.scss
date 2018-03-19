@@ -1,3 +1,9 @@
+
+.search-box input{
+  width:90px;
+  min-width: 90px;
+}
+
 .bg_reportForm{
     position: absolute;
     left: 0;
@@ -18,7 +24,7 @@
     height:600px;
 
     .content-tab_1{
-        margin-top:50px;
+        //margin-top:50px;
         .content-tab_1_1{
           width:70px;
           height:30px;
