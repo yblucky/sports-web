@@ -7,29 +7,29 @@
 
         <div class="row-tab_2">
             <div class="row-tab_2_1">
-                <p style="color:#2396DB;" *ngIf="currentIssuNo">第{{currentIssuNo}}期</p>
+                <p style="color:#f6e404;margin-right:-55px;" *ngIf="currentIssuNo">第{{currentIssuNo}}期</p>
                 <p style="margin-top:-85px;margin-left:55px;color:white;">离封盘时间</p>
             </div>
             <div class="row-tab_2_2">
                 <!-- <div style="color:white;font-size:36px;margin-top:-25px;">0<span *ngIf="fengpan_feng">{{fengpan_feng}}</span> : <span *ngIf="fengpan_miao">{{fengpan_miao}}</span></div> -->
                 <div style="color:white;font-size:36px;margin-top:-25px;">0<span ng-app="">{{fengpan_feng}}</span> : <span ng-app=""><span *ngIf="fengpan_miao < 10">0</span>{{fengpan_miao}}</span></div>
             </div>
-            <div class="row-tab_2_3">
+            <!-- <div class="row-tab_2_3">
                 <p style="color:white;margin-top:10px;">开奖时间</p>
             </div>
             <div class="row-tab_2_4">
                 <div style="color:white;font-size:36px;margin-top:-25px;"><span *ngIf="openTime">{{ openTime | date:'HH' }}</span> : <span *ngIf="openTime">{{ openTime | date:'mm'}}</span></div>
-            </div>
+            </div> -->
         </div>
 
         <div class="row-tab_3">
             <div class="row-tab_3_1">
-                <p style="color:#B6C0B2;" *ngIf="currentIssuNo">第{{currentIssuNo}}期</p>
+                <p style="color:#B6C0B2;margin-right:-20px;" *ngIf="preIssuNo">第{{preIssuNo}}期</p>
                 <p style="margin-top:-85px;margin-left:65px;color:white;">开奖号码</p>
             </div>
             <div class="row-tab_3_2">
                 <div class="row-tab_3_2_1" *ngFor="let kj of lotteryList; let i = index">
-                    <img src="/assets/pkImg/{{kj}}.png" width="25" height="40" />
+                    <img src="/assets/pkImg/{{kj+1}}.png" width="25" height="40" />
                 </div>
             </div>
         </div>
@@ -38,7 +38,7 @@
     <div class="content-div">
         <!-- 定位组 -->
         <div class="content-tab_1">
-            <div class="content-tab_1_1">定位组</div>
+            <div class="content-tab_1_1">一字定</div>
             <hr />
             <div class="content-tab_1_2">
                 <img src="/assets/img/tishi.png" style="display:inline-block;" />
@@ -204,7 +204,7 @@
         </div>
 
         <!-- 订单记录 -->
-        <div class="content-tab_5">
+        <!-- <div class="content-tab_5">
             <div class="content-tab_5_1">订单记录</div>
             <div class="content-tab_5_2">盈亏报表</div>
             <div class="content-tab_5_3" style="display:none;">
@@ -264,7 +264,7 @@
                       </tbody>
                 </table>
             </div>
-        </div>
+        </div> -->
     </div>
   </div>
 
@@ -274,7 +274,8 @@
       <div class="shiping">
           <img class="closeGame" src="/assets/pkImg/close.png" (click) = "closeGame()" />
           <div class="pkshiping">
-              <iframe scrolling="no" src="http://www.pk8810.com/video/pk10/index.html" width="945" height="630" frameborder="0"></iframe>
+              <!-- <iframe scrolling="no" src="http://www.pk8810.com/video/pk10/index.html" width="945" height="630" frameborder="0"></iframe> -->
+              <!-- <iframe scrolling="no" src="//www.pk8810.com/video/pk10/index.html" width="945" height="630" frameborder="0"></iframe> -->
           </div>
       </div>
   </div>

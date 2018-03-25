@@ -1175,8 +1175,4 @@ export class TimeLotteryPage {
           //取消
       });
   }
-
-
-
-
 }

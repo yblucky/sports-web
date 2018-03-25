@@ -2,9 +2,12 @@ import { Component } from "@angular/core";
 import { HttpService } from "../../../providers/HttpService";
 import { Utils } from "../../../providers/Utils";
 import { ActivatedRoute } from '@angular/router';
+import { MainPage } from '../../common/main/main';
 
 declare var $: any;
 declare var layer: any;
+var mainPage :any;
+var tousuPage : any;
 
 @Component({
     selector   : 'page-tousu',
@@ -23,15 +26,17 @@ export class TousuPage {
     //定义开奖时间
     openTime: any = "2017-01-30 17:40:00";
     //定义当前期数
-    currentIssuNo:any;
+    currentIssuNo:string="XXXXXX";
+    //定义上期期数
+    preIssuNo:string="XXXXXX";
     //定义下期期数
     lotteryInfo:any;
     //定义定时器
     timer:any;
 
     //定义封盘时间的分
-    fengpan_feng:any = 2;
-    fengpan_miao:any = 30;
+    fengpan_feng:number = 0;
+    fengpan_miao:number = 0;
 
     //定义数组保存号码列表
     betting_list:any=[];
@@ -39,7 +44,15 @@ export class TousuPage {
     dingwei_row:any=["one","two","three","four","five","six","seveen","eight","nine","ten"]; //个  十  百  千  万
     dingwei_nums:any =[];
     numsArr:any = [];
-    maxNumsPerWeizhi:any =3;
+    dataRuleInfo:any;
+    maxBetNoPerRrack:number =3;
+    racingOdds:number;
+    //每期最多下注多少个不同的赛道
+    maxBetRracks:number = 3;
+    //单注最小下注数量
+    minBetNoPerDigitalRace:number=10;
+    //单注最大下注数量
+    maxBetNoPerDigitalRace:number=100;
     betting_list_display:any=[];
     doubling_index:number;
     target_elm:any;
@@ -48,15 +61,72 @@ export class TousuPage {
     inputMultiplier:number = 1;
     inputMultiplier_back:number = 1;
 
-    constructor(private httpService:HttpService,private aroute:ActivatedRoute,private utils:Utils) {
+    constructor(private httpService:HttpService,private aroute:ActivatedRoute,private utils:Utils,private mPage:MainPage) {
         this.aroute.params.subscribe( params  => {
             this.showTime = new Date();
         });
         //this.path = Utils.FILE_SERVE_URL;
         //this.httpService.currentPage=1;
         //this.loadData();
+        tousuPage = this;
+        mainPage = mPage;
         this.loadData();
         this.initnumsArray();
+    }
+
+    //验证表单数据
+    validatorBetOne(j:number){
+        var count=0;
+        for(var i=0;i<this.dingwei_nums.length;i++){
+          if(this.dingwei_nums[i].length>0 && i!=j){
+            count++;
+          }
+        }
+        //console.log("count"+count);
+        if(count>=this.maxBetRracks){
+            Utils.show("每期最多投注个"+this.maxBetRracks+"赛道");
+            return false;
+        }
+
+        for(var i=0;i<this.betting_list.length;i++){
+            if(this.betting_list[i][10]> this.maxBetNoPerDigitalRace || this.betting_list[i][10]< this.minBetNoPerDigitalRace){
+                Utils.show("单注投注范围【"+this.dataRuleInfo.minBetNoPerDigital+"-"+this.dataRuleInfo.maxBetNoPerDigital+"】");
+                return false;
+            }
+        }
+
+        // if(Utils.isEmpty(this.payPwd)){
+        //     layer.tips('支付密码不能为空', '#payPwdOne',{tips: 1});
+        //     $("#payPwdOne").focus();
+        //     return false;
+        // }
+        return true;
+    }
+
+    loadRacingLotteryRule(){
+        this.httpService.get({
+          url:'/common/regex',
+          data:{}
+        }).subscribe((data:any)=>{
+          if(data.code==='0000'){
+              //修改成功
+              this.dataRuleInfo = data.data;
+              //每个赛道最多选几个数字
+              this.maxBetNoPerRrack = this.dataRuleInfo.maxBetNoPerRrack;
+              //赔率
+              this.racingOdds = this.dataRuleInfo.racingOdds;
+              //每期最多下注多少个不同的赛道
+              this.maxBetRracks = this.dataRuleInfo.maxBetRracks;
+              //单注最小下注数量
+              this.minBetNoPerDigitalRace = this.dataRuleInfo.minBetNoPerDigitalRace;
+              //单注最大下注数量
+              this.maxBetNoPerDigitalRace = this.dataRuleInfo.maxBetNoPerDigitalRace;
+          }else if(data.code==='9999'){
+              Utils.show(data.message);
+          }else{
+              Utils.show("网络异常");
+          }
+        });
     }
 
     //获取时时彩信息
@@ -69,7 +139,8 @@ export class TousuPage {
             //修改成功
             this.dataInfo = data.data;
             this.init();
-            console.log(this.dataInfo);
+            this.loadRacingLotteryRule();
+            //console.log(this.dataInfo);
         }else if(data.code==='9999'){
             Utils.show(data.message);
         }else{
@@ -81,8 +152,10 @@ export class TousuPage {
     //封盘时间倒计时
     init(){
         this.currentIssuNo = this.dataInfo.historyIssuNo;
+        this.preIssuNo = this.dataInfo.appRacingLotteryPo.issueNo;
         this.lotteryInfo = this.dataInfo.appRacingLotteryPo;
         this.openTime = this.dataInfo.bettingOpen;
+        $("#shuru").val(this.minBetNoPerDigitalRace);
 
         //获取开奖号码
         this.lotteryList = new Array();
@@ -138,15 +211,17 @@ export class TousuPage {
             lotteryNine:"",
             lotteryTen:"",
             multiple:"",
+            bettingContent:""
         };
 
         var subData={
           issueNo:this.dataInfo.historyIssuNo,
           serialNumber:this.dataInfo.currentIssueNo,
+          betType:10,
           payPwd:"123456",
           raingList:new Array()
         };
-
+        console.log(this.betting_list);
         for(var i=0;i<this.betting_list.length;i++){
           row.lotteryOne=this.betting_list[i][0];
           row.lotteryTwo=this.betting_list[i][1];
@@ -159,15 +234,18 @@ export class TousuPage {
           row.lotteryNine=this.betting_list[i][8];
           row.lotteryTen=this.betting_list[i][9];
           row.multiple=this.betting_list[i][10];
+          row.bettingContent=this.betting_list[i][11];
           subData.raingList.push(row);
         }
+        console.log("*************************8888 "+subData);
         if(this.validator()){
             this.httpService.post({
-                url:'/racing/racingbetting',
+                url:'/racing/oneRaceBetting',
                 data:subData
             }).subscribe((data:any)=>{
                 if(data.code==='0000'){
                     Utils.show(data.message);
+                    tousuPage.jumpPage();
                 }else if(data.code==='9999'){
                     Utils.show(data.message);
                 }else{
@@ -194,6 +272,15 @@ export class TousuPage {
         if(i==10){
           clickArr[i]=0;
         }
+      }
+      return clickArr;
+    }
+
+    //封装初始化每个投注的数组
+    initContentArray(){
+      var clickArr=new Array();
+      for(var i=0;i<10;i++){
+        clickArr[i]="X";
       }
       return clickArr;
     }
@@ -232,6 +319,14 @@ export class TousuPage {
           return;
         }
 
+        if(!this.validatorBetOne(n)){
+            return false;
+        }
+
+        var contentArr = this.initContentArray();
+        contentArr[n] = num;
+        var contentStr = (contentArr.toString()).replace(/,/g,"");
+
         //[-1,-1,-1,-1,-1,0]
         //判断是否有添加过
         if(this.betting_list.length==0){
@@ -239,6 +334,7 @@ export class TousuPage {
           // for(var j=0;j<this.dingwei_row.length;j++){
             clickArr[n]=num;
             clickArr[10]=this.inputMultiplier;
+            clickArr[11]=contentStr;
             this.betting_list.push(clickArr);
             this.dingwei_nums[n].push(num);
             //恢复默认数组
@@ -249,8 +345,8 @@ export class TousuPage {
           //for(var k=0;k<this.betting_list.length;k++){
             //for(var j=0;j<5;j++){
             var countPerNum=this.dingwei_nums[n].length;
-            if(countPerNum>=this.maxNumsPerWeizhi){
-               Utils.show("单个位只能最多投注"+this.maxNumsPerWeizhi+"个不同的数字");
+            if(countPerNum>=this.maxBetNoPerRrack){
+               Utils.show("单个位只能最多投注"+this.maxBetNoPerRrack+"个不同的数字");
                return;
             }
             if(this.dingwei_nums[n].indexOf(num)>-1){
@@ -263,14 +359,16 @@ export class TousuPage {
           //}
           clickArr[n]=num;
           clickArr[10]=this.inputMultiplier;
+          clickArr[11]=contentStr;
           this.betting_list.push(clickArr);
+          //console.log(this.betting_list);
           this.dingwei_nums[n].push(num);
         }
 
         //投注颜色变红
         elm.css("background-image","url('/assets/pkImg/haoma_blue.png')");
-        //计算金额
-        this.calculateAmount();
+        //刷新列表
+        this.addBettingList();
     }
 
     //定义输入倍数(针对添加号码用的)
@@ -310,11 +408,24 @@ export class TousuPage {
         $("#shuru1").val(this.inputMultiplier_back);
 
         this.doubling(this.target_elm,this.doubling_index,2);
+
+        this.addBettingList();
     }
 
     //添加列表
     addBettingList(){
-        this.betting_list_display = this.betting_list;
+
+        this.betting_list_display =Utils.copyObject(this.betting_list);
+        for(var i=0;i<this.betting_list_display.length;i++){
+            var row=this.betting_list_display[i];
+            for(var j=0;j<row.length;j++){
+              if(row[j]==-1){
+                row[j]='X';
+              }
+            }
+            //console.log("###################"+row);
+            this.betting_list_display[i]=row;
+        }
         this.calculateAmount();
     }
 
@@ -327,29 +438,30 @@ export class TousuPage {
             if(i==0){
               $("#one_"+(parseInt(del_betting_list_row[i])-1)).css("background-image","url('/assets/pkImg/haoma_yellow.png')");
             }else if(i==1){
-              $("#two_"+del_betting_list_row[i]).css("background-image","url('/assets/pkImg/haoma_yellow.png')");
+              $("#two_"+(parseInt(del_betting_list_row[i])-1)).css("background-image","url('/assets/pkImg/haoma_yellow.png')");
             }else if(i==2){
-              $("#three_"+del_betting_list_row[i]).css("background-image","url('/assets/pkImg/haoma_yellow.png')");
+              $("#three_"+(parseInt(del_betting_list_row[i])-1)).css("background-image","url('/assets/pkImg/haoma_yellow.png')");
             }else if(i==3){
-              $("#four_"+del_betting_list_row[i]).css("background-image","url('/assets/pkImg/haoma_yellow.png')");
+              $("#four_"+(parseInt(del_betting_list_row[i])-1)).css("background-image","url('/assets/pkImg/haoma_yellow.png')");
             }else if(i==4){
-              $("#five_"+del_betting_list_row[i]).css("background-image","url('/assets/pkImg/haoma_yellow.png')");
+              $("#five_"+(parseInt(del_betting_list_row[i])-1)).css("background-image","url('/assets/pkImg/haoma_yellow.png')");
             }else if(i==5){
-              $("#six_"+del_betting_list_row[i]).css("background-image","url('/assets/pkImg/haoma_yellow.png')");
+              $("#six_"+(parseInt(del_betting_list_row[i])-1)).css("background-image","url('/assets/pkImg/haoma_yellow.png')");
             }else if(i==6){
-              $("#seveen_"+del_betting_list_row[i]).css("background-image","url('/assets/pkImg/haoma_yellow.png')");
+              $("#seveen_"+(parseInt(del_betting_list_row[i])-1)).css("background-image","url('/assets/pkImg/haoma_yellow.png')");
             }else if(i==7){
-              $("#eight_"+del_betting_list_row[i]).css("background-image","url('/assets/pkImg/haoma_yellow.png')");
+              $("#eight_"+(parseInt(del_betting_list_row[i])-1)).css("background-image","url('/assets/pkImg/haoma_yellow.png')");
             }else if(i==8){
-              $("#nine_"+del_betting_list_row[i]).css("background-image","url('/assets/pkImg/haoma_yellow.png')");
+              $("#nine_"+(parseInt(del_betting_list_row[i])-1)).css("background-image","url('/assets/pkImg/haoma_yellow.png')");
             }else if(i==9){
-              $("#ten_"+del_betting_list_row[i]).css("background-image","url('/assets/pkImg/haoma_yellow.png')");
+              $("#ten_"+(parseInt(del_betting_list_row[i])-1)).css("background-image","url('/assets/pkImg/haoma_yellow.png')");
             }
             //console.log("定位数前:"+this.dingwei_nums);
             var n = this.dingwei_nums[i].indexOf(parseInt(del_betting_list_row[i]));
             this.dingwei_nums[i].splice(n,1);
             //console.log("定位数后:"+this.dingwei_nums);
             this.betting_list.splice(index,1);
+            this.betting_list_display.splice(index,1);
             break;
         }
       }
@@ -377,6 +489,7 @@ export class TousuPage {
         //赋值给加倍框
         $("#shuru1").val(betting_row[10]);
 
+        // this.addBettingList();
         //计算金额
         this.calculateAmount();
     }
@@ -408,6 +521,7 @@ export class TousuPage {
 
         //清除列表
         this.betting_list.splice(0,this.betting_list.length);
+        this.betting_list_display.splice(0,this.betting_list_display.length);
         this.dingwei_nums.splice(0,this.dingwei_nums.length);
         //console.log(this.betting_list.length);
         //初始化
@@ -422,6 +536,12 @@ export class TousuPage {
 
     closeGame(){
         $(".saicheshiping").hide();
+    }
+
+    //跳转页面
+    jumpPage(){
+        mainPage.showStyle("","/desktop/userOrder",".leftPanel_3");
+        //mainPage.loadUserInfo();
     }
 
 }
