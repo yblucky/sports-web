@@ -14,6 +14,7 @@ var awardNumberPage: any;
 })
 export class AwardNumberPage {
     find:any={
+      busnessType:21,
       startTime:"",
       endTime:""
     };
@@ -50,8 +51,15 @@ export class AwardNumberPage {
     * 加载数据
     */
     loadData(){
+      var awardUrl;
+      if(this.find.busnessType == 21){
+          awardUrl = "/time/awardNumberList";
+      }else if(this.find.busnessType == 31){
+          awardUrl = "/racing/awardNumberList";
+      }
+
       this.httpService.pagination({
-          url:'/time/awardNumberList',
+          url:awardUrl,
           data:this.find
       });
 

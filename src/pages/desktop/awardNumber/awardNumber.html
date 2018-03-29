@@ -1,12 +1,11 @@
 
 <!--搜索区域-->
 <div class="search-box">
-      <!-- 游戏类型: <select [(ngModel)]="find.busnessType" >
-                    <option selected>全部</option>
-                    <option value="31">北京塞车</option>
+      游戏类型: <select [(ngModel)]="find.busnessType" style="width:100px;" (change)="loadDataOne()">
                     <option value="21">重庆时时彩</option>
+                    <option value="31">北京塞车</option>
               </select>
-      会员uid: <input [(ngModel)]="find.uid" />
+    <!--   会员uid: <input [(ngModel)]="find.uid" />
       手机:<input [(ngModel)]="find.mobile"  style="width: 130px"/> -->
       开奖时间： <input [(ngModel)]="find.startTime" type="date" style="width:150px;"/> - <input [(ngModel)]="find.endTime" type="date" style="width:150px;" />
       <button type="button" class="btn btn-primary" (click)='loadDataOne()'>搜索</button>
@@ -20,7 +19,7 @@
 <!--数据显示区域-->
 <!-- background-image: url('/assets/img/bg.png'); -->
 <div style="width:100%;height:100%;">
-    <div class="table-box">
+    <div class="table-box" *ngIf="find.busnessType == 21">
         <table class="table table-bordered table-hover">
             <thead>
                 <tr class="active">
@@ -43,6 +42,45 @@
                     <td>{{item.lotteryThree}}</td>
                     <td>{{item.lotteryFour}}</td>
                     <td>{{item.lotteryFive}}</td>
+                    <!-- <td>{{utils.formatDate(item.createTime,'yyyy-MM-dd HH:mm:ss')}}</td> -->
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="table-box" *ngIf="find.busnessType == 31">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr class="active">
+                    <th>开奖时间</th>
+                    <th>期号</th>
+                    <th>冠</th>
+                    <th>亚</th>
+                    <th>季</th>
+                    <th>四</th>
+                    <th>五</th>
+                    <th>六</th>
+                    <th>七</th>
+                    <th>八</th>
+                    <th>九</th>
+                    <th>十</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of httpService.items; let i = index">
+                    <td>{{utils.formatDate(item.lotteryTime,'yyyy-MM-dd HH:mm:ss')}}</td>
+                    <!-- <td >站位</td> -->
+                    <td>{{item.issueNo}}</td>
+                    <td>{{item.lotteryOne}}</td>
+                    <td>{{item.lotteryTwo}}</td>
+                    <td>{{item.lotteryThree}}</td>
+                    <td>{{item.lotteryFour}}</td>
+                    <td>{{item.lotteryFive}}</td>
+                    <td>{{item.lotterySix}}</td>
+                    <td>{{item.lotterySeven}}</td>
+                    <td>{{item.lotteryEight}}</td>
+                    <td>{{item.lotteryNine}}</td>
+                    <td>{{item.lotteryTen}}</td>
                     <!-- <td>{{utils.formatDate(item.createTime,'yyyy-MM-dd HH:mm:ss')}}</td> -->
                 </tr>
             </tbody>

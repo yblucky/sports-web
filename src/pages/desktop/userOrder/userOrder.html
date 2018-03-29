@@ -1,12 +1,11 @@
 
 <!--搜索区域-->
 <div class="search-box">
-      <!-- 游戏类型: <select [(ngModel)]="find.busnessType" >
-                    <option selected>全部</option>
-                    <option value="31">北京塞车</option>
+      游戏类型: <select [(ngModel)]="find.busnessType" style="width:100px;" (change)="loadDataOne()">
                     <option value="21">重庆时时彩</option>
+                    <option value="31">北京塞车</option>
               </select>
-      会员uid: <input [(ngModel)]="find.uid" />
+    <!--   会员uid: <input [(ngModel)]="find.uid" />
       手机:<input [(ngModel)]="find.mobile"  style="width: 130px"/> -->
       下注时间： <input [(ngModel)]="find.startTime" type="date" style="width:150px;"/> - <input [(ngModel)]="find.endTime" type="date" style="width:150px;" />
       <button type="button" class="btn btn-primary" (click)='loadDataOne()'>搜索</button>

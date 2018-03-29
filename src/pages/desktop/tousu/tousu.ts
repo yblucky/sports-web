@@ -199,21 +199,6 @@ export class TousuPage {
 
     //投注
     bettingSubmit(){
-        var row={
-            lotteryOne:"",
-            lotteryTwo:"",
-            lotteryThree:"",
-            lotteryFour:"",
-            lotteryFive:"",
-            lotterySix:"",
-            lotterySeven:"",
-            lotteryEight:"",
-            lotteryNine:"",
-            lotteryTen:"",
-            multiple:"",
-            bettingContent:""
-        };
-
         var subData={
           issueNo:this.dataInfo.historyIssuNo,
           serialNumber:this.dataInfo.currentIssueNo,
@@ -221,8 +206,22 @@ export class TousuPage {
           payPwd:"123456",
           raingList:new Array()
         };
-        console.log(this.betting_list);
+        //console.log(this.betting_list);
         for(var i=0;i<this.betting_list.length;i++){
+          var row={
+              lotteryOne:"",
+              lotteryTwo:"",
+              lotteryThree:"",
+              lotteryFour:"",
+              lotteryFive:"",
+              lotterySix:"",
+              lotterySeven:"",
+              lotteryEight:"",
+              lotteryNine:"",
+              lotteryTen:"",
+              multiple:"",
+              bettingContent:""
+          };
           row.lotteryOne=this.betting_list[i][0];
           row.lotteryTwo=this.betting_list[i][1];
           row.lotteryThree=this.betting_list[i][2];
@@ -237,7 +236,6 @@ export class TousuPage {
           row.bettingContent=this.betting_list[i][11];
           subData.raingList.push(row);
         }
-        console.log("*************************8888 "+subData);
         if(this.validator()){
             this.httpService.post({
                 url:'/racing/oneRaceBetting',
@@ -326,7 +324,7 @@ export class TousuPage {
         var contentArr = this.initContentArray();
         contentArr[n] = num;
         var contentStr = (contentArr.toString()).replace(/,/g,"");
-
+        console.log("contentStr:"+contentStr);
         //[-1,-1,-1,-1,-1,0]
         //判断是否有添加过
         if(this.betting_list.length==0){
@@ -364,6 +362,8 @@ export class TousuPage {
           //console.log(this.betting_list);
           this.dingwei_nums[n].push(num);
         }
+
+        console.log(this.betting_list);
 
         //投注颜色变红
         elm.css("background-image","url('/assets/pkImg/haoma_blue.png')");
