@@ -5,7 +5,7 @@
     overflow: auto;
     width:1700px;
     // height:1380px; //加上订单详情记录时的长度
-    height:1080px;
+    height:1280px;
     z-index: 1;
     margin-top:-25px;
     padding: 20px;
@@ -14,10 +14,17 @@
     // background-repeat:no-repeat;
 }
 
+//变换颜色
+.numberColor{
+    color:#f51d07;
+    font-weight:bold;
+    font-family:Verdana;
+}
+
 .title-div{
     height:100px;
-    padding: 20px;
-    margin-left:175px;
+    padding-top: 20px;
+    //margin-left:175px;
     margin-bottom:40px;
     .row-tab_1{
       background-color: rgba(0,0,0,0.5);
@@ -82,7 +89,7 @@
 
     .row-tab_3{
         background-color: rgba(0,0,0,0.5);
-        width:420px;
+        width:500px;
         height:100px;
         border: 1px solid #32E5E5;
         line-height:100px;
@@ -112,16 +119,25 @@
               margin-left:-6px;
               display:inline-block;
             }
+
+            .row-tab_3_2_2{
+                float: left;
+                width:80px;
+                height:42px;
+                margin-top: 20px;
+                display:inline-block;
+            }
         }
     }
 }
 
 .content-div{
     clear: both;
+    float: left;
     width:1150px;
     // height:1200px; //加上订单详情记录时的长度
-    height:900px;     //未加上订单详情记录时的长度
-    margin-left:-120px;
+    height:1080px;     //未加上订单详情记录时的长度
+    //margin-left:-120px;
     border: 1px solid #32E5E5;
     border-radius:25px;
 
@@ -240,7 +256,7 @@
     // 投注列表
     .content-tab_4{
         width:1150px;
-        height:250px;
+        height:400px;
         .content-tab_4_1{
             clear: both;
             float: left;
@@ -249,7 +265,7 @@
               border-radius:25px;
               margin-left:25px;
               margin-top: 20px;
-              height:200px;
+              height:380px;
               overflow-y: auto;
               .touzhu_table{
                 color: #6b4040;
@@ -261,6 +277,9 @@
                 td{
                   height:35px;
                   text-align: center;
+                  color: #dad0d0;
+                  font-weight:bold;
+                  font-family:Verdana;
                 }
               }
             }
@@ -274,7 +293,7 @@
               color: white;
               font-size: 18px;
               line-height: 40px;
-              margin-top: 80px;
+              margin-top: 150px;
               margin-left:-200px;
               border-radius:80px;
               background-color: #1FA0AE;
@@ -394,7 +413,7 @@
         position: absolute;
         top: 0px;
         left: 0px;
-        z-index:100;
+        z-index:7;
         width: 100%;
         height: 100%;
         background-color: rgba(0,0,0,.3);
@@ -404,7 +423,7 @@
         position: fixed;
         top: 150px;
         left: 25%;
-        z-index:101;
+        z-index:8;
         width: 1000px;
         height:700px;
         border: 1px solid green;
@@ -413,7 +432,7 @@
             position: absolute;
             top: 0px;
             left:96%;
-            z-index:102;
+            z-index:9;
             cursor: pointer;
         }
         .pkshiping{
@@ -422,5 +441,40 @@
             width:945px;
             height: 630px;
         }
+    }
+}
+
+.betRacing_vague{
+    clear: both;
+    display: none;
+    .promptRacing{
+        position: absolute;
+        top: 33%;
+        left: 20%;
+        z-index:6;
+        width: 300px;
+        height: 50px;
+        text-align: center;
+        font-family:cursive;
+        padding-top:0.3%;
+        font-size: 27px;
+        color: red;
+        background-color: rgba(0,0,0,.7);
+    }
+    .promptRacing_1{
+        position: absolute;
+        top: 33%;
+        left: 37.5%;
+        z-index:6;
+        cursor: pointer;
+    }
+    .flag{
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        z-index:5;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,.3);
     }
 }

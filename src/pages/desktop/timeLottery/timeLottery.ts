@@ -24,6 +24,17 @@ export class TimeLotteryPage {
     dataInfo:any;
     //定义一个变量保存时时彩规则
     dataRuleInfo:any;
+    //定义时时彩规则变量
+    //一字定
+    maxBetSeats:string = "3";
+    maxBetDigitalNoPerSeat:string="10";
+    maxBetNoPerDigital:string = "500";
+    //二字定
+    timeDoubleMaxBetSeats:string = "3";
+    timeDoubleMaxBetKindPerTwoSeats:string = "10";
+    timeDoubleMaxBetNoPerKind:string = "500";
+
+
     showTime:any = new Date();
     //定义号码
     haomas:any = [0,1,2,3,4,5,6,7,8,9];
@@ -46,7 +57,7 @@ export class TimeLotteryPage {
     timer:any;
     //定义数据定时器
     timerData:any;
-    countDown = 120;
+    countDown = 30;
     //定义获取开奖号码定时器
     timerAwardNumber:any;
 
@@ -146,6 +157,14 @@ export class TimeLotteryPage {
               //时时彩赔率
               this.timeLotteryOdds_1 = this.dataRuleInfo.odds;
               this.timeLotteryOdds_2 = this.dataRuleInfo.timeDoubleOdds;
+              //一字定
+              this.maxBetSeats = this.dataRuleInfo.maxBetSeats;
+              this.maxBetDigitalNoPerSeat =this.dataRuleInfo.maxBetDigitalNoPerSeat;
+              this.maxBetNoPerDigital = this.dataRuleInfo.maxBetNoPerDigital;
+              //二字定
+              this.timeDoubleMaxBetSeats = this.dataRuleInfo.timeDoubleMaxBetSeats;
+              this.timeDoubleMaxBetKindPerTwoSeats = this.dataRuleInfo.timeDoubleMaxBetKindPerTwoSeats;
+              this.timeDoubleMaxBetNoPerKind = this.dataRuleInfo.timeDoubleMaxBetNoPerKind;
           }else if(data.code==='9999'){
               Utils.show(data.message);
           }else{
@@ -198,7 +217,7 @@ export class TimeLotteryPage {
                 //这个是后面加的，如果定时器有问题，立马删掉
                 clearInterval(this.timerData);
                 //如果秒减完，就减分
-                if(this.fengpan_miao == 0){
+                if(this.fengpan_miao <= 0){
                     this.fengpan_feng = this.fengpan_feng - 1;
                     this.fengpan_miao = 60;
                     //如果分也减完，那就重新赋值
@@ -929,6 +948,7 @@ export class TimeLotteryPage {
 
     //跳转页面
     jumpPage(){
+        localStorage.setItem("gameType","21");
         mainPage.showStyle("","/desktop/userOrder",".leftPanel_3");
         //mainPage.loadUserInfo();
     }

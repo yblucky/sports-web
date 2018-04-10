@@ -21,7 +21,8 @@ export class TousuPage {
     showTime:any = new Date();
     //定义号码
     haomas:any = [1,2,3,4,5,6,7,8,9,10];
-    lotteryList:any = [];
+    preLotteryInfo:any;
+    lotteryList:any = [10,10,10,10,10,10,10,10,10,10];
 
     //定义开奖时间
     openTime: any = "2017-01-30 17:40:00";
@@ -33,6 +34,9 @@ export class TousuPage {
     lotteryInfo:any;
     //定义定时器
     timer:any;
+    //定义数据定时器
+    timerData:any;
+    countDown = 30;
 
     //定义封盘时间的分
     fengpan_feng:number = 0;
@@ -90,7 +94,7 @@ export class TousuPage {
 
         for(var i=0;i<this.betting_list.length;i++){
             if(this.betting_list[i][10]> this.maxBetNoPerDigitalRace || this.betting_list[i][10]< this.minBetNoPerDigitalRace){
-                Utils.show("单注投注范围【"+this.dataRuleInfo.minBetNoPerDigital+"-"+this.dataRuleInfo.maxBetNoPerDigital+"】");
+                Utils.show("单注投注范围【"+this.minBetNoPerDigitalRace+"-"+this.maxBetNoPerDigitalRace+"】");
                 return false;
             }
         }
@@ -138,13 +142,29 @@ export class TousuPage {
         if(data.code==='0000'){
             //修改成功
             this.dataInfo = data.data;
+            clearInterval(this.timer);
+            clearInterval(this.timerData);
+            if(this.dataInfo.restTime != 0){
+                $(".betRacing_vague").hide();
+                this.countDown=0;
+            }else if(this.dataInfo.restTime == 0 || !Utils.isNumber(this.dataInfo.restTime)){
+                $(".betRacing_vague").show();
+                this.initLoadData();
+                // clearInterval(this.timer);
+            }
             this.init();
             this.loadRacingLotteryRule();
             //console.log(this.dataInfo);
         }else if(data.code==='9999'){
             Utils.show(data.message);
+            if(data.message == "非投注时间"){
+                $(".betRacing_vague").show();
+                $(".promptRacing").text("非投注时间");
+            }
         }else{
             Utils.show("系统异常，请联系管理员");
+            $(".betRacing_vague").show();
+            $(".promptRacing").text("网络异常");
         }
       });
     }
@@ -178,8 +198,9 @@ export class TousuPage {
             this.fengpan_miao = Math.floor(diff % 60);
             this.timer = setInterval(() => {
                 this.fengpan_miao = this.fengpan_miao - 1;
-                //如果秒减完，就减分
-                if(this.fengpan_miao == 0){
+                clearInterval(this.timerData);
+                //如果秒减完，就减分(this.fengpan_miao == 0)
+                if(this.fengpan_miao <= 0){
                     this.fengpan_feng = this.fengpan_feng - 1;
                     this.fengpan_miao = 60;
                     //如果分也减完，那就重新赋值
@@ -187,6 +208,12 @@ export class TousuPage {
                        clearInterval(this.timer);
                        this.fengpan_feng = 0;
                        this.fengpan_miao = 0;
+
+                       $(".betRacing_vague").show();
+                       $(".promptRacing").text("已封盘,禁止投注");
+                       //$(".row-tab_2_2").css("background-image","url('/assets/img/banBetting.png')");
+                       //this.loadData();
+                       this.initLoadData();
                        return;
                     }
                 }
@@ -196,6 +223,54 @@ export class TousuPage {
         }
     }
 
+    initLoadData(){
+        this.timerData = setInterval(() => {
+            this.countDown--;
+            //如果秒减完，就减分
+            if(this.countDown <= 0){
+                clearInterval(this.timer);
+                clearInterval(this.timerData);
+            }
+            //每隔5秒调用一次
+            this.loadData();
+        }, 20000);
+    }
+
+    //获取赛车信息
+    loadAwardNumber(){
+        // if(Utils.isEmpty(this.preIssuNo) && this.preIssuNo == "系统维护"){
+        //     return false;
+        // }
+        this.httpService.get({
+          url:'/racing/loadAwardNumber',
+          data:{
+              issueNo:this.preIssuNo
+          }
+        }).subscribe((data:any)=>{
+          if(data.code==='0000'){
+              this.preLotteryInfo = data.data;
+              //修改成功
+              if(Utils.isNotEmpty(this.preLotteryInfo)){
+                  this.preIssuNo = this.preLotteryInfo.issueNo;
+                  this.lotteryList = new Array();
+                  this.lotteryList.push(this.preLotteryInfo.lotteryOne);
+                  this.lotteryList.push(this.preLotteryInfo.lotteryTwo);
+                  this.lotteryList.push(this.preLotteryInfo.lotteryThree);
+                  this.lotteryList.push(this.preLotteryInfo.lotteryFour);
+                  this.lotteryList.push(this.preLotteryInfo.lotteryFive);
+                  this.lotteryList.push(this.preLotteryInfo.lotterySix);
+                  this.lotteryList.push(this.preLotteryInfo.lotterySeven);
+                  this.lotteryList.push(this.preLotteryInfo.lotteryEight);
+                  this.lotteryList.push(this.preLotteryInfo.lotteryNine);
+                  this.lotteryList.push(this.preLotteryInfo.lotteryTen);
+              }
+          }else if(data.code==='9999'){
+
+          }else{
+              Utils.show("网络异常");
+          }
+        });
+    }
 
     //投注
     bettingSubmit(){
@@ -324,7 +399,7 @@ export class TousuPage {
         var contentArr = this.initContentArray();
         contentArr[n] = num;
         var contentStr = (contentArr.toString()).replace(/,/g,"");
-        console.log("contentStr:"+contentStr);
+        //console.log("contentStr:"+contentStr);
         //[-1,-1,-1,-1,-1,0]
         //判断是否有添加过
         if(this.betting_list.length==0){
@@ -342,14 +417,41 @@ export class TousuPage {
         }else{
           //for(var k=0;k<this.betting_list.length;k++){
             //for(var j=0;j<5;j++){
+
+            if(this.dingwei_nums[n].indexOf(num)>-1){
+              //获取当前点击事件的id
+              var delId = elm.attr("id");
+              //console.log("delId:"+delId);
+              $("#"+delId).css("background-image","url('/assets/pkImg/haoma_yellow.png')");
+
+              //console.log("****************删除前***********************")
+              //console.log(this.dingwei_nums);
+              //console.log(this.betting_list);
+
+              //进行删除操作
+              var n_index = this.dingwei_nums[n].indexOf(num);
+              this.dingwei_nums[n].splice(n_index,1);
+              //console.log("定位数后:"+this.dingwei_nums);
+              var list_index;
+              for(var i=0;i<this.betting_list.length-1;i++){
+                  if(this.betting_list[i].indexOf(contentStr)>-1){
+                      list_index = i;
+                      break;
+                  }
+              }
+              this.betting_list.splice(list_index,1);
+              this.betting_list_display.splice(list_index,1);
+              //console.log("****************删除后***********************")
+              //console.log(this.dingwei_nums);
+              //console.log(this.betting_list);
+              //Utils.show("此位对应的数字已经添加过投注,请直接加倍");
+              return;
+            }
+
             var countPerNum=this.dingwei_nums[n].length;
             if(countPerNum>=this.maxBetNoPerRrack){
                Utils.show("单个位只能最多投注"+this.maxBetNoPerRrack+"个不同的数字");
                return;
-            }
-            if(this.dingwei_nums[n].indexOf(num)>-1){
-              Utils.show("此位对应的数字已经添加过投注,请直接加倍");
-              return;
             }
             //}
             //var n=this.dingwei_row.indexOf(className);
@@ -363,7 +465,7 @@ export class TousuPage {
           this.dingwei_nums[n].push(num);
         }
 
-        console.log(this.betting_list);
+        //console.log(this.betting_list);
 
         //投注颜色变红
         elm.css("background-image","url('/assets/pkImg/haoma_blue.png')");
@@ -531,6 +633,12 @@ export class TousuPage {
 
     //显示开奖动画
     startGame(){
+        //获取当前几号
+        var day = new Date().getDate();
+        //console.log(day);
+        // var carParameter = "https://static.090game.com/static/flash/pk10/pk10.html?base=https%3A%2F%2Fwww.pk10"+day+".com";
+        var carParameter = "https://static.090game.com/static/flash/pk10/pk10.html?base=https%3A%2F%2Fwww.pk104.com";
+        $("#iframe_car").prop("src",carParameter);
         $(".saicheshiping").show();
     }
 
@@ -540,6 +648,7 @@ export class TousuPage {
 
     //跳转页面
     jumpPage(){
+        localStorage.setItem("gameType","31");
         mainPage.showStyle("","/desktop/userOrder",".leftPanel_3");
         //mainPage.loadUserInfo();
     }

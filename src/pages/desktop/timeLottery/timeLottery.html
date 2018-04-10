@@ -329,32 +329,32 @@
         </div>
 
         <!-- 规则页面 -->
-        <div class="content-tab_6">
+        <div class="content-tab_6" ng-app="">
             <table class="touzhu_table">
                   <tr>
                       <td style="font-size:22px;font-weight:bold;padding-left:20px;color:red;">一字定规则</td>
                   </tr>
                   <tr>
-                      <td style="padding-left:60px;">① 万、千、百、十、个，五个位，最多选取3个进行投注</td>
+                      <td style="padding-left:60px;">① 万、千、百、十、个，五个位，最多选取<span style="color:red;"> {{maxBetSeats}} </span>个位进行投注</td>
                   </tr>
                   <tr>
-                      <td style="padding-left:60px;">② 万、千、百、十、个，五个位，选中某个位后，该位最多从[0-9]10个数中，选取3个数进行下注</td>
+                      <td style="padding-left:60px;">② 万、千、百、十、个，五个位，选中某个位后，该位最多从[0-9]10个数中，选取<span style="color:red;"> {{maxBetDigitalNoPerSeat}} </span>个数进行下注</td>
                   </tr>
                   <tr>
-                      <td style="padding-left:60px;">③ 单注下注注数最多500注</td>
+                      <td style="padding-left:60px;">③ 单注下注注数最多<span style="color:red;"> {{maxBetNoPerDigital}} </span>注</td>
                   </tr>
 
                   <tr>
                       <td style="font-size:22px;font-weight:bold;padding-left:20px;color:red;">二字定规则</td>
                   </tr>
                   <tr>
-                      <td style="padding-left:60px;">① 万、千、百、十、个，五个位，最多选取3个位进行两两组合，形成类似：万千、万百、千百的组合投注</td>
+                      <td style="padding-left:60px;" >① 万、千、百、十、个，五个位，最多选取<span style="color:red;"> {{timeDoubleMaxBetSeats}} </span>个位进行两两组合，形成类似：万千、万百、千百的组合投注</td>
                   </tr>
                   <tr>
-                      <td style="padding-left:60px;">② 万、千、百、十、个，五个位，选中某两个位组合后，该位最多从该组合的100种方式中，选取30种进行下注</td>
+                      <td style="padding-left:60px;">② 万、千、百、十、个，五个位，选中某两个位组合后，该位最多从该组合的10种方式中，选取<span style="color:red;"> {{timeDoubleMaxBetKindPerTwoSeats}} </span>种进行下注</td>
                   </tr>
                   <tr>
-                      <td style="padding-left:60px;">③ 单注下注注数最多500注</td>
+                      <td style="padding-left:60px;">③ 单注下注注数最多<span style="color:red;"> {{timeDoubleMaxBetNoPerKind}} </span>注</td>
                   </tr>
             </table>
         </div>

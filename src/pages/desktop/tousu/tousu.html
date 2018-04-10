@@ -31,6 +31,9 @@
                 <div class="row-tab_3_2_1" *ngFor="let kj of lotteryList; let i = index">
                     <img src="/assets/pkImg/{{kj+1}}.png" width="25" height="40" />
                 </div>
+                <div class="row-tab_3_2_2">
+                    <a style="color:#cee618;cursor: pointer;" (click)="loadAwardNumber()">刷新</a>
+                </div>
             </div>
         </div>
     </div>
@@ -126,7 +129,7 @@
             <span id="inputMultiplier1">
                 <span class="content-tab_3_1"><img src="/assets/img/jian.png" (click)='shurubeishu(1)' style="cursor:pointer;" /></span>
                 <div class="shurukuang">
-                    <input id="shuru" type="text" value="1" size="7" style="text-align:center;border:0px;color:black;" (change)='shurubeishu(3)' />
+                    <input id="shuru" type="text" value="10" size="7" style="text-align:center;border:0px;color:black;" (change)='shurubeishu(3)' />
                 </div>
                 <span class="content-tab_3_1"><img src="/assets/img/jia.png" (click)='shurubeishu(2)' style="cursor:pointer;"/></span>
             </span>
@@ -134,7 +137,7 @@
             <span id="inputMultiplier2" style="display:none;">
                 <span class="content-tab_3_1"><img src="/assets/img/jian.png" (click)='shurubeishu1(1)' style="cursor:pointer;" /></span>
                 <div class="shurukuang">
-                    <input id="shuru1" type="text" value="1" size="7" style="text-align:center;border:0px;color:black;" (change)='shurubeishu1(3)' />
+                    <input id="shuru1" type="text" value="10" size="7" style="text-align:center;border:0px;color:black;" (change)='shurubeishu1(3)' />
                 </div>
                 <span class="content-tab_3_1"><img src="/assets/img/jia.png" (click)='shurubeishu1(2)' style="cursor:pointer;"/></span>
             </span>
@@ -148,6 +151,9 @@
                 <div class="content-tab_4_1_1">
                     <table class="touzhu_table">
                           <thead>
+                              <tr style="border-bottom:1px solid #32e5e5">
+                                  <th colspan="13">当前赛车赔率：<span style="color:red;font-size:24px;font-weight:blod;">{{racingOdds}}</span></th>
+                              </tr>
                               <tr>
                                   <th>冠</th>
                                   <th>亚</th>
@@ -167,27 +173,27 @@
                           <tbody>
                               <tr style="cursor:pointer;" (click)="doubling($event,i,1)" *ngFor="let num of this.betting_list_display; let i = index">
                               <!-- <tr *ngFor="let num of this.bet_list.wan_num; let i = index"> -->
-                                  <td>{{num[0]}}</td>
-                                  <td>{{num[1]}}</td>
-                                  <td>{{num[2]}}</td>
-                                  <td>{{num[3]}}</td>
-                                  <td>{{num[4]}}</td>
-                                  <td>{{num[5]}}</td>
-                                  <td>{{num[6]}}</td>
-                                  <td>{{num[7]}}</td>
-                                  <td>{{num[8]}}</td>
-                                  <td>{{num[9]}}</td>
-                                  <td>{{num[10]}}</td>
-                                  <td>{{num[10]}}</td>
+                                  <td [ngStyle]="{'color':num[0] != 'X' ? '#f51d07' : '' }">{{num[0]}}</td>
+                                  <td [ngStyle]="{'color':num[1] != 'X' ? '#f51d07' : '' }">{{num[1]}}</td>
+                                  <td [ngStyle]="{'color':num[2] != 'X' ? '#f51d07' : '' }">{{num[2]}}</td>
+                                  <td [ngStyle]="{'color':num[3] != 'X' ? '#f51d07' : '' }">{{num[3]}}</td>
+                                  <td [ngStyle]="{'color':num[4] != 'X' ? '#f51d07' : '' }">{{num[4]}}</td>
+                                  <td [ngStyle]="{'color':num[5] != 'X' ? '#f51d07' : '' }">{{num[5]}}</td>
+                                  <td [ngStyle]="{'color':num[6] != 'X' ? '#f51d07' : '' }">{{num[6]}}</td>
+                                  <td [ngStyle]="{'color':num[7] != 'X' ? '#f51d07' : '' }">{{num[7]}}</td>
+                                  <td [ngStyle]="{'color':num[8] != 'X' ? '#f51d07' : '' }">{{num[8]}}</td>
+                                  <td [ngStyle]="{'color':num[9] != 'X' ? '#f51d07' : '' }">{{num[9]}}</td>
+                                  <td style="color:#ec9090;">{{num[10]}}</td>
+                                  <td style="color:#ec9090;">{{num[10]}}</td>
                                   <td><img (click)="delBettingRow(i)" src="/assets/img/shanchu.png" style="cursor:pointer;" /></td>
                                   <!-- <td style="display:none;">{{i}}</td> -->
                               </tr>
                           </tbody>
                           <tfoot>
                               <tr>
-                                  <td colspan="10" style="text-align:right">合计：</td>
-                                  <td ng-app="">{{sumMoney}}</td>
-                                  <td ng-app="">{{sumMoney}}</td>
+                                  <td colspan="10" style="text-align:right;color:red;">合计：</td>
+                                  <td ng-app="" style="color:red;">{{sumMoney}}</td>
+                                  <td ng-app="" style="color:red;">{{sumMoney}}</td>
                                   <td></td>
                               </tr>
                           </tfoot>
@@ -199,8 +205,8 @@
             <div class="content-tab_4_2">
                 <div class="content-tab_4_2_1" (click) = "clearBetList()">清空列表</div>
                 <div class="content-tab_4_2_2" (click) = "bettingSubmit()">马上投注</div>
-                <!-- <div class="content-tab_4_2_3"><img src="/assets/pkImg/kaijiangshiping.png" (click) = "startGame()" /></div> -->
-                <div class="content-tab_4_2_3"></div>
+                <div class="content-tab_4_2_3"><img src="/assets/pkImg/kaijiangshiping.png" (click) = "startGame()" /></div>
+                <!-- <div class="content-tab_4_2_3"></div> -->
             </div>
         </div>
 
@@ -274,10 +280,19 @@
       <div class="flag"></div>
       <div class="shiping">
           <img class="closeGame" src="/assets/pkImg/close.png" (click) = "closeGame()" />
-          <div class="pkshiping">
-              <!-- <iframe scrolling="no" src="http://www.pk8810.com/video/pk10/index.html" width="945" height="630" frameborder="0"></iframe> -->
+          <div class="pkshiping" ng-app="carParameter">
+              <!-- <iframe scrolling="no" src="https://www.cp333789.com/animate/bjpk10" width="945" height="630" frameborder="0"></iframe> -->
+              <iframe id="iframe_car" src="https://static.090game.com/static/flash/pk10/pk10.html?base=https%3A%2F%2Fwww.pk103.com" width="960" height="600" frameborder="0" allowtransparency="true" scrolling="no"></iframe>
               <!-- <iframe scrolling="no" src="//www.pk8810.com/video/pk10/index.html" width="945" height="630" frameborder="0"></iframe> -->
+              <!-- <iframe data-url="/animate/bjpk10" src="https://www.cp333789.com/animate/bjpk10" style="height:100%;width:100%;border: none;"></iframe> -->
           </div>
       </div>
+  </div>
+
+  <!-- 赛车静止投注模糊层 -->
+  <div class="betRacing_vague">
+      <div class="promptRacing">当前没有开盘</div>
+      <div class="promptRacing_1"><img src="/assets/pkImg/kaijiangshiping.png" (click) = "startGame()" /></div>
+      <div class="flag"></div>
   </div>
 </div>
