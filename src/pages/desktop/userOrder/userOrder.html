@@ -84,6 +84,7 @@
           <table class="table table-bordered table-hover">
               <thead>
                   <tr class="active">
+                      <th>序号</th>
                       <th>期号</th>
                       <th>彩种</th>
                       <!-- <th>投注类型</th> -->
@@ -97,6 +98,7 @@
               </thead>
               <tbody>
                   <tr *ngFor="let item of orderData; let i = index">
+                      <td>{{i+1}}</td>
                       <td>{{item.issueNo}}</td>
                       <td>{{businessTypeDesc}}</td>
                       <!-- <th>{{item.betType}}</th> -->

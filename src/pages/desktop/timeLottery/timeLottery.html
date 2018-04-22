@@ -90,7 +90,7 @@
                           <td colspan="5" style="text-align:center;height:50px;">
                             金额：
                             <!-- (change)='betOneChange()' -->
-                            <input id="betOne" type="text" size="12" style="text-align:center;margin-right:10px;" />
+                            <input id="betOne" type="number" size="12" style="text-align:center;margin-right:10px;" />
                             <!-- 支付密码：
                             <input id="payPwdOne" type="password" size="12" style="text-align:center;" /> -->
                             <button (click) = "bettingOneSubmit()">确定</button>
@@ -177,7 +177,7 @@
                       <tr>
                           <td colspan="10" style="text-align:center;height:50px;">
                             金额：
-                            <input id="betTwo" type="text" size="12" style="text-align:center;margin-right:10px;" />
+                            <input id="betTwo" type="number" size="12" style="text-align:center;margin-right:10px;" />
                             <!-- 支付密码：
                             <input id="payPwdTwo" type="password" size="12" style="text-align:center;" /> -->
                             <button (click)="bettingTwoSubmit()">确定</button>
@@ -249,7 +249,7 @@
                       <tr>
                           <td colspan="10" style="text-align:center;height:50px;">
                               号码：<input type="text" id="quickPlayBetNum" size="12" placeholder="1XXXX" style="text-align:center;margin-right:10px;" />
-                              金额：<input type="text" id="quickPlayBetMoney" size="12" style="text-align:center;margin-right:10px;" />
+                              金额：<input type="number" id="quickPlayBetMoney" size="12" style="text-align:center;margin-right:10px;" />
                               <!-- 支付密码：
                               <input id="payPwdQuickPlay" type="password" size="12" style="text-align:center;" /> -->
                               <button (click) = "quickPlaySubmit()">确认下注</button>
@@ -320,7 +320,7 @@
                       </tr>
                       <tr>
                           <td colspan="10" style="text-align:center;height:50px;">
-                              金额：<input type="text" id="quickSelectionBetMoney" size="12" style="text-align:center;margin-right:10px;" />
+                              金额：<input type="number" id="quickSelectionBetMoney" size="12" style="text-align:center;margin-right:10px;" />
                               <button (click) = "quickChooseSubmit()">确认下注</button>
                           </td>
                       </tr>

@@ -402,6 +402,14 @@ export class TimeLotteryPage {
             return false;
         }
 
+        //校验小数点
+        var bet_num_back = this.bet_num + "";
+        if(bet_num_back.indexOf(".") >= 0){
+            layer.tips('投注金额不合法', '#betOne',{tips: 1});
+            $("#betOne").focus();
+            return false;
+        }
+
         if(this.bet_num < this.dataRuleInfo.minBetNoPerDigital || this.bet_num > this.dataRuleInfo.maxBetNoPerDigital){
             Utils.show("单注投注范围【"+this.dataRuleInfo.minBetNoPerDigital+"-"+this.dataRuleInfo.maxBetNoPerDigital+"】");
             $("#betOne").focus();
@@ -668,6 +676,15 @@ export class TimeLotteryPage {
             $("#betTwo").focus();
             return false;
         }
+
+        //校验小数点
+        var bet_num_back = this.bet_num + "";
+        if(bet_num_back.indexOf(".") >= 0){
+            layer.tips('投注金额不合法', '#betTwo',{tips: 1});
+            $("#betTwo").focus();
+            return false;
+        }
+
         if(this.bet_num > this.dataRuleInfo.timeDoubleMaxBetNoPerKind || this.bet_num < 1){
             Utils.show("二字定每种组合投注范围【1-"+this.dataRuleInfo.timeDoubleMaxBetNoPerKind+"】");
             $("#betOne").focus();
@@ -766,6 +783,14 @@ export class TimeLotteryPage {
             $("#quickPlayBetMoney").focus();
             return false;
         }
+
+        //校验小数点
+        if(quickPlayBetMoney.indexOf(".") >= 0){
+            layer.tips('投注金额不合法', '#quickPlayBetMoney',{tips: 1});
+            $("#quickPlayBetMoney").focus();
+            return false;
+        }
+
         // if(Utils.isEmpty(this.payPwd)){
         //     layer.tips('支付密码不能为空', '#payPwdQuickPlay',{tips: 1});
         //     $("#payPwdQuickPlay").focus();
@@ -1117,6 +1142,14 @@ export class TimeLotteryPage {
 
         if(Utils.isEmpty(this.bet_num) || this.bet_num == 0){
             Utils.show("投注金额不规范");
+            return false;
+        }
+
+        //校验小数点
+        var bet_num_back = this.bet_num + "";
+        if(bet_num_back.indexOf(".") >= 0){
+            layer.tips('投注金额不合法', '#quickSelectionBetMoney',{tips: 1});
+            $("#quickSelectionBetMoney").focus();
             return false;
         }
 
