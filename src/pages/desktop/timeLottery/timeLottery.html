@@ -61,6 +61,7 @@
             <span class="content-tab_1_3" (click)="betCategory($event,4)">快打</span>
             <span class="content-tab_1_4" (click)="betCategory($event,5)">快选</span>
             <span class="content-tab_1_5" (click)="betCategory($event,6)">时时彩规则</span>
+            <span class="content-tab_1_6" (click)="betCategory($event,7)">代理规则</span>
             <hr />
         </div>
 
@@ -340,9 +341,9 @@
                   <tr>
                       <td style="padding-left:60px;">② 万、千、百、十、个，五个位，选中某个位后，该位最多从[0-9]10个数中，选取<span style="color:red;"> {{maxBetDigitalNoPerSeat}} </span>个数进行下注</td>
                   </tr>
-                  <tr>
+                  <!-- <tr>
                       <td style="padding-left:60px;">③ 单注下注注数最多<span style="color:red;"> {{maxBetNoPerDigital}} </span>注</td>
-                  </tr>
+                  </tr> -->
 
                   <tr>
                       <td style="font-size:22px;font-weight:bold;padding-left:20px;color:red;">二字定规则</td>
@@ -353,8 +354,26 @@
                   <tr>
                       <td style="padding-left:60px;">② 万、千、百、十、个，五个位，选中某两个位组合后，该位最多从该组合的10种方式中，选取<span style="color:red;"> {{timeDoubleMaxBetKindPerTwoSeats}} </span>种进行下注</td>
                   </tr>
-                  <tr>
+                  <!-- <tr>
                       <td style="padding-left:60px;">③ 单注下注注数最多<span style="color:red;"> {{timeDoubleMaxBetNoPerKind}} </span>注</td>
+                  </tr> -->
+            </table>
+        </div>
+
+        <!-- 代理规则页面 -->
+        <div class="content-tab_7">
+            <table class="touzhu_table">
+                  <tr>
+                      <td style="font-size:22px;font-weight:bold;text-align:center;color:red;">代理规则</td>
+                  </tr>
+                  <tr>
+                      <td style="padding-left:30%;">1万元代理最少下注10组最多下注200组，单日只能正数盈利2万元封顶</td>
+                  </tr>
+                  <tr>
+                      <td style="padding-left:30%;">2万元代理最少下注10组最多下注400组，单日只能正数盈利4万元封顶</td>
+                  </tr>
+                  <tr>
+                      <td style="padding-left:30%;">3万元代理最少下注10组最多下注600组，单日只能正数盈利6万元封顶</td>
                   </tr>
             </table>
         </div>

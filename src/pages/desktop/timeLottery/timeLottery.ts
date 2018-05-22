@@ -840,6 +840,7 @@ export class TimeLotteryPage {
         $(".content-tab_4").hide();
         $(".content-tab_5").hide();
         $(".content-tab_6").hide();
+        $(".content-tab_7").hide();
 
         $(".content-tab_"+betCategory_index).show();
 

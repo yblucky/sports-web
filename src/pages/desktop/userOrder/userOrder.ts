@@ -72,7 +72,6 @@ export class UserOrderPage {
 
     }
 
-
       /**
       * 弹出等级面板
       */

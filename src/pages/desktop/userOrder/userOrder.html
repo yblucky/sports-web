@@ -33,6 +33,7 @@
                     <th>投注后金额</th>
                     <!-- <th>投注内容</th> -->
                     <th>投注时间</th>
+                    <!-- <th></th> -->
                     <th>详情</th>
                 </tr>
             </thead>
@@ -50,6 +51,8 @@
                     <td>{{item.afterBalance}}</td>
                     <!-- <td>{{item.extend}}</td> -->
                     <td>{{utils.formatDate(item.createTime,'yyyy-MM-dd HH:mm:ss')}}</td>
+                    <!-- <td *ngIf="item.isAwarded == 2"  style="background:#d63333">中奖</td>
+                    <td *ngIf="item.isAwarded == 1"></td> -->
                     <th>
                       <button type="button" (click)="openDetail(item.busnessType,item.businessNumber)" class="btn btn-info btn-sm">查看详情</button>
                     </th>
@@ -101,22 +104,18 @@
                       <td>{{i+1}}</td>
                       <td>{{item.issueNo}}</td>
                       <td>{{businessTypeDesc}}</td>
-                      <!-- <th>{{item.betType}}</th> -->
                       <td>{{item.multiple}}</td>
-                      <!-- <th *ngIf="find.busnessType==31">{{Utils.ifNull(item.lotteryOne,'_')+','+Utils.ifNull(item.lotteryTwo,'_')+','+item.lotteryThree+','+item.lotteryFour+','
-                            +item.lotteryFive+','+item.lotterySix+','+item.lotterySeven+','+item.lotteryEight+','+item.lotteryNine+','+item.lotteryTen}}</th>
-                      <th *ngIf="find.busnessType==21">{{item.lotteryOne+','+item.lotteryTwo+','+item.lotteryThree+','+item.lotteryFour+','+item.lotteryFive}}</th> -->
                       <td>{{item.bettingContent}}</td>
-                      <td>{{item.winningAmount}}</td>
+                      <td *ngIf="item.winningAmount > 0" style="color:red;">{{item.winningAmount}}</td>
+                      <td *ngIf="item.winningAmount <= 0" >{{item.winningAmount}}</td>
                       <td *ngIf="item.lotteryFlag == 10">已投注</td>
                       <td *ngIf="item.lotteryFlag == 20">已开奖</td>
-                      <td *ngIf="item.lotteryFlag == 30">已退码</td>
+                      <td *ngIf="item.lotteryFlag == 30" style="color:red">已退码</td>
                       <!-- <td>{{utils.formatDate(item.createTime,'yyyy-MM-dd HH:mm:ss')}}</td> -->
                       <td>
-                          <!-- <button *ngIf="item.lotteryFlag != 30 && item.lotteryFlag != 20" type="button" (click)="returnCode(item.id,item.businessNumber)" class="btn btn-info btn-sm">退码</button> -->
                           <input *ngIf="item.lotteryFlag != 30 && item.lotteryFlag != 20" type="checkbox" name="checkList" class="delId" delFlag="item.lotteryFlag" value="{{item.id}}" />
                           <span *ngIf="item.lotteryFlag == 20">开奖成功</span>
-                          <span *ngIf="item.lotteryFlag == 30">退码成功</span>
+                          <span *ngIf="item.lotteryFlag == 30" style="color:red">退码成功</span>
                       </td>
                   </tr>
               </tbody>

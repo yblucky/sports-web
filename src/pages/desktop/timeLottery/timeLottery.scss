@@ -197,6 +197,18 @@
           background-color: #A7D6CD;
           cursor: pointer;
         }
+        .content-tab_1_6{
+          width:100px;
+          height:30px;
+          float: left;
+          line-height:30px;
+          text-align: center;
+          color: white;
+          font-weight: bold;
+          display: inline-block;
+          background-color: #A7D6CD;
+          cursor: pointer;
+        }
         hr{
           width:1450px;
           margin-top:20px;
@@ -296,6 +308,22 @@
     }
 
     .content-tab_6{
+        margin-top:-20px;
+        display: none;
+        .touzhu_table{
+          color: black;
+          border: 1px solid black;
+          td{
+            text-align: left;
+            font-size:18px;
+            width:1450px;
+            height:40px;
+            border:1px solid black;
+          }
+        }
+    }
+
+    .content-tab_7{
         margin-top:-20px;
         display: none;
         .touzhu_table{
